@@ -1,0 +1,37 @@
+{
+  "name": "Endpoint AI Agent Abuse",
+  "short_name": "EAA",
+  "version": "0.1.0",
+  "license": "CC0-1.0",
+  "description": "A curated catalog of techniques for abusing local AI agents.",
+  "surfaces": [
+    "Invocation",
+    "Runtime",
+    "Control Plane",
+    "State & Telemetry",
+    "Capabilities",
+    "Inherited Authority"
+  ],
+  "techniques": [
+    {"id":"EAA-001","name":"Agent CLI invocation by untrusted parent","surface":"Invocation","evidence":"observed"},
+    {"id":"EAA-002","name":"Permissive or unattended agent execution","surface":"Invocation","evidence":"malicious-artifact"},
+    {"id":"EAA-003","name":"Lifecycle hook persistence","surface":"Control Plane","evidence":"observed"},
+    {"id":"EAA-004","name":"Persistent instruction or memory poisoning","surface":"Control Plane","evidence":"documented-surface"},
+    {"id":"EAA-005","name":"Transcript and agent-state collection","surface":"State & Telemetry","evidence":"documented-surface"},
+    {"id":"EAA-006","name":"MCP or tool configuration abuse","surface":"Capabilities","evidence":"observed"},
+    {"id":"EAA-007","name":"Hostile model/API gateway routing","surface":"Runtime","evidence":"documented-surface"},
+    {"id":"EAA-008","name":"Shadow agent config directory","surface":"Runtime","evidence":"documented-surface"},
+    {"id":"EAA-009","name":"Remote plugin or marketplace hot-load","surface":"Control Plane","evidence":"documented-surface"},
+    {"id":"EAA-010","name":"MCP dynamic tool mutation or pushed context","surface":"Capabilities","evidence":"research"},
+    {"id":"EAA-011","name":"Environment-expanded MCP activation","surface":"Capabilities","evidence":"documented-surface"},
+    {"id":"EAA-012","name":"Observability/logging exfiltration","surface":"State & Telemetry","evidence":"documented-surface"},
+    {"id":"EAA-013","name":"Cloud-synced skill drift","surface":"Control Plane","evidence":"documented-surface"},
+    {"id":"EAA-014","name":"Multi-agent config fan-out","surface":"Control Plane","evidence":"observed"},
+    {"id":"EAA-015","name":"Inherited authority abuse","surface":"Inherited Authority","evidence":"observed"},
+    {"id":"EAA-016","name":"Agent config and permission reconnaissance","surface":"Inherited Authority","evidence":"observed"}
+  ],
+  "candidates": [
+    {"id":"EAA-C001","name":"Runtime preload into agent process","summary":"Runtime preload or loader manipulation that causes code to run inside the agent process before normal agent execution."},
+    {"id":"EAA-C002","name":"Live agent process memory read or injection","summary":"Targeting a running agent process to read memory, tamper with state, inject code, or hijack local control channels."}
+  ]
+}
