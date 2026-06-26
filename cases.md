@@ -23,20 +23,29 @@ Sources: [Aqua advisory](https://github.com/aquasecurity/trivy-vscode-extension/
 ## Mini Shai-Hulud
 
 **Type:** observed incident / malicious package payload  
-**Techniques:** EAA-003, EAA-014
+**Techniques:** EAA-003
 
-A malicious package payload planted Claude Code hook persistence.
+A malicious package payload planted Claude Code `SessionStart` hook persistence.
 
 Source: [StepSecurity write-up](https://www.stepsecurity.io/blog/a-mini-shai-hulud-has-appeared)
 
-## Miasma
+## Miasma repo injection
 
-**Type:** observed incident / malicious package and repo payloads  
+**Type:** observed incident / malicious repository payload  
 **Techniques:** EAA-003, EAA-004, EAA-006, EAA-014, EAA-016
 
-Payloads targeted Claude, Gemini, Cursor, and VS Code-style automation surfaces through repo and package content.
+A malicious commit planted configuration files that executed a credential-harvesting payload when opened in Claude Code, Gemini CLI, Cursor, or VS Code.
 
 Source: [StepSecurity write-up](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents)
+
+## Miasma Phantom Gyp
+
+**Type:** observed incident / malicious package payload  
+**Techniques:** EAA-003, EAA-004, EAA-014
+
+A package-install payload injected AI coding assistant configuration files such as Claude Code hooks, Cursor rules, Gemini settings, and VS Code folder-open tasks into repositories reachable by stolen GitHub tokens.
+
+Source: [StepSecurity write-up](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm)
 
 ## Hades
 
@@ -46,15 +55,6 @@ Source: [StepSecurity write-up](https://www.stepsecurity.io/blog/miasma-worm-hit
 Payloads walked workspace trees and targeted many assistant/rule/config surfaces.
 
 Source: [StepSecurity write-up](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages)
-
-## Immobiliare Labs Backstage plugins
-
-**Type:** observed incident / malicious packages  
-**Techniques:** EAA-003, EAA-004, EAA-014
-
-Payloads targeted multiple AI assistant configuration ecosystems, including Claude, Copilot, Cursor, Aider, Kiro, Cody, Gemini, and Codex surfaces.
-
-Source: [StepSecurity Binding.gyp report](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm)
 
 ## MCP injection and rug-pull research
 
