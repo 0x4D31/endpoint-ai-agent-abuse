@@ -1,0 +1,513 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/0x4D31/endpoint-ai-agent-abuse/main/data/catalog.schema.json",
+  "title": "Endpoint AI Agent Abuse catalog",
+  "description": "Schema for the machine-readable EAA technique catalog.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "name",
+    "short_name",
+    "version",
+    "license",
+    "description",
+    "last_reviewed",
+    "surfaces",
+    "sources",
+    "techniques",
+    "cases",
+    "candidates"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "./catalog.schema.json"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/semanticVersion"
+    },
+    "name": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "short_name": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]{1,9}$"
+    },
+    "version": {
+      "$ref": "#/$defs/semanticVersion"
+    },
+    "license": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+-]*$"
+    },
+    "description": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "last_reviewed": {
+      "type": "string",
+      "format": "date"
+    },
+    "surfaces": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/surface"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "techniques": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/technique"
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/candidate"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$"
+    },
+    "surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+        },
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "tactic": {
+      "type": "string",
+      "enum": [
+        "Discovery",
+        "Execution",
+        "Persistence",
+        "Credential Access",
+        "Collection",
+        "Exfiltration",
+        "Defense Evasion"
+      ]
+    },
+    "maturity": {
+      "$comment": "feasible requires only surface documentation; demonstrated requires implementation evidence; observed additionally requires an incident-context structured case step where the scoped attacker action was planted, executed, or impact-confirmed. Present and attempted do not qualify.",
+      "type": "string",
+      "enum": ["feasible", "demonstrated", "observed"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "official-documentation",
+        "primary-artifact",
+        "reproducible-research",
+        "malicious-artifact",
+        "incident-report",
+        "secondary-analysis"
+      ]
+    },
+    "supportClaim": {
+      "$comment": "A support claim records only what one source establishes and is not a blanket case outcome. Technique maturity is also constrained by structured case context and outcome.",
+      "type": "string",
+      "enum": [
+        "surface-documented",
+        "mechanism-demonstrated",
+        "artifact-present",
+        "procedure-planted",
+        "execution-attempted",
+        "execution-confirmed",
+        "impact-confirmed"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "url", "types"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^SRC-[0-9]{3}$"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "types": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/sourceType"
+          }
+        },
+        "published": {
+          "type": "string",
+          "format": "date"
+        },
+        "verified_on": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "support", "confidence"],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "pattern": "^SRC-[0-9]{3}$"
+        },
+        "support": {
+          "$ref": "#/$defs/supportClaim"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "note": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "relationshipType": {
+      "type": "string",
+      "enum": [
+        "related-to",
+        "enables",
+        "requires",
+        "precedes",
+        "variant-of",
+        "subtechnique-of"
+      ]
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "target"],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/relationshipType"
+        },
+        "target": {
+          "type": "string",
+          "pattern": "^EAA-[0-9]{3}$"
+        },
+        "note": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "technique": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "summary",
+        "primary_surface",
+        "secondary_surfaces",
+        "tactics",
+        "maturity",
+        "evidence",
+        "relationships",
+        "last_reviewed"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EAA-[0-9]{3}$"
+        },
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "summary": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "primary_surface": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+        },
+        "secondary_surfaces": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+          }
+        },
+        "tactics": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/tactic"
+          }
+        },
+        "maturity": {
+          "$ref": "#/$defs/maturity"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        },
+        "last_reviewed": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "caseContext": {
+      "type": "string",
+      "enum": [
+        "observed-incident",
+        "malicious-artifact",
+        "controlled-research",
+        "vendor-advisory",
+        "patched-vulnerability"
+      ]
+    },
+    "caseOutcome": {
+      "$comment": "Every case-step source must have the corresponding evidence support assertion for the mapped technique: present=artifact-present, planted=procedure-planted, attempted=execution-attempted, executed=execution-confirmed, impact-confirmed=impact-confirmed.",
+      "type": "string",
+      "enum": ["present", "planted", "attempted", "executed", "impact-confirmed"]
+    },
+    "procedureScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["products", "versions", "operating_systems"],
+      "properties": {
+        "products": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "versions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "operating_systems": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        }
+      }
+    },
+    "procedure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step",
+        "technique_id",
+        "outcome",
+        "confidence",
+        "claim",
+        "source_refs",
+        "activation_conditions"
+      ],
+      "properties": {
+        "step": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "technique_id": {
+          "type": "string",
+          "pattern": "^EAA-[0-9]{3}$"
+        },
+        "outcome": {
+          "$ref": "#/$defs/caseOutcome"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "claim": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^SRC-[0-9]{3}$"
+          }
+        },
+        "activation_conditions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "scope": {
+          "$ref": "#/$defs/procedureScope"
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "type",
+        "contexts",
+        "date_start",
+        "date_basis",
+        "activation_notes",
+        "source_refs",
+        "procedures"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EAA-C-[0-9]{3}$"
+        },
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "type": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "contexts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/caseContext"
+          }
+        },
+        "date_start": {
+          "type": "string",
+          "format": "date"
+        },
+        "date_end": {
+          "type": "string",
+          "format": "date"
+        },
+        "date_basis": {
+          "type": "string",
+          "enum": ["activity", "reported", "published"]
+        },
+        "activation_notes": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^SRC-[0-9]{3}$"
+          }
+        },
+        "procedures": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/procedure"
+          }
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "summary",
+        "rationale",
+        "promotion_requirements",
+        "related_techniques",
+        "last_reviewed"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EAA-C[0-9]{3}$"
+        },
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "summary": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "rationale": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "promotion_requirements": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "related_techniques": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^EAA-[0-9]{3}$"
+          }
+        },
+        "last_reviewed": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  }
+}
