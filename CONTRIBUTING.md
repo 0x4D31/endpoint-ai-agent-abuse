@@ -26,6 +26,8 @@ Include:
 
 Do not generalize behavior from one product to all local agents. If support has only been verified for one product or version, say so.
 
+`Highlights` is an optional editorial summary. `Case mappings` is the canonical Markdown projection: list every structured case that maps the technique, once, in catalog order; use `none` when there is no mapped case. The validator derives this list from case procedures and rejects missing, extra, duplicate, or reordered mappings.
+
 ## Case changes
 
 Give each case a stable `EAA-C-NNN` identifier. Map ordered procedure steps, not just the case as a whole.
@@ -53,6 +55,8 @@ Each procedure row must cite one or more direct links or stable source labels re
 
 For every source cited by a procedure row, add the exact matching technique-evidence assertion in `data/catalog.json`: `present` → `artifact-present`, `planted` → `procedure-planted`, `attempted` → `execution-attempted`, `executed` → `execution-confirmed`, and `impact-confirmed` → `impact-confirmed`. Merely listing the source elsewhere in the technique is not enough.
 
+When an affected or fixed version range comes from a different source than the procedure outcome, record it in `scope.version_source_refs` and project it through a `Version sources` table column. Version sources must carry `version-range-documented` evidence for the technique and must not be presented as execution or impact evidence.
+
 Confidence is claim-scoped. Assign it to each evidence item in `data/catalog.json` and to each case step; do not assign one confidence value to an entire technique, report, or campaign. A source can support artifact presence at high confidence while supporting activation only at medium or low confidence. A case step cannot claim greater confidence than the strongest exact source/support assertion it cites.
 
 ## Source quality
@@ -65,7 +69,7 @@ Prefer sources in this order:
 
 Classify the source that the URL actually resolves to, independently of the claim it supports. For example, a vendor security advisory is a `primary-artifact`; an investigator's campaign report is an `incident-report`; and a blog post describing malicious code is not a `malicious-artifact` unless the link itself resolves to the inspectable code, configuration, package, or extension. Record artifact presence, planting, attempts, execution, and impact separately as support claims.
 
-For mutable documentation, record when it was verified. For malicious artifacts, include versions, hashes, or immutable commits when the public source provides them.
+For mutable documentation, record when it was verified. For malicious artifacts, include versions, hashes, or immutable commits when the public source provides them. Before each release, re-check mutable documentation, CVE/advisory affected ranges, and date-stamped negative claims; refresh `verified_on` annotations where applicable.
 
 ## Validation
 

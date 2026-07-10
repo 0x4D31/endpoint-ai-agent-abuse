@@ -12,7 +12,8 @@ Surfaces are defined in [`../surfaces.md`](../surfaces.md). Evidence labels are 
 - **Tactics:** Execution
 - **Maturity:** demonstrated
 - **Evidence sources:** primary-artifact, incident-report, secondary-analysis
-- **Seen in:** Nx s1ngularity, Trivy OpenVSX extension
+- **Highlights:** Nx s1ngularity, Trivy OpenVSX extension
+- **Case mappings:** EAA-C-001, EAA-C-002
 - **Related:** EAA-002, EAA-015, EAA-016
 
 Malware, package scripts, extensions, repository bootstrap code, or CI jobs launch an installed local AI agent and submit attacker-chosen instructions. Invocation is the observable action; it does not by itself prove that the agent completed the requested action or that downstream impact occurred.
@@ -45,7 +46,8 @@ Sources: [Nx postmortem](https://nx.dev/blog/s1ngularity-postmortem), [Snyk Nx a
 - **Tactics:** Execution
 - **Maturity:** demonstrated
 - **Evidence sources:** primary-artifact, reproducible-research, secondary-analysis
-- **Seen in:** Nx s1ngularity and Trivy attempted paths; Claude Code trust-bypass advisory; Dash Remote Control research
+- **Highlights:** Nx s1ngularity and Trivy attempted paths; Claude Code trust-bypass advisory; Dash Remote Control research
+- **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-012, EAA-C-016
 - **Related:** EAA-001, EAA-015
 
 An attacker starts a local agent in a non-interactive mode, or uses flags or settings that reduce approval prompts, sandboxing, or trust checks. Unattended operation and permission bypass are distinct behaviors and should be recorded separately in procedure-level data.
@@ -77,8 +79,9 @@ Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-fo
 - **Surface:** Control Plane
 - **Tactics:** Execution, Persistence
 - **Maturity:** observed
-- **Evidence sources:** official-documentation, reproducible-research, incident-report
-- **Seen in:** Mini Shai-Hulud, Miasma, Immobiliare Labs; Cisco, Mitiga, and Check Point research
+- **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report
+- **Highlights:** Mini Shai-Hulud, Miasma, Immobiliare Labs; Cisco, Mitiga, and Check Point research
+- **Case mappings:** EAA-C-003, EAA-C-004, EAA-C-005, EAA-C-007, EAA-C-010, EAA-C-011, EAA-C-015
 - **Related:** EAA-004, EAA-008, EAA-009, EAA-014
 
 An attacker writes agent hook configuration intended to run attacker-controlled commands during session start, tool use, stop, or another lifecycle event. The scoped action is planting the hook, not the hook's later execution. Incident-confirmed planting therefore supports `observed`; execution still depends on the product, version, configuration scope, event, and applicable trust or approval state.
@@ -104,7 +107,7 @@ Hunt ideas:
 - Hook command points to shell, package manager, network fetch, opaque script, or recently written binary.
 - A configured hook fires before or immediately after an agent session starts; correlate the configuration write, trust decision, session start, and child process rather than treating file presence alone as execution.
 
-Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-shai-hulud-has-appeared), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Cisco memory and hook research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [Mitiga MCP hook research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Check Point project-hook research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Claude Code hooks docs](https://code.claude.com/docs/en/hooks), [Gemini CLI hooks docs](https://geminicli.com/docs/hooks/), [Codex hooks docs](https://developers.openai.com/codex/hooks)
+Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-shai-hulud-has-appeared), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Cisco memory and hook research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [Mitiga MCP hook research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Check Point project-hook research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Claude Code hooks docs](https://code.claude.com/docs/en/hooks), [Gemini CLI hooks docs](https://geminicli.com/docs/hooks/), [Codex hooks docs](https://developers.openai.com/codex/hooks), [Claude Code startup-warning advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-ph6w-f82w-28w6)
 
 ---
 
@@ -114,7 +117,8 @@ Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-
 - **Tactics:** Persistence
 - **Maturity:** observed
 - **Evidence sources:** official-documentation, reproducible-research, incident-report
-- **Seen in:** Miasma, Hades; Cisco auto-memory research
+- **Highlights:** Miasma, Hades; Cisco auto-memory research
+- **Case mappings:** EAA-C-004, EAA-C-005, EAA-C-006, EAA-C-007, EAA-C-010, EAA-C-014
 - **Related:** EAA-003, EAA-005, EAA-008, EAA-013, EAA-014
 
 An attacker modifies local agent instructions, rules, or auto-memory so later sessions receive attacker-controlled guidance as context. Instruction/rule poisoning and auto-memory poisoning use different storage and loading paths; they remain grouped here because the durable effect is the same, but procedures should identify which path was used.
@@ -148,7 +152,8 @@ Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Cis
 - **Tactics:** Credential Access, Collection
 - **Maturity:** observed
 - **Evidence sources:** official-documentation, incident-report
-- **Seen in:** OALABS compromised Claude/Codex investigation
+- **Highlights:** OALABS compromised Claude/Codex investigation
+- **Case mappings:** EAA-C-008
 - **Related:** EAA-004, EAA-012, EAA-017
 
 An attacker reads or copies local transcripts, tool histories, plans, logs, caches, session stores, or complete agent profiles to recover credentials, tokens, secrets, internal context, repository details, identity material, or operational history. Credential Access applies only when authentication material is actually among the collected state.
@@ -182,8 +187,9 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Surface:** Tools & Integrations
 - **Tactics:** Execution, Persistence
 - **Maturity:** demonstrated
-- **Evidence sources:** official-documentation, reproducible-research
-- **Seen in:** historical Claude Code MCP approval-bypass research; Mitiga MCP endpoint-rewrite research
+- **Evidence sources:** official-documentation, primary-artifact, reproducible-research
+- **Highlights:** historical Claude Code MCP approval-bypass research; Mitiga MCP endpoint-rewrite research
+- **Case mappings:** EAA-C-011, EAA-C-014, EAA-C-015
 - **Related:** EAA-009, EAA-010, EAA-011, EAA-014, EAA-015, EAA-016
 
 An attacker adds or modifies local MCP or tool configuration so the agent connects to an attacker-selected server or gains a new filesystem, shell, browser, SaaS, or network capability. Project-scoped MCP definitions normally require product-specific trust or server approval; configuration presence alone is not proof of activation.
@@ -208,7 +214,7 @@ Hunt ideas:
 - Stdio MCP command uses shell, package manager, network fetch, or unpinned package execution.
 - Capability appears shortly before sensitive file, browser, GitHub, Slack, or cloud activity.
 
-Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/)
+Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g)
 
 ---
 
@@ -217,8 +223,9 @@ Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Poi
 - **Surface:** Runtime & Environment
 - **Tactics:** Collection, Exfiltration
 - **Maturity:** demonstrated
-- **Evidence sources:** official-documentation, reproducible-research
-- **Seen in:** historical Claude Code `ANTHROPIC_BASE_URL` research
+- **Evidence sources:** official-documentation, primary-artifact, reproducible-research
+- **Highlights:** historical Claude Code `ANTHROPIC_BASE_URL` research
+- **Case mappings:** EAA-C-015
 - **Related:** EAA-008, EAA-011, EAA-012
 
 An attacker changes provider routing so a trusted local agent talks to an attacker-controlled or unapproved model/API gateway.
@@ -241,7 +248,7 @@ Hunt ideas:
 - Custom auth headers or tokens appear only in one agent launch environment.
 - Gateway change is set by package script, repo bootstrap, extension host, or unknown process.
 
-Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code settings](https://code.claude.com/docs/en/settings), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Codex configuration reference](https://developers.openai.com/codex/config-reference/), [Gemini CLI configuration reference](https://geminicli.com/docs/reference/configuration/)
+Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code settings](https://code.claude.com/docs/en/settings), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Codex configuration reference](https://developers.openai.com/codex/config-reference/), [Gemini CLI configuration reference](https://geminicli.com/docs/reference/configuration/), [Claude Code pre-trust data-leakage advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7)
 
 ---
 
@@ -251,7 +258,8 @@ Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env
 - **Tactics:** Execution, Defense Evasion
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, reproducible-research
-- **Seen in:** Dash Security Claude Remote Control research
+- **Highlights:** Dash Security Claude Remote Control research
+- **Case mappings:** EAA-C-012
 - **Related:** EAA-003, EAA-004, EAA-007, EAA-009
 
 An attacker launches an agent with an alternate profile or configuration directory containing attacker-controlled settings, state, trust decisions, plugins, or credentials. Exactly which assets move with an alternate directory is product- and platform-specific.
@@ -284,7 +292,8 @@ Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env
 - **Tactics:** Execution, Persistence
 - **Maturity:** feasible
 - **Evidence sources:** official-documentation
-- **Seen in:** no known public malicious use as of 2026-07-09
+- **Highlights:** no known public malicious use as of 2026-07-09
+- **Case mappings:** none
 - **Related:** EAA-003, EAA-006, EAA-008, EAA-013
 
 An attacker causes the agent to sideload a remote plugin archive or install or update a plugin from an attacker-controlled marketplace. Plugins can bring hooks, commands, skills, MCP servers, binaries, monitors, or other executable behavior.
@@ -317,7 +326,8 @@ Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research
-- **Seen in:** MCP rug-pull/tool-poisoning research
+- **Highlights:** MCP rug-pull/tool-poisoning research
+- **Case mappings:** EAA-C-009
 - **Related:** EAA-006, EAA-011
 
 An MCP server embeds adversarial instructions in tool metadata or changes an advertised tool definition after an earlier benign presentation. This can steer the agent before a tool is selected, shadow another server's tool, or change how a capability is understood later.
@@ -350,7 +360,8 @@ Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-inj
 - **Tactics:** Execution
 - **Maturity:** feasible
 - **Evidence sources:** official-documentation
-- **Seen in:** no known public malicious use as of 2026-07-09
+- **Highlights:** no known public malicious use as of 2026-07-09
+- **Case mappings:** none
 - **Related:** EAA-006, EAA-007, EAA-010
 
 An attacker who can influence the agent's effective launch environment sets or replaces a variable referenced by an MCP configuration, causing its command, arguments, environment, URL, or headers to resolve to an attacker-selected value. Required control is the ability to modify the relevant environment-variable source; environment expansion and a checked-in placeholder are not malicious by themselves. The server still faces the normal scope-specific trust and approval gates.
@@ -384,7 +395,8 @@ Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp)
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, reproducible-research
-- **Seen in:** Bloom Security OTel research
+- **Highlights:** Bloom Security OTel research
+- **Case mappings:** EAA-C-013
 - **Related:** EAA-005, EAA-007, EAA-017
 
 An attacker changes telemetry or logging settings so session metadata or explicitly enabled sensitive content is written locally or sent to an unapproved collector. Where supported, an executable telemetry-header helper can also become a command-execution surface.
@@ -420,7 +432,8 @@ Sources: [Claude Code monitoring docs](https://code.claude.com/docs/en/monitorin
 - **Tactics:** Execution, Persistence
 - **Maturity:** feasible
 - **Evidence sources:** official-documentation
-- **Seen in:** no known public malicious use of cloud skill sync as of 2026-07-09
+- **Highlights:** no known public malicious use of cloud skill sync as of 2026-07-09
+- **Case mappings:** none
 - **Related:** EAA-004, EAA-009
 
 An attacker with permission or account-level access to modify an already enabled cloud-hosted skill changes its instructions or dynamic context, and the product later syncs that content into the local agent environment. Required control is the ability to modify the cloud skill or the victim account's enabled-skill state; synchronization by itself is benign. The sync path is delivery, and skill invocation is the activation condition that places the changed content in context.
@@ -455,7 +468,8 @@ Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env
 - **Tactics:** Persistence
 - **Maturity:** observed
 - **Evidence sources:** incident-report
-- **Seen in:** Miasma, Hades, Immobiliare Labs Backstage plugins
+- **Highlights:** Miasma, Hades, Immobiliare Labs Backstage plugins
+- **Case mappings:** EAA-C-004, EAA-C-005, EAA-C-006, EAA-C-007
 - **Related:** EAA-003, EAA-004, EAA-006
 
 An attacker-controlled process writes equivalent hook, instruction, rule, skill, or tool-configuration artifacts for two or more local agent ecosystems during one fan-out operation. The atomic action is the multi-ecosystem write. Procedure records should also map the underlying hook, instruction, skill, or tool-configuration technique and separately record whether any product later activated the planted content.
@@ -489,7 +503,8 @@ Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** observed
 - **Evidence sources:** reproducible-research, incident-report, secondary-analysis
-- **Seen in:** OALABS compromised Claude/Codex investigation; Trivy attempted path; Mitiga and Dash research
+- **Highlights:** OALABS compromised Claude/Codex investigation; Trivy attempted path; Mitiga and Dash research
+- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012
 - **Related:** EAA-001, EAA-002, EAA-006, EAA-016
 
 An attacker uses the agent's existing access to local shell, filesystem, authenticated CLIs, browser or session state, MCP servers, or SaaS/cloud tools. These authority sources have different audit and revocation semantics and should be identified separately at procedure level.
@@ -522,7 +537,8 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Tactics:** Discovery
 - **Maturity:** demonstrated
 - **Evidence sources:** incident-report, secondary-analysis
-- **Seen in:** Nx s1ngularity, Trivy OpenVSX extension, Hades
+- **Highlights:** Nx s1ngularity, Trivy OpenVSX extension, Hades
+- **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006
 - **Related:** EAA-001, EAA-006, EAA-015
 
 An attacker enumerates installed agent binaries or agent-related configuration, tools, authority, state, or capabilities to choose a later abuse path. Procedures should distinguish binary discovery from configuration, capability, authority, and state discovery.
@@ -557,7 +573,8 @@ Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-fo
 - **Tactics:** Defense Evasion
 - **Maturity:** observed
 - **Evidence sources:** official-documentation, incident-report
-- **Seen in:** OALABS compromised Claude/Codex investigation
+- **Highlights:** OALABS compromised Claude/Codex investigation
+- **Case mappings:** EAA-C-008
 - **Related:** EAA-005, EAA-012
 
 An attacker alters, truncates, replaces, or deletes agent-native transcripts or audit state to conceal prior activity. The attacker may modify the files directly or direct the agent to locate and edit its own records.

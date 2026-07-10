@@ -148,6 +148,7 @@
       "type": "string",
       "enum": [
         "surface-documented",
+        "version-range-documented",
         "mechanism-demonstrated",
         "artifact-present",
         "procedure-planted",
@@ -341,6 +342,16 @@
           "type": "array",
           "uniqueItems": true,
           "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "version_source_refs": {
+          "$comment": "Sources for the affected/fixed version range, separate from sources supporting the procedure outcome.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^SRC-[0-9]{3}$"
+          }
         }
       }
     },

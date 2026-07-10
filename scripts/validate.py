@@ -306,12 +306,18 @@ def validate_catalog_semantics(
                     errors.append(f"$.sources[{source_index}].{field}: date is in the future")
             except ValueError:
                 pass
+        source_url = source.get("url", "")
+        is_security_advisory = isinstance(source_url, str) and (
+            "/security/advisories/" in source_url
+            or source_url.startswith("https://github.com/advisories/GHSA-")
+        )
         if (
             "official-documentation" in source.get("types", [])
-            and "verified_on" not in source
-        ):
+            or is_security_advisory
+        ) and "verified_on" not in source:
             errors.append(
-                f"$.sources[{source_index}].verified_on: required for mutable official documentation"
+                f"$.sources[{source_index}].verified_on: required for mutable official "
+                "documentation or security advisory"
             )
 
     for case_index, case in enumerate(cases):
@@ -482,6 +488,54 @@ def validate_catalog_semantics(
                         f"strongest matching evidence confidence "
                         f"{strongest_confidence!r} for {required_support!r}"
                     )
+            scope = procedure.get("scope")
+            scope_refs = (
+                scope.get("version_source_refs", [])
+                if isinstance(scope, dict)
+                else []
+            )
+            if scope_refs != sorted(
+                scope_refs, key=lambda value: case_source_rank.get(value, 999)
+            ):
+                errors.append(
+                    f"{procedure_path}.scope.version_source_refs: refs must follow case "
+                    "source order"
+                )
+            overlapping_refs = sorted(set(procedure_refs) & set(scope_refs))
+            if overlapping_refs:
+                errors.append(
+                    f"{procedure_path}.scope.version_source_refs: outcome and version refs "
+                    "overlap: "
+                    + ", ".join(overlapping_refs)
+                )
+            for source_id in scope_refs:
+                used_source_refs.add(source_id)
+                used_source_ids.add(source_id)
+                if source_id not in case_source_rank:
+                    errors.append(
+                        f"{procedure_path}.scope.version_source_refs: {source_id!r} is not in "
+                        "case source_refs"
+                    )
+                if source_id not in known_source_ids:
+                    errors.append(
+                        f"{procedure_path}.scope.version_source_refs: unknown source "
+                        f"{source_id!r}"
+                    )
+                if source_id not in technique_evidence_by_source:
+                    errors.append(
+                        f"{procedure_path}.scope.version_source_refs: source {source_id!r} "
+                        "is not "
+                        f"evidence for {technique_id}"
+                    )
+                elif (
+                    "version-range-documented"
+                    not in technique_evidence_by_source[source_id]
+                ):
+                    errors.append(
+                        f"{procedure_path}.scope.version_source_refs: source {source_id!r} "
+                        "lacks "
+                        f"'version-range-documented' evidence for {technique_id}"
+                    )
             qualifying_incident_source = any(
                 "incident-report" in source_by_id.get(source_id, {}).get("types", [])
                 and required_support
@@ -539,7 +593,10 @@ def validate_catalog_semantics(
             if isinstance(item, dict)
             and isinstance(item.get("support"), str)
         }
-        implementation_claims = supported_claims - {"surface-documented"}
+        implementation_claims = supported_claims - {
+            "surface-documented",
+            "version-range-documented",
+        }
         qualifying_implementation_source = any(
             bool(
                 {
@@ -664,7 +721,7 @@ def metadata(section: str, field: str) -> str | None:
     )
     if match is None:
         return None
-    return match.group(1).strip().rstrip("  ")
+    return match.group(1).strip()
 
 
 def markdown_label(value: str) -> str:
@@ -777,6 +834,19 @@ def validate_markdown(catalog: dict[str, Any], schema: dict[str, Any]) -> list[s
     source_records = {item["id"]: item for item in catalog["sources"]}
     surface_names = {item["id"]: item["name"] for item in catalog["surfaces"]}
     known_ids = set(technique_records) | set(candidate_records)
+    technique_case_mappings: dict[str, list[str]] = {
+        technique_id: [] for technique_id in technique_records
+    }
+    for case in catalog["cases"]:
+        mapped_in_case: set[str] = set()
+        for procedure in case["procedures"]:
+            technique_id = procedure["technique_id"]
+            if (
+                technique_id in technique_case_mappings
+                and technique_id not in mapped_in_case
+            ):
+                technique_case_mappings[technique_id].append(case["id"])
+                mapped_in_case.add(technique_id)
 
     markdown_paths = sorted(
         set(ROOT.glob("*.md")) | {ROOT / "techniques" / "index.md"}
@@ -852,6 +922,27 @@ def validate_markdown(catalog: dict[str, Any], schema: dict[str, Any]) -> list[s
                         f"techniques/index.md: {technique_id} evidence source categories "
                         f"{parsed_source_types!r} do not match catalog "
                         f"{sorted(catalog_source_types)!r}"
+                    )
+            documented_case_mappings = metadata(body, "Case mappings")
+            if documented_case_mappings is None:
+                errors.append(
+                    f"techniques/index.md: {technique_id} is missing **Case mappings:**"
+                )
+            else:
+                parsed_case_mappings = (
+                    []
+                    if documented_case_mappings == "none"
+                    else [
+                        item.strip()
+                        for item in documented_case_mappings.split(",")
+                    ]
+                )
+                expected_case_mappings = technique_case_mappings[technique_id]
+                if parsed_case_mappings != expected_case_mappings:
+                    errors.append(
+                        f"techniques/index.md: {technique_id} case mappings "
+                        f"{parsed_case_mappings!r} do not match catalog "
+                        f"{expected_case_mappings!r}"
                     )
             documented_related = metadata(body, "Related")
             expected_related = [
@@ -1090,6 +1181,28 @@ def validate_markdown(catalog: dict[str, Any], schema: dict[str, Any]) -> list[s
                     ]
                     if documented_refs != expected_refs:
                         errors.append(f"cases.md: {case_id} step {step} source mismatch")
+                    scope = procedure.get("scope")
+                    scope_refs = (
+                        scope.get("version_source_refs", [])
+                        if isinstance(scope, dict)
+                        else []
+                    )
+                    scope_column = column.get("Version sources")
+                    documented_scope_refs = (
+                        re.findall(
+                            r"\bS[1-9][0-9]*\b",
+                            row[scope_column],
+                        )
+                        if scope_column is not None
+                        else []
+                    )
+                    expected_scope_refs = [
+                        local_source_ids[source_id] for source_id in scope_refs
+                    ]
+                    if documented_scope_refs != expected_scope_refs:
+                        errors.append(
+                            f"cases.md: {case_id} step {step} version source mismatch"
+                        )
 
             documented_sources = CASE_SOURCE_LINE.findall(body)
             expected_labels = [

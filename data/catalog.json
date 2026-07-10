@@ -59,7 +59,8 @@
       "title": "Aqua Trivy VS Code extension advisory",
       "url": "https://github.com/aquasecurity/trivy-vscode-extension/security/advisories/GHSA-8mr6-gf9x-j8qg",
       "types": ["primary-artifact"],
-      "published": "2026-02-27"
+      "published": "2026-02-27",
+      "verified_on": "2026-07-09"
     },
     {
       "id": "SRC-004",
@@ -115,7 +116,8 @@
       "title": "Anthropic bypass-permissions workspace-trust advisory",
       "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-mmgp-wc2j-qcv7",
       "types": ["primary-artifact"],
-      "published": "2026-03-18"
+      "published": "2026-03-18",
+      "verified_on": "2026-07-09"
     },
     {
       "id": "SRC-012",
@@ -312,6 +314,30 @@
       "url": "https://developers.openai.com/codex/hooks",
       "types": ["official-documentation"],
       "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-040",
+      "title": "Claude Code startup-warning advisory",
+      "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-ph6w-f82w-28w6",
+      "types": ["primary-artifact"],
+      "published": "2025-09-02",
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-041",
+      "title": "Claude Code pre-trust execution advisory",
+      "url": "https://github.com/advisories/GHSA-4fgq-fpq9-mr3g",
+      "types": ["primary-artifact"],
+      "published": "2025-10-03",
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-042",
+      "title": "Claude Code pre-trust data-leakage advisory",
+      "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7",
+      "types": ["primary-artifact"],
+      "published": "2026-01-20",
+      "verified_on": "2026-07-09"
     }
   ],
   "techniques": [
@@ -379,7 +405,8 @@
         {"source_id": "SRC-023", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-012", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-035", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-039", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-039", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-040", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
@@ -460,7 +487,8 @@
         {"source_id": "SRC-029", "support": "procedure-planted", "confidence": "high"},
         {"source_id": "SRC-029", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-029", "support": "impact-confirmed", "confidence": "high"},
-        {"source_id": "SRC-036", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-036", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-041", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-009"},
@@ -486,7 +514,8 @@
         {"source_id": "SRC-023", "support": "mechanism-demonstrated", "confidence": "high"},
         {"source_id": "SRC-023", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-034", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-037", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-037", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-042", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-008"},
@@ -1275,8 +1304,8 @@
       "contexts": ["controlled-research", "patched-vulnerability"],
       "date_start": "2026-02-25",
       "date_basis": "published",
-      "activation_notes": "The paths required a malicious project and an affected historical Claude Code version. The hook path still followed the user's general workspace-trust acceptance; the MCP and provider-routing paths crossed that decision earlier. Anthropic patched all three reported paths before publication. The source does not identify a public malicious campaign or precise affected version range for every path.",
-      "source_refs": ["SRC-023"],
+      "activation_notes": "The paths required a malicious project and an affected historical Claude Code version. The hook path still followed the user's general workspace-trust acceptance; the MCP and provider-routing paths crossed that decision earlier. The hook advisory identifies versions earlier than 1.0.87 for the insufficient-warning issue; 1.0.87 clarified the warning rather than disabling hooks after accepted workspace trust. Separate advisories identify versions earlier than 1.0.111 for MCP pre-trust execution and earlier than 2.0.65 for provider-routing leakage, with those versions as the respective fixes. The sources do not identify a public malicious campaign.",
+      "source_refs": ["SRC-023", "SRC-040", "SRC-041", "SRC-042"],
       "procedures": [
         {
           "step": 1,
@@ -1288,8 +1317,9 @@
           "activation_conditions": ["A malicious project was opened in an affected historical Claude Code version.", "The user accepted general workspace trust."],
           "scope": {
             "products": ["Claude Code"],
-            "versions": ["not publicly specified"],
-            "operating_systems": []
+            "versions": ["earlier than 1.0.87 (insufficient-warning advisory range)"],
+            "operating_systems": [],
+            "version_source_refs": ["SRC-040"]
           }
         },
         {
@@ -1302,8 +1332,9 @@
           "activation_conditions": ["A malicious project was opened in an affected historical Claude Code version."],
           "scope": {
             "products": ["Claude Code"],
-            "versions": ["not publicly specified"],
-            "operating_systems": []
+            "versions": ["earlier than 1.0.111"],
+            "operating_systems": [],
+            "version_source_refs": ["SRC-041"]
           }
         },
         {
@@ -1316,8 +1347,9 @@
           "activation_conditions": ["A malicious project was opened in an affected historical Claude Code version.", "Startup traffic used the repository-controlled provider endpoint."],
           "scope": {
             "products": ["Claude Code"],
-            "versions": ["not publicly specified"],
-            "operating_systems": []
+            "versions": ["earlier than 2.0.65"],
+            "operating_systems": [],
+            "version_source_refs": ["SRC-042"]
           }
         }
       ]

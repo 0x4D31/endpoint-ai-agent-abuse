@@ -10,6 +10,7 @@ Evidence and reproducibility hardening.
 - Added EAA-017 for agent-native evidence tampering, anchored in a public forensic investigation.
 - Added stable case IDs, distinguished artifact presence, planting, attempts, execution, and confirmed impact, and enforced exact case-outcome-to-evidence support.
 - Enforced that case-step confidence cannot exceed the strongest exact evidence assertion it cites.
+- Added machine-checked technique-to-case projections and exact vendor-advisory version ranges for the historical Claude Code project-configuration cases.
 - Added current vendor documentation, advisories, incident reporting, and controlled research.
 - Added official Claude Code, Codex, and Gemini CLI anchors for transcript retention, hooks, MCP trust, provider routing, profile roots, telemetry, and native project-data purge.
 - Expanded hunting hypotheses with required telemetry, limitations, and cross-plane forensic checks.

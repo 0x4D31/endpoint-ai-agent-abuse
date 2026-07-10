@@ -30,6 +30,9 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Claude Code sessions and transcript persistence — https://code.claude.com/docs/en/sessions
 - Claude Code directory and application data — https://code.claude.com/docs/en/claude-directory
 - Claude Code bypass-permissions workspace-trust advisory, CVE-2026-33068 — https://github.com/anthropics/claude-code/security/advisories/GHSA-mmgp-wc2j-qcv7
+- Claude Code startup-warning advisory — https://github.com/anthropics/claude-code/security/advisories/GHSA-ph6w-f82w-28w6
+- Claude Code pre-trust execution advisory, CVE-2025-59536 — https://github.com/advisories/GHSA-4fgq-fpq9-mr3g
+- Claude Code pre-trust data-leakage advisory, CVE-2026-21852 — https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7
 - OpenAI Codex advanced configuration — https://developers.openai.com/codex/config-advanced/
 - OpenAI Codex environment variables — https://developers.openai.com/codex/environment-variables/
 - OpenAI Codex configuration reference — https://developers.openai.com/codex/config-reference/

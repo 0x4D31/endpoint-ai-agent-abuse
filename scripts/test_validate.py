@@ -42,6 +42,24 @@ class CatalogValidationTests(unittest.TestCase):
             any("expected 'demonstrated'" in error for error in self.semantic_errors(catalog))
         )
 
+    def test_version_range_does_not_promote_technique_maturity(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        technique = next(item for item in catalog["techniques"] if item["id"] == "EAA-009")
+        self.assertEqual("feasible", technique["maturity"])
+        technique["evidence"].append(
+            {
+                "source_id": "SRC-040",
+                "support": "version-range-documented",
+                "confidence": "high",
+            }
+        )
+        self.assertFalse(
+            any(
+                "techniques[8].maturity" in error
+                for error in self.semantic_errors(catalog)
+            )
+        )
+
     def test_incident_case_with_confirmed_impact_is_observed(self) -> None:
         catalog = copy.deepcopy(self.catalog)
         technique = next(item for item in catalog["techniques"] if item["id"] == "EAA-005")
@@ -112,13 +130,42 @@ class CatalogValidationTests(unittest.TestCase):
             )
         )
 
+    def test_case_version_source_requires_version_range_evidence(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        technique = next(item for item in catalog["techniques"] if item["id"] == "EAA-003")
+        technique["evidence"] = [
+            item
+            for item in technique["evidence"]
+            if item["source_id"] != "SRC-040"
+        ]
+        self.assertTrue(
+            any(
+                "scope.version_source_refs: source 'SRC-040' is not evidence for EAA-003"
+                in error
+                for error in self.semantic_errors(catalog)
+            )
+        )
+
     def test_official_documentation_requires_verified_on(self) -> None:
         catalog = copy.deepcopy(self.catalog)
         source = next(item for item in catalog["sources"] if item["id"] == "SRC-012")
         del source["verified_on"]
         self.assertTrue(
             any(
-                "verified_on: required for mutable official documentation" in error
+                "verified_on: required for mutable official documentation or security "
+                "advisory" in error
+                for error in self.semantic_errors(catalog)
+            )
+        )
+
+    def test_security_advisory_requires_verified_on(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        source = next(item for item in catalog["sources"] if item["id"] == "SRC-003")
+        del source["verified_on"]
+        self.assertTrue(
+            any(
+                "verified_on: required for mutable official documentation or security "
+                "advisory" in error
                 for error in self.semantic_errors(catalog)
             )
         )
@@ -165,6 +212,55 @@ class CatalogValidationTests(unittest.TestCase):
         self.assertTrue(
             any(
                 "sources.md: repeats canonical registry URL(s)" in error
+                for error in errors
+            )
+        )
+
+    def test_missing_technique_case_mapping_is_rejected(self) -> None:
+        original_read_text = validate.Path.read_text
+        technique_path = validate.ROOT / "techniques" / "index.md"
+
+        def read_text(path: validate.Path, *args: object, **kwargs: object) -> str:
+            text = original_read_text(path, *args, **kwargs)
+            if path == technique_path:
+                return text.replace(
+                    "**Case mappings:** EAA-C-001, EAA-C-002",
+                    "**Case mappings:** EAA-C-001",
+                    1,
+                )
+            return text
+
+        with mock.patch.object(validate.Path, "read_text", read_text):
+            errors = validate.validate_markdown(self.catalog, self.schema)
+
+        self.assertTrue(
+            any(
+                "EAA-001 case mappings ['EAA-C-001'] do not match catalog "
+                "['EAA-C-001', 'EAA-C-002']" in error
+                for error in errors
+            )
+        )
+
+    def test_missing_case_version_source_projection_is_rejected(self) -> None:
+        original_read_text = validate.Path.read_text
+        cases_path = validate.ROOT / "cases.md"
+
+        def read_text(path: validate.Path, *args: object, **kwargs: object) -> str:
+            text = original_read_text(path, *args, **kwargs)
+            if path == cases_path:
+                return text.replace(
+                    "| S1 | S2 |\n| 2 | EAA-006",
+                    "| S1 |  |\n| 2 | EAA-006",
+                    1,
+                )
+            return text
+
+        with mock.patch.object(validate.Path, "read_text", read_text):
+            errors = validate.validate_markdown(self.catalog, self.schema)
+
+        self.assertTrue(
+            any(
+                "EAA-C-015 step 1 version source mismatch" in error
                 for error in errors
             )
         )

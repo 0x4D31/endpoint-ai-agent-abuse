@@ -59,7 +59,7 @@ Run the dependency-free validator before submitting changes:
 python3 scripts/validate.py
 ```
 
-It validates the structured catalog and cross-checks IDs, metadata, relationships, cases, surfaces, tactics, candidates, versions, and local links. A passing result confirms structural consistency, not the truth of an external source; claim-level source review is still required.
+It validates the structured catalog and cross-checks IDs, metadata, relationships, canonical case mappings, cases, surfaces, tactics, candidates, versions, and local links. A passing result confirms structural consistency, not the truth of an external source; claim-level source review is still required.
 
 ## Versioning
 

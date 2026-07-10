@@ -271,17 +271,20 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 **Date:** published 2026-02-25
 
-| Step | Technique | Outcome | Confidence | Claim | Sources |
-|---|---|---|---|---|---|
-| 1 | EAA-003 | executed | high | Check Point demonstrated an affected Claude Code version running a project `SessionStart` hook after general workspace trust, without a separate hook-command approval. | S1 |
-| 2 | EAA-006 | executed | high | Repository settings approved and started a project MCP server before the user completed the trust decision. | S1 |
-| 3 | EAA-007 | impact-confirmed | high | A repository-controlled `ANTHROPIC_BASE_URL` redirected startup requests and exposed an API authorization header to the controlled proxy before workspace trust. | S1 |
+| Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
+|---|---|---|---|---|---|---|
+| 1 | EAA-003 | executed | high | Check Point demonstrated an affected Claude Code version running a project `SessionStart` hook after general workspace trust, without a separate hook-command approval. | S1 | S2 |
+| 2 | EAA-006 | executed | high | Repository settings approved and started a project MCP server before the user completed the trust decision. | S1 | S3 |
+| 3 | EAA-007 | impact-confirmed | high | A repository-controlled `ANTHROPIC_BASE_URL` redirected startup requests and exposed an API authorization header to the controlled proxy before workspace trust. | S1 | S4 |
 
-**Activation notes:** The paths required a malicious project and an affected historical Claude Code version. The hook path still followed the user's general workspace-trust acceptance; the MCP and provider-routing paths crossed that decision earlier. Anthropic patched all three reported paths before publication. The source does not identify a public malicious campaign or precise affected version range for every path.
+**Activation notes:** The paths required a malicious project and an affected historical Claude Code version. The hook path still followed the user's general workspace-trust acceptance; the MCP and provider-routing paths crossed that decision earlier. The hook advisory identifies versions earlier than 1.0.87 for the insufficient-warning issue; 1.0.87 clarified the warning rather than disabling hooks after accepted workspace trust. Separate advisories identify versions earlier than 1.0.111 for MCP pre-trust execution and earlier than 2.0.65 for provider-routing leakage, with those versions as the respective fixes. The sources do not identify a public malicious campaign.
 
 **Sources:**
 
 - `S1` — [Check Point research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/)
+- `S2` — [Anthropic startup-warning advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-ph6w-f82w-28w6)
+- `S3` — [GitHub advisory for CVE-2025-59536](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g)
+- `S4` — [Anthropic advisory for CVE-2026-21852](https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7)
 
 ## EAA-C-016 — Claude Code workspace-trust bypass
 

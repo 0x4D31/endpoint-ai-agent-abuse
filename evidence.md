@@ -34,6 +34,7 @@ Each structured evidence assertion binds one source to one support claim and one
 | Support claim | What the cited source establishes |
 |---|---|
 | `surface-documented` | The required product feature, configuration, default, or security boundary is documented. |
+| `version-range-documented` | A vendor advisory or authoritative record identifies an affected or fixed product-version range. This scopes another claim and does not itself establish implementation, execution, or impact. |
 | `mechanism-demonstrated` | A public implementation or controlled test establishes the abuse mechanism, without by itself assigning a case outcome. |
 | `artifact-present` | The relevant code or configuration is present in an inspected artifact. |
 | `procedure-planted` | The procedure was written or deployed to its target surface. |
@@ -83,7 +84,7 @@ Confidence applies to a specific evidence-to-claim assertion or case step, not t
 - Separate attacker action from product behavior. For example, environment expansion is product behavior; attacker-controlled interpolation is the abuse procedure.
 - Separate state presence, activation, execution, and impact in both prose and structured data.
 - Date-stamp negative claims such as “no known public campaign” and recheck them before a release.
-- Treat mutable documentation as version-sensitive. Record a `verified_on` date and the tested or affected version when known.
+- Treat mutable documentation and security advisories as version-sensitive. Record a `verified_on` date and the tested, affected, or fixed version when known.
 - Keep wording conservative when vendors and researchers disagree about a security boundary. Describe the demonstrated behavior, prerequisites, version, and vendor position without silently choosing a characterization.
 
 ## Entry checklist
