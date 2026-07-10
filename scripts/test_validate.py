@@ -98,6 +98,20 @@ class CatalogValidationTests(unittest.TestCase):
             )
         )
 
+    def test_case_confidence_cannot_exceed_matching_evidence(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        case = next(item for item in catalog["cases"] if item["id"] == "EAA-C-002")
+        step = next(item for item in case["procedures"] if item["step"] == 3)
+        self.assertEqual("medium", step["confidence"])
+        step["confidence"] = "high"
+        self.assertTrue(
+            any(
+                "exceeds strongest matching evidence confidence 'medium'"
+                in error
+                for error in self.semantic_errors(catalog)
+            )
+        )
+
     def test_official_documentation_requires_verified_on(self) -> None:
         catalog = copy.deepcopy(self.catalog)
         source = next(item for item in catalog["sources"] if item["id"] == "SRC-012")

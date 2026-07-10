@@ -10,6 +10,8 @@ For each analytic, record the product/version, enabled controls, required fields
 
 **Required telemetry:** process start and ancestry, full command line, executable path/signer/hash, user/session, TTY or interactive-session context, container/CI context, and an inventory of expected agent launchers.
 
+Where agent-native fields are available, preserve them as correlation keys. Claude Code documents `session.id`, `prompt.id`, and `tool_use_id`; when tracing is active, Bash and PowerShell subprocesses inherit W3C `TRACEPARENT`. With a custom `ANTHROPIC_BASE_URL`, `CLAUDE_CODE_PROPAGATE_TRACEPARENT=1` enables that propagation path. These identifiers strengthen a temporal/process join but are not cryptographic proof of intent, and tracing plus content-bearing fields are not enabled by default. See the [Claude Code monitoring documentation](https://code.claude.com/docs/en/monitoring-usage).
+
 Look for package managers, installers, IDE extension hosts, repository setup scripts, CI jobs, or document handlers launching a local agent, then require a downstream effect.
 
 ```text
@@ -132,7 +134,7 @@ Look for one process probing many agent binaries, config roots, MCP files, skill
 
 **Techniques:** EAA-005, EAA-012, EAA-015, EAA-017
 
-**Required telemetry:** at least one agent-native plane plus an independent endpoint or remote-service plane, clock normalization, known retention/flush behavior, and explicit coverage status for both planes.
+**Required telemetry:** at least one agent-native plane plus an independent endpoint or remote-service plane, clock normalization, known retention/flush behavior, effective persistence/retention configuration, native purge or privacy-deletion invocation where available, and explicit coverage status for both planes.
 
 ```text
 sensitive endpoint or SaaS effect -> expected agent record absent or incomplete
@@ -140,13 +142,13 @@ sensitive endpoint or SaaS effect -> expected agent record absent or incomplete
 
 Examples include a remote repository creation, cloud change, or local sensitive write with no matching transcript/tool event, or an agent tool event with no corresponding endpoint effect.
 
-**Limitations:** absence is not evidence of compromise. Crashes, compaction, retention, disabled telemetry, unsupported tools, clock skew, offline operation, and sensor loss all create benign gaps. Emit a coverage or contradiction finding, not a malicious verdict.
+**Limitations:** absence is not evidence of compromise. Crashes, product-specific history-size compaction or retention cleanup, disabled telemetry, authorized privacy deletion, unsupported tools, clock skew, offline operation, and sensor loss all create benign gaps. Emit a coverage or contradiction finding, not a malicious verdict.
 
 ## H11 — Agent-native transcript or state anti-forensics
 
 **Techniques:** EAA-005, EAA-017
 
-**Required telemetry:** file write/rename/delete events for session and state paths, file identity/inode where available, size and hash history, active agent session metadata, process ancestry, independent endpoint events, and remote-service audit logs.
+**Required telemetry:** file write/rename/delete events for session and state paths, file identity/inode where available, size and hash history, active agent session metadata, process ancestry, effective persistence/retention configuration, native purge or privacy-deletion invocation, independent endpoint events, and remote-service audit logs.
 
 Look for an active agent or its descendants locating and then editing its own evidence, especially around sensitive actions.
 
@@ -159,7 +161,9 @@ agent/session activity
 
 Useful signals include sudden size regression, atomic replacement of a live transcript, deletion followed by recreation, session IDs that disappear while the process continues, sequence or timestamp discontinuities, and state edits followed by resume of the same session. Preserve an early copy and compare it with filesystem journal, backup, EDR, and remote-service evidence.
 
-**Limitations:** normal compaction, retention, session reset, application migration, crash recovery, privacy deletion, and user editing can look similar. The agent process may legitimately write its own state. Require timing plus an independent contradiction; do not infer hidden content from the gap.
+Claude Code 2.1.124 and later documents `claude project purge`; Codex documents `history.persistence = "none"` and history-size cleanup. Those legitimate controls can explain missing state, but an invocation or configuration change tightly coupled to sensitive activity is worth correlating with independent telemetry. See [Claude Code application-data documentation](https://code.claude.com/docs/en/claude-directory) and [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/).
+
+**Limitations:** normal history-size compaction, retention cleanup, session reset, application migration, crash recovery, privacy deletion, and user editing can look similar. The agent process may legitimately write its own state. Require timing plus an independent contradiction; do not infer hidden content from the gap.
 
 ## H12 — Shadow identity or Remote Control session
 

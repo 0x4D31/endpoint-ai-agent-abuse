@@ -340,6 +340,8 @@ def validate_catalog_semantics(
     tactic_rank = {name: index for index, name in enumerate(tactic_order)}
     source_type_order = schema_enum(schema, "sourceType")
     source_type_rank = {name: index for index, name in enumerate(source_type_order)}
+    confidence_order = schema_enum(schema, "confidence")
+    confidence_rank = {name: index for index, name in enumerate(confidence_order)}
     surface_rank = {name: index for index, name in enumerate(surface_ids)}
     known_technique_ids = set(technique_ids)
     source_by_id = {
@@ -418,6 +420,7 @@ def validate_catalog_semantics(
                     f"{procedure_path}.source_refs: refs must follow case source order"
                 )
             technique_evidence_by_source: dict[str, set[str]] = {}
+            technique_evidence_confidence: dict[tuple[str, str], str] = {}
             for item in technique_by_id[technique_id].get("evidence", []):
                 if not isinstance(item, dict):
                     continue
@@ -425,7 +428,11 @@ def validate_catalog_semantics(
                 support = item.get("support")
                 if isinstance(source_id, str) and isinstance(support, str):
                     technique_evidence_by_source.setdefault(source_id, set()).add(support)
+                    confidence = item.get("confidence")
+                    if isinstance(confidence, str):
+                        technique_evidence_confidence[(source_id, support)] = confidence
             required_support = OUTCOME_SUPPORT.get(procedure.get("outcome"))
+            matching_confidences: list[str] = []
             for source_id in procedure_refs:
                 used_source_refs.add(source_id)
                 used_source_ids.add(source_id)
@@ -450,6 +457,30 @@ def validate_catalog_semantics(
                         f"{procedure_path}.source_refs: source {source_id!r} lacks required "
                         f"{required_support!r} evidence for {technique_id} outcome "
                         f"{procedure.get('outcome')!r}"
+                    )
+                elif required_support is not None:
+                    evidence_confidence = technique_evidence_confidence.get(
+                        (source_id, required_support)
+                    )
+                    if evidence_confidence in confidence_rank:
+                        matching_confidences.append(evidence_confidence)
+            procedure_confidence = procedure.get("confidence")
+            if (
+                matching_confidences
+                and procedure_confidence in confidence_rank
+            ):
+                strongest_confidence = max(
+                    matching_confidences,
+                    key=lambda value: confidence_rank[value],
+                )
+                if (
+                    confidence_rank[procedure_confidence]
+                    > confidence_rank[strongest_confidence]
+                ):
+                    errors.append(
+                        f"{procedure_path}.confidence: {procedure_confidence!r} exceeds "
+                        f"strongest matching evidence confidence "
+                        f"{strongest_confidence!r} for {required_support!r}"
                     )
             qualifying_incident_source = any(
                 "incident-report" in source_by_id.get(source_id, {}).get("types", [])

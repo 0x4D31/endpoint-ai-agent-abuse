@@ -94,6 +94,8 @@ Examples:
 
 - Mini Shai-Hulud planted project-scoped Claude Code `SessionStart` hooks in repositories it could modify. As with other project configuration, execution depends on the affected product version and trust state.
 - Miasma planted project-scoped Claude and Gemini startup hooks. The malicious files establish planting; activation must be evaluated against the affected product version and workspace trust state.
+- Current Gemini CLI documentation includes `SessionStart` and other lifecycle hook events. That establishes the product surface as verified on 2026-07-09; it does not establish that a Miasma-planted file activated on a victim or matched every historical Gemini CLI version.
+- Current Codex documentation also defines `SessionStart` and other lifecycle hooks in user and project configuration. Project-local hooks load only for a trusted `.codex` layer, and non-managed command hooks require review and hash-bound trust; this documents a gated surface, not malicious use.
 - This technique's `observed` maturity means that hook configuration was planted in real compromises. It does not claim that every planted hook fired.
 
 Hunt ideas:
@@ -102,7 +104,7 @@ Hunt ideas:
 - Hook command points to shell, package manager, network fetch, opaque script, or recently written binary.
 - A configured hook fires before or immediately after an agent session starts; correlate the configuration write, trust decision, session start, and child process rather than treating file presence alone as execution.
 
-Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-shai-hulud-has-appeared), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Cisco memory and hook research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [Mitiga MCP hook research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Check Point project-hook research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Claude Code hooks docs](https://code.claude.com/docs/en/hooks)
+Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-shai-hulud-has-appeared), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Cisco memory and hook research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [Mitiga MCP hook research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Check Point project-hook research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Claude Code hooks docs](https://code.claude.com/docs/en/hooks), [Gemini CLI hooks docs](https://geminicli.com/docs/hooks/), [Codex hooks docs](https://developers.openai.com/codex/hooks)
 
 ---
 
@@ -162,6 +164,8 @@ Examples:
 
 - In the OALABS investigation, a compromised Claude installation and its session history were copied to attacker-controlled systems and reused. The researchers also found other archived copies of stolen Claude instances.
 - Claude Code documentation confirms that an alternate configuration directory contains session history and, on Linux and Windows, credentials; macOS credentials remain in the system Keychain.
+- Claude Code stores project transcripts as JSONL under `~/.claude/projects/<project>/`, with retention and non-persistence controls that affect artifact availability. This documents the local surface, not malicious collection.
+- Codex stores local history under `CODEX_HOME` (for example, `~/.codex/history.jsonl`) when history persistence is enabled; `history.persistence = "none"` disables future local-history persistence and `history.max_bytes` can remove older entries. These are legitimate privacy and retention controls as well as forensic coverage conditions.
 
 Hunt ideas:
 
@@ -169,7 +173,7 @@ Hunt ideas:
 - Bulk state reads followed by zip/tar/base64/curl/gh/cloud upload.
 - Agent configuration and session state are copied together or appear on a new host.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/)
 
 ---
 
@@ -195,6 +199,7 @@ Examples:
 
 - Check Point demonstrated that older Claude Code versions could use repository-controlled settings to approve and start a project MCP server before the trust decision. The bypass was patched before public disclosure.
 - Mitiga demonstrated same-user code rewriting an existing MCP endpoint and using a lifecycle hook to reassert the change. The proof of concept required prior local execution and a compatible OAuth-backed MCP server.
+- Gemini CLI documents an MCP server `trust: true` setting that bypasses all tool-call confirmations for that server. It is an explicit high-risk configuration primitive, not evidence of a product vulnerability or malicious use.
 - Poisoning the content of an already connected server's tool definitions is tracked separately in EAA-010.
 
 Hunt ideas:
@@ -203,7 +208,7 @@ Hunt ideas:
 - Stdio MCP command uses shell, package manager, network fetch, or unpinned package execution.
 - Capability appears shortly before sensitive file, browser, GitHub, Slack, or cloud activity.
 
-Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/)
+Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/)
 
 ---
 
@@ -228,6 +233,7 @@ Examples:
 
 - Check Point demonstrated that an older Claude Code version accepted a repository-controlled `ANTHROPIC_BASE_URL` early enough to expose authorization headers and startup API traffic to an attacker-controlled proxy. Anthropic patched the reported path before public disclosure.
 - Claude Code documents legitimate custom gateways and provider routing. Product, provider, authentication mode, and version determine which credentials and content traverse a gateway; do not assume a single behavior across agents.
+- Codex documents `openai_base_url` and custom model providers with `base_url` and `env_key`. Gemini CLI documents `GOOGLE_GEMINI_BASE_URL` for API-key authentication and `GOOGLE_VERTEX_BASE_URL` for Vertex AI authentication. Codex project-scoped `.codex/config.toml` files cannot override provider-routing keys, so the effective configuration scope is part of the activation condition.
 
 Hunt ideas:
 
@@ -235,7 +241,7 @@ Hunt ideas:
 - Custom auth headers or tokens appear only in one agent launch environment.
 - Gateway change is set by package script, repo bootstrap, extension host, or unknown process.
 
-Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code settings](https://code.claude.com/docs/en/settings), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/)
+Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code settings](https://code.claude.com/docs/en/settings), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Codex configuration reference](https://developers.openai.com/codex/config-reference/), [Gemini CLI configuration reference](https://geminicli.com/docs/reference/configuration/)
 
 ---
 
@@ -259,6 +265,7 @@ agent start with alternate profile/config directory
 Examples:
 
 - Claude Code documents that `CLAUDE_CONFIG_DIR` relocates settings, session history, and plugins, as well as credentials on Linux and Windows. Credentials remain in the system Keychain on macOS.
+- Codex documents `CODEX_HOME` as the root for its configuration, authentication, logs, sessions, and skills. Gemini CLI documents `GEMINI_CLI_HOME` as the root for its user-level configuration and storage. These product roots are not interchangeable with a path that overrides only one settings file.
 - Dash Security demonstrated an isolated Claude configuration directory with seeded workspace trust and an attacker-controlled, full-scope Claude.ai login as part of a Remote Control C2 proof of concept. The proof of concept required valid account material and did not bypass the full-scope requirement.
 
 Hunt ideas:
@@ -267,7 +274,7 @@ Hunt ideas:
 - Alternate config directory was recently created by untrusted parent.
 - Shadow profile contains seeded trust state, unexpected authentication material, plugins, hooks, or provider settings.
 
-Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code settings](https://code.claude.com/docs/en/settings), [Dash Security Claude Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server)
+Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code settings](https://code.claude.com/docs/en/settings), [Dash Security Claude Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [Codex environment variables](https://developers.openai.com/codex/environment-variables/), [Gemini CLI configuration reference](https://geminicli.com/docs/reference/configuration/)
 
 ---
 
@@ -292,7 +299,7 @@ Examples:
 
 - Claude Code fetches `--plugin-url` archives at startup and loads them for that session only.
 - Marketplace registration, plugin installation, enablement, and update are separate state changes. Adding a marketplace alone does not establish that a plugin was installed or loaded.
-- Managed policy can constrain plugin and marketplace sources; applicable policy and product version are activation conditions.
+- Managed policy can constrain plugin and marketplace sources. Claude Code 2.1.193 and later documents managed-only `disableSideloadFlags`, which rejects `--plugin-dir`, `--plugin-url`, `--agents`, and `--mcp-config`; applicable policy and product version are activation conditions.
 
 Hunt ideas:
 
@@ -300,7 +307,7 @@ Hunt ideas:
 - New plugin marketplace appears in config, followed by installation or enablement of a plugin from that source.
 - Plugin reload is followed by first-seen hook, MCP, command, monitor, or binary execution.
 
-Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude Code plugins reference](https://code.claude.com/docs/en/plugins-reference), [Claude Code plugin discovery and security](https://code.claude.com/docs/en/discover-plugins)
+Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude Code plugins reference](https://code.claude.com/docs/en/plugins-reference), [Claude Code plugin discovery and security](https://code.claude.com/docs/en/discover-plugins), [Claude Code settings](https://code.claude.com/docs/en/settings)
 
 ---
 
@@ -392,6 +399,8 @@ Examples:
 
 - Claude Code telemetry export is opt-in. Prompt text, assistant responses, tool details/content, and raw API bodies are redacted or disabled by default and require separate content-bearing settings.
 - Claude Code's `otelHeadersHelper` is an executable command that runs at startup and periodically for HTTP-based exporters.
+- Gemini CLI telemetry is disabled by default. When telemetry is enabled, its documented prompt-logging setting defaults to true and an OTLP endpoint can redirect export; defenders must therefore evaluate the effective combination, not a single flag in isolation.
+- Codex exposes configurable OpenTelemetry exporters and opt-in `otel.log_user_prompt`, but project-scoped `.codex/config.toml` cannot override telemetry settings. This narrows repository-only abuse and makes configuration provenance important.
 - Bloom Security demonstrated repository-controlled OTel redirection, sensitive-content settings, and header-helper execution. Treat the reported trust behavior as version-specific and reproduce it against the affected version before applying it to current releases.
 
 Hunt ideas:
@@ -401,7 +410,7 @@ Hunt ideas:
 - `otelHeadersHelper` changes or points to an unapproved executable or shell command.
 - Telemetry change is scoped only to agent process launch.
 
-Sources: [Claude Code monitoring docs](https://code.claude.com/docs/en/monitoring-usage), [Claude Code settings](https://code.claude.com/docs/en/settings), [Bloom Security OTel research](https://bloom.security/blog/welcome-to-otel-claudeifornia)
+Sources: [Claude Code monitoring docs](https://code.claude.com/docs/en/monitoring-usage), [Claude Code settings](https://code.claude.com/docs/en/settings), [Bloom Security OTel research](https://bloom.security/blog/welcome-to-otel-claudeifornia), [Codex configuration reference](https://developers.openai.com/codex/config-reference/), [Gemini CLI OpenTelemetry docs](https://geminicli.com/docs/cli/telemetry/)
 
 ---
 
@@ -461,7 +470,7 @@ Examples:
 
 - Miasma targeted Claude, Gemini, Cursor, and VS Code-style surfaces.
 - The analyzed Hades payload contained workspace-traversal and multi-product planting logic; public reporting establishes the code path, not victim-side traversal or writes.
-- Compromised Immobiliare Labs Backstage packages attempted persistence across multiple AI assistant configuration ecosystems.
+- Compromised Immobiliare Labs Backstage packages contained persistence routines targeting multiple AI assistant configuration ecosystems.
 - This technique's `observed` maturity means that real malicious operations planted or committed cross-agent artifacts. It does not mean that every targeted agent loaded them.
 
 Hunt ideas:
@@ -547,7 +556,7 @@ Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-fo
 - **Surface:** State & Telemetry
 - **Tactics:** Defense Evasion
 - **Maturity:** observed
-- **Evidence sources:** incident-report
+- **Evidence sources:** official-documentation, incident-report
 - **Seen in:** OALABS compromised Claude/Codex investigation
 - **Related:** EAA-005, EAA-012
 
@@ -563,12 +572,14 @@ attacker or attacker-directed agent
 Examples:
 
 - In the OALABS investigation, the operator asked Claude to locate the active Claude Code transcript, remove all content after a selected point, and replace the live JSONL file with the truncated copy. The recovered sequence showed both the request and the subsequent file operations.
+- Claude Code 2.1.124 and later documents `claude project purge`, which can delete project transcripts, memory, tasks, debug logs, file history, prompt history, and metadata. This is a legitimate privacy operation and a forensic coverage condition; its existence does not imply malicious use. The OALABS incident remains the observed anchor for this technique.
 
 Hunt ideas:
 
 - An agent process or descendant reads and then rewrites, truncates, renames over, or deletes a transcript associated with the current or recent session.
 - Transcript size, hashes, event ordering, or sequence identifiers regress or contain gaps while independent process, file, network, or service audit evidence continues.
 - A session-history file is replaced from a temporary or working path shortly after sensitive activity.
+- Native project-purge invocation or retention changes occur immediately before or after sensitive activity; distinguish authorized privacy deletion from concealment by requiring an independent contradiction.
 - Treat a missing record as an evidence-gap signal, not proof of tampering: normal retention, compaction, non-persistent modes, crashes, and delayed flushing can produce gaps too.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory)

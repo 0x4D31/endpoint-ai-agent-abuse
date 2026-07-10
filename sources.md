@@ -27,7 +27,17 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Claude Code plugin discovery and security — https://code.claude.com/docs/en/discover-plugins
 - Claude Code MCP — https://code.claude.com/docs/en/mcp
 - Claude Code monitoring and OpenTelemetry — https://code.claude.com/docs/en/monitoring-usage
+- Claude Code sessions and transcript persistence — https://code.claude.com/docs/en/sessions
+- Claude Code directory and application data — https://code.claude.com/docs/en/claude-directory
 - Claude Code bypass-permissions workspace-trust advisory, CVE-2026-33068 — https://github.com/anthropics/claude-code/security/advisories/GHSA-mmgp-wc2j-qcv7
+- OpenAI Codex advanced configuration — https://developers.openai.com/codex/config-advanced/
+- OpenAI Codex environment variables — https://developers.openai.com/codex/environment-variables/
+- OpenAI Codex configuration reference — https://developers.openai.com/codex/config-reference/
+- OpenAI Codex hooks — https://developers.openai.com/codex/hooks
+- Gemini CLI hooks — https://geminicli.com/docs/hooks/
+- Gemini CLI MCP servers — https://geminicli.com/docs/tools/mcp-server/
+- Gemini CLI configuration reference — https://geminicli.com/docs/reference/configuration/
+- Gemini CLI OpenTelemetry — https://geminicli.com/docs/cli/telemetry/
 
 ## Controlled research
 

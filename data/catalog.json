@@ -242,6 +242,76 @@
       "url": "https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/",
       "types": ["reproducible-research"],
       "published": "2026-05-26"
+    },
+    {
+      "id": "SRC-030",
+      "title": "Claude Code sessions documentation",
+      "url": "https://code.claude.com/docs/en/sessions",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-031",
+      "title": "Claude Code directory and application-data documentation",
+      "url": "https://code.claude.com/docs/en/claude-directory",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-032",
+      "title": "OpenAI Codex advanced configuration documentation",
+      "url": "https://developers.openai.com/codex/config-advanced/",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-033",
+      "title": "OpenAI Codex environment variables documentation",
+      "url": "https://developers.openai.com/codex/environment-variables/",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-034",
+      "title": "OpenAI Codex configuration reference",
+      "url": "https://developers.openai.com/codex/config-reference/",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-035",
+      "title": "Gemini CLI hooks documentation",
+      "url": "https://geminicli.com/docs/hooks/",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-036",
+      "title": "Gemini CLI MCP server documentation",
+      "url": "https://geminicli.com/docs/tools/mcp-server/",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-037",
+      "title": "Gemini CLI configuration reference",
+      "url": "https://geminicli.com/docs/reference/configuration/",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-038",
+      "title": "Gemini CLI OpenTelemetry documentation",
+      "url": "https://geminicli.com/docs/cli/telemetry/",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-039",
+      "title": "OpenAI Codex hooks documentation",
+      "url": "https://developers.openai.com/codex/hooks",
+      "types": ["official-documentation"],
+      "verified_on": "2026-07-09"
     }
   ],
   "techniques": [
@@ -307,7 +377,9 @@
         {"source_id": "SRC-022", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-024", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-023", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-012", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-012", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-035", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-039", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
@@ -359,7 +431,10 @@
         {"source_id": "SRC-010", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-014", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-013", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-013", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-030", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-031", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-032", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
@@ -384,7 +459,8 @@
         {"source_id": "SRC-024", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-029", "support": "procedure-planted", "confidence": "high"},
         {"source_id": "SRC-029", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-029", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-029", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-036", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-009"},
@@ -408,7 +484,9 @@
         {"source_id": "SRC-014", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-023", "support": "mechanism-demonstrated", "confidence": "high"},
-        {"source_id": "SRC-023", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-023", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-034", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-037", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-008"},
@@ -429,7 +507,9 @@
         {"source_id": "SRC-014", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-025", "support": "mechanism-demonstrated", "confidence": "high"},
-        {"source_id": "SRC-025", "support": "execution-confirmed", "confidence": "high"}
+        {"source_id": "SRC-025", "support": "execution-confirmed", "confidence": "high"},
+        {"source_id": "SRC-033", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-037", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -450,7 +530,8 @@
       "evidence": [
         {"source_id": "SRC-017", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-018", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-019", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-019", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -511,7 +592,9 @@
         {"source_id": "SRC-020", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-028", "support": "mechanism-demonstrated", "confidence": "medium"},
-        {"source_id": "SRC-028", "support": "impact-confirmed", "confidence": "medium"}
+        {"source_id": "SRC-028", "support": "impact-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-034", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-038", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-005"},
@@ -616,7 +699,8 @@
       "maturity": "observed",
       "evidence": [
         {"source_id": "SRC-010", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-031", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-005"},
@@ -641,7 +725,7 @@
           "step": 1,
           "technique_id": "EAA-016",
           "outcome": "present",
-          "confidence": "high",
+          "confidence": "medium",
           "claim": "The post-install artifact checked whether Claude Code, Gemini CLI, and Amazon Q were available before selecting an agent path.",
           "source_refs": ["SRC-002"],
           "activation_conditions": ["The affected package's post-install artifact was analyzed or executed."]
@@ -659,7 +743,7 @@
           "step": 3,
           "technique_id": "EAA-002",
           "outcome": "attempted",
-          "confidence": "high",
+          "confidence": "medium",
           "claim": "The invocations supplied each product's permissive or non-interactive options.",
           "source_refs": ["SRC-002"],
           "activation_conditions": ["A targeted agent binary was available and accepted the supplied product-specific flags."]
@@ -699,7 +783,7 @@
           "step": 3,
           "technique_id": "EAA-001",
           "outcome": "attempted",
-          "confidence": "high",
+          "confidence": "medium",
           "claim": "Workspace activation code spawned detached commands for Claude Code, Codex, Gemini CLI, Copilot CLI, and Kiro CLI.",
           "source_refs": ["SRC-004"],
           "activation_conditions": ["An affected extension version was installed and a workspace was opened.", "At least one targeted CLI was present."]
@@ -708,8 +792,8 @@
           "step": 4,
           "technique_id": "EAA-002",
           "outcome": "attempted",
-          "confidence": "high",
-          "claim": "Each command used permissive or non-interactive options and suppressed process I/O and errors.",
+          "confidence": "medium",
+          "claim": "The command strings requested permissive or non-interactive modes and the launcher suppressed process I/O and errors; successful option parsing was not established.",
           "source_refs": ["SRC-004"],
           "activation_conditions": ["A targeted CLI accepted the supplied product-specific options."]
         },
@@ -717,7 +801,7 @@
           "step": 5,
           "technique_id": "EAA-015",
           "outcome": "attempted",
-          "confidence": "high",
+          "confidence": "medium",
           "claim": "The 1.8.13 prompt asked an agent to use a locally authenticated GitHub CLI session to create a repository and upload its report.",
           "source_refs": ["SRC-004"],
           "activation_conditions": ["The affected version was 1.8.13.", "A targeted agent ran the prompt.", "The GitHub CLI had an authenticated session."]

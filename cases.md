@@ -20,9 +20,9 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
-| 1 | EAA-016 | present | high | The post-install artifact checked whether Claude Code, Gemini CLI, and Amazon Q were available before selecting an agent path. | S2 |
+| 1 | EAA-016 | present | medium | The post-install artifact checked whether Claude Code, Gemini CLI, and Amazon Q were available before selecting an agent path. | S2 |
 | 2 | EAA-001 | attempted | high | The payload invoked available agents with a filesystem-inventory prompt; public reporting does not establish which agent invocations completed on each affected host. | S1, S2 |
-| 3 | EAA-002 | attempted | high | The invocations supplied each product's permissive or non-interactive options. | S2 |
+| 3 | EAA-002 | attempted | medium | The invocations supplied each product's permissive or non-interactive options. | S2 |
 
 **Activation notes:** An affected Nx package had to be installed and an expected agent binary had to be available on the host and accept the supplied flags. The broader payload's collection and GitHub upload path did not depend solely on an agent succeeding. Snyk's analyzed payload exited on Windows.
 
@@ -41,9 +41,9 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-001 | present | high | OpenVSX version 1.8.12 contained code designed to leverage local agents for collection and exfiltration. | S1 |
 | 2 | EAA-016 | present | high | OpenVSX versions 1.8.12 and 1.8.13 contained prompts for enumerating installed tools, MCP servers, and authenticated sessions. | S2 |
-| 3 | EAA-001 | attempted | high | Workspace activation code spawned detached commands for Claude Code, Codex, Gemini CLI, Copilot CLI, and Kiro CLI. | S2 |
-| 4 | EAA-002 | attempted | high | Each command used permissive or non-interactive options and suppressed process I/O and errors. | S2 |
-| 5 | EAA-015 | attempted | high | The 1.8.13 prompt asked an agent to use a locally authenticated GitHub CLI session to create a repository and upload its report. | S2 |
+| 3 | EAA-001 | attempted | medium | Workspace activation code spawned detached commands for Claude Code, Codex, Gemini CLI, Copilot CLI, and Kiro CLI. | S2 |
+| 4 | EAA-002 | attempted | medium | The command strings requested permissive or non-interactive modes and the launcher suppressed process I/O and errors; successful option parsing was not established. | S2 |
+| 5 | EAA-015 | attempted | medium | The 1.8.13 prompt asked an agent to use a locally authenticated GitHub CLI session to create a repository and upload its report. | S2 |
 
 **Activation notes:** An affected OpenVSX extension version had to be installed and a workspace opened. At least one targeted CLI had to be present and accept the supplied flags. The GitHub path additionally required an authenticated `gh` session. The sources found no confirmed successful exfiltration.
 

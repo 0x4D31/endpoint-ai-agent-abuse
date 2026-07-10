@@ -70,7 +70,7 @@ Do not infer a later outcome from an earlier one. In particular:
 | `medium` | The source supports the claim, but an important artifact, product detail, or outcome is unavailable. |
 | `low` | A source asserts the behavior, but the public material is insufficient to validate it independently. |
 
-Confidence applies to a specific evidence-to-claim assertion or case step, not to an entire technique or campaign by default. In structured data, each evidence assertion records confidence in its support claim. Case steps record confidence separately because a source can strongly establish artifact presence while leaving activation or impact uncertain.
+Confidence applies to a specific evidence-to-claim assertion or case step, not to an entire technique or campaign by default. In structured data, each evidence assertion records confidence in its support claim. Case steps record confidence separately because a source can strongly establish artifact presence while leaving activation or impact uncertain. A case step's confidence must not exceed the strongest matching source/support assertion cited by that step.
 
 ## Inclusion and promotion rules
 

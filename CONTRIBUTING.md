@@ -53,7 +53,7 @@ Each procedure row must cite one or more direct links or stable source labels re
 
 For every source cited by a procedure row, add the exact matching technique-evidence assertion in `data/catalog.json`: `present` → `artifact-present`, `planted` → `procedure-planted`, `attempted` → `execution-attempted`, `executed` → `execution-confirmed`, and `impact-confirmed` → `impact-confirmed`. Merely listing the source elsewhere in the technique is not enough.
 
-Confidence is claim-scoped. Assign it to each evidence item in `data/catalog.json` and to each case step; do not assign one confidence value to an entire technique, report, or campaign. A source can support artifact presence at high confidence while supporting activation only at medium or low confidence.
+Confidence is claim-scoped. Assign it to each evidence item in `data/catalog.json` and to each case step; do not assign one confidence value to an entire technique, report, or campaign. A source can support artifact presence at high confidence while supporting activation only at medium or low confidence. A case step cannot claim greater confidence than the strongest exact source/support assertion it cites.
 
 ## Source quality
 
