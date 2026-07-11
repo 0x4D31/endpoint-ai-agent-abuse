@@ -63,7 +63,7 @@ It validates the structured catalog and cross-checks IDs, metadata, relationship
 
 ## Versioning
 
-Current catalog version: **0.2.0**.
+Current catalog version: **0.2.1**.
 
 Bump minor versions for taxonomy, surface, evidence, or naming changes. Patch versions are enough for wording fixes, source updates, and new examples that do not change the model.
 

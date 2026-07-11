@@ -50,13 +50,13 @@ Track project, user, and managed scopes separately. Include hooks, instruction/m
 
 **Techniques:** EAA-005
 
-**Required telemetry:** product/version-specific state paths, file-read telemetry where available, process identity, read volume and breadth, archive/encoding process activity, and outbound upload or remote-storage events.
+**Required telemetry:** product/version-specific transcript, state, configuration, and MCP paths; file-read telemetry where available; process identity; read volume and breadth; archive/encoding process activity; and outbound upload or remote-storage events.
 
 ```text
-bulk or cross-project state read -> archive/filter -> network or remote-storage write
+bulk or cross-product agent-state read -> archive/filter -> network or remote-storage write
 ```
 
-Include reads by the agent itself: an operator can ask an agent to find and process its own histories, so a `claude`, `codex`, or similar reader should not be automatically allowlisted.
+Include reads by the agent itself: an operator can ask an agent to find and process its own histories, so a `claude`, `codex`, or similar reader should not be automatically allowlisted. Also consider a non-agent process that probes several vendors' MCP or agent-configuration paths in one run, particularly when the reads are followed by filtering or egress.
 
 **Limitations:** file-read telemetry is expensive and often unavailable. Backup, indexing, migration, support, and forensic tools legitimately read state in bulk. Some credentials are stored in OS credential stores rather than the agent directory.
 
@@ -120,10 +120,10 @@ Prioritize destructive, administrative, bulk-read, token-management, and public-
 
 **Techniques:** EAA-016
 
-**Required telemetry:** process execution, directory and file enumeration where available, command line, product path inventory, and later agent launch, control-plane write, or state-read events.
+**Required telemetry:** process execution, directory and file enumeration where available, command line, product path inventory, and later agent launch, control-plane write, state-read, archive, or egress events.
 
 ```text
-multi-product enumeration -> agent launch / control-plane write / state collection
+multi-product enumeration -> agent launch / control-plane write / state collection or egress
 ```
 
 Look for one process probing many agent binaries, config roots, MCP files, skills, hooks, rules, trust stores, or transcript paths in a short window.
