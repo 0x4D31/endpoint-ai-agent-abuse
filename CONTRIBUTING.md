@@ -71,6 +71,18 @@ Classify the source that the URL actually resolves to, independently of the clai
 
 For mutable documentation, record when it was verified. For malicious artifacts, include versions, hashes, or immutable commits when the public source provides them. Before each release, re-check mutable documentation, CVE/advisory affected ranges, and date-stamped negative claims; refresh `verified_on` annotations where applicable.
 
+
+## Catalog versioning
+
+Version the published catalog once per release, not once per commit:
+
+- **Patch:** new cases or procedures within the existing model, plus source, hunting, wording, or accuracy updates.
+- **Minor:** taxonomy, surface, evidence semantics, maturity, naming, or backward-compatible schema changes.
+- **Major:** incompatible schema or field-semantics changes, or other consumer-breaking changes.
+- **No bump:** tests, CI, or contributor-documentation changes that do not alter published catalog content.
+
+Keep `VERSION`, `README.md`, `data/catalog.json`, and `CHANGELOG.md` aligned, tag merged releases as `vX.Y.Z`, and never reuse or renumber stable IDs; deprecate them instead.
+
 ## Validation
 
 Run:

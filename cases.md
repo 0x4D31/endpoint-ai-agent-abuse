@@ -301,3 +301,21 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 **Sources:**
 
 - `S1` — [Anthropic advisory GHSA-mmgp-wc2j-qcv7](https://github.com/anthropics/claude-code/security/advisories/GHSA-mmgp-wc2j-qcv7)
+
+## EAA-C-017 — Jscrambler npm compromise
+
+**Type:** incident
+
+**Date:** 2026-07-11
+
+| Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
+|---|---|---|---|---|---|---|
+| 1 | EAA-016 | present | high | Static analysis of the embedded native payload identified product-specific paths and selectors for Claude-related configuration, Cursor, Windsurf, Factory, Zed, VS Code, opencode, and MCP configuration. | S1 | S2 |
+| 2 | EAA-005 | present | high | The credential-stealer artifact contained selectors for collecting agent and MCP configuration that can hold API keys or server credentials; the same payload separately implemented outbound upload. | S1 | S2 |
+
+**Activation notes:** Socket identified 8.14.0, 8.16.0, and 8.17.0 as preinstall-triggered malicious releases and 8.18.0 and 8.20.0 as triggered on package import or CLI execution. Jscrambler's ongoing advisory currently lists 8.14, 8.16, 8.17, and 8.20, omitting 8.18; both sources identify 8.22 as safe. Jscrambler reported zero known downloads while warning that npm statistics may lag. The agent-related rows therefore establish capability present in the analyzed artifact, not victim-side discovery, collection, or exfiltration. The bundled payloads targeted Linux x86-64, Windows x86-64, and macOS arm64.
+
+**Sources:**
+
+- `S1` — [Socket analysis](https://socket.dev/blog/jscrambler-supply-chain-attack)
+- `S2` — [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package)

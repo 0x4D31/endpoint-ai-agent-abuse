@@ -3,10 +3,10 @@
   "schema_version": "1.0.0",
   "name": "Endpoint AI Agent Abuse",
   "short_name": "EAA",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "CC0-1.0",
   "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
-  "last_reviewed": "2026-07-09",
+  "last_reviewed": "2026-07-11",
   "surfaces": [
     {
       "id": "launcher",
@@ -338,6 +338,22 @@
       "types": ["primary-artifact"],
       "published": "2026-01-20",
       "verified_on": "2026-07-09"
+    },
+    {
+      "id": "SRC-043",
+      "title": "Socket Jscrambler npm compromise analysis",
+      "url": "https://socket.dev/blog/jscrambler-supply-chain-attack",
+      "types": ["secondary-analysis"],
+      "published": "2026-07-11",
+      "verified_on": "2026-07-11"
+    },
+    {
+      "id": "SRC-044",
+      "title": "Jscrambler unauthorized-publication advisory",
+      "url": "https://jscrambler.com/blog/security-advisory-malicious-npm-package",
+      "types": ["primary-artifact"],
+      "published": "2026-07-11",
+      "verified_on": "2026-07-11"
     }
   ],
   "techniques": [
@@ -449,7 +465,7 @@
     {
       "id": "EAA-005",
       "name": "Transcript and agent-state collection",
-      "summary": "An attacker reads or copies transcripts, histories, caches, session stores, or complete agent profiles.",
+      "summary": "An attacker reads or copies transcripts, histories, caches, session stores, or parts or complete copies of agent profiles.",
       "primary_surface": "state-telemetry",
       "secondary_surfaces": ["identity-authority"],
       "tactics": ["Credential Access", "Collection"],
@@ -461,14 +477,16 @@
         {"source_id": "SRC-013", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-030", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-031", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-032", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-032", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-043", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-044", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
         {"type": "related-to", "target": "EAA-012"},
         {"type": "related-to", "target": "EAA-017"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-07-11"
     },
     {
       "id": "EAA-006",
@@ -699,7 +717,7 @@
     {
       "id": "EAA-016",
       "name": "Agent environment discovery",
-      "summary": "An attacker enumerates agent binaries, configuration, tools, authority, state, or capabilities to choose a later abuse path.",
+      "summary": "An attacker enumerates agent binaries, configuration, tools, authority, state, or capabilities to locate collectable assets or choose a later abuse path.",
       "primary_surface": "runtime-environment",
       "secondary_surfaces": ["control-plane", "state-telemetry", "tools-integrations", "identity-authority"],
       "tactics": ["Discovery"],
@@ -709,14 +727,16 @@
         {"source_id": "SRC-002", "support": "execution-attempted", "confidence": "medium"},
         {"source_id": "SRC-004", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-004", "support": "execution-attempted", "confidence": "medium"},
-        {"source_id": "SRC-008", "support": "artifact-present", "confidence": "high"}
+        {"source_id": "SRC-008", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-043", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-044", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
         {"type": "related-to", "target": "EAA-006"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-07-11"
     },
     {
       "id": "EAA-017",
@@ -1376,6 +1396,48 @@
             "products": ["Claude Code"],
             "versions": ["earlier than 2.1.53"],
             "operating_systems": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-017",
+      "name": "Jscrambler npm compromise",
+      "type": "incident",
+      "contexts": ["observed-incident", "malicious-artifact"],
+      "date_start": "2026-07-11",
+      "date_basis": "activity",
+      "activation_notes": "Socket identified 8.14.0, 8.16.0, and 8.17.0 as preinstall-triggered malicious releases and 8.18.0 and 8.20.0 as triggered on package import or CLI execution. Jscrambler's ongoing advisory currently lists 8.14, 8.16, 8.17, and 8.20, omitting 8.18; both sources identify 8.22 as safe. Jscrambler reported zero known downloads while warning that npm statistics may lag. The agent-related rows therefore establish capability present in the analyzed artifact, not victim-side discovery, collection, or exfiltration. The bundled payloads targeted Linux x86-64, Windows x86-64, and macOS arm64.",
+      "source_refs": ["SRC-043", "SRC-044"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-016",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "Static analysis of the embedded native payload identified product-specific paths and selectors for Claude-related configuration, Cursor, Windsurf, Factory, Zed, VS Code, opencode, and MCP configuration.",
+          "source_refs": ["SRC-043"],
+          "activation_conditions": [],
+          "scope": {
+            "products": ["jscrambler npm package"],
+            "versions": ["8.14, 8.16, 8.17, 8.20 (vendor-advisory list)"],
+            "operating_systems": ["Linux x86-64", "Windows x86-64", "macOS arm64"],
+            "version_source_refs": ["SRC-044"]
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-005",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The credential-stealer artifact contained selectors for collecting agent and MCP configuration that can hold API keys or server credentials; the same payload separately implemented outbound upload.",
+          "source_refs": ["SRC-043"],
+          "activation_conditions": [],
+          "scope": {
+            "products": ["jscrambler npm package"],
+            "versions": ["8.14, 8.16, 8.17, 8.20 (vendor-advisory list)"],
+            "operating_systems": ["Linux x86-64", "Windows x86-64", "macOS arm64"],
+            "version_source_refs": ["SRC-044"]
           }
         }
       ]

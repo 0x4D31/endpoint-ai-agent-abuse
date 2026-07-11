@@ -14,6 +14,8 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - StepSecurity Hades campaign — https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages
 - StepSecurity Immobiliare Labs compromise — https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised
 - OALABS copied-agent and transcript-tampering investigation — https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html
+- Socket Jscrambler npm compromise analysis — https://socket.dev/blog/jscrambler-supply-chain-attack
+- Jscrambler unauthorized-publication advisory — https://jscrambler.com/blog/security-advisory-malicious-npm-package
 
 ## Vendor documentation and advisories
 

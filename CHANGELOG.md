@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.1
+
+Jscrambler supply-chain incident update.
+
+- Added the Jscrambler npm compromise as a procedure-level case for agent-environment discovery and agent-state collection.
+- Clarified that discovery can locate agent assets for immediate collection, not only select a later abuse path.
+- Extended collection and reconnaissance hunts to cover cross-product reads of agent and MCP configuration.
+- Recorded the still-unresolved affected-version discrepancy between Socket's analysis and Jscrambler's ongoing advisory.
+
 ## 0.2.0
 
 Evidence and reproducibility hardening.

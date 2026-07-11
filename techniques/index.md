@@ -151,12 +151,12 @@ Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Cis
 - **Surface:** State & Telemetry
 - **Tactics:** Credential Access, Collection
 - **Maturity:** observed
-- **Evidence sources:** official-documentation, incident-report
-- **Highlights:** OALABS compromised Claude/Codex investigation
-- **Case mappings:** EAA-C-008
+- **Evidence sources:** official-documentation, primary-artifact, incident-report, secondary-analysis
+- **Highlights:** OALABS compromised Claude/Codex investigation; Jscrambler npm compromise
+- **Case mappings:** EAA-C-008, EAA-C-017
 - **Related:** EAA-004, EAA-012, EAA-017
 
-An attacker reads or copies local transcripts, tool histories, plans, logs, caches, session stores, or complete agent profiles to recover credentials, tokens, secrets, internal context, repository details, identity material, or operational history. Credential Access applies only when authentication material is actually among the collected state.
+An attacker reads or copies local transcripts, tool histories, plans, logs, caches, session stores, or parts or complete copies of agent profiles to recover credentials, tokens, secrets, internal context, repository details, identity material, or operational history. Credential Access applies only when authentication material is actually among the collected state.
 
 ```text
 attacker or attacker-directed agent
@@ -168,6 +168,7 @@ attacker or attacker-directed agent
 Examples:
 
 - In the OALABS investigation, a compromised Claude installation and its session history were copied to attacker-controlled systems and reused. The researchers also found other archived copies of stolen Claude instances.
+- Socket's static analysis of the malicious Jscrambler npm releases found product-specific paths and selectors for Claude-related configuration, Cursor, Windsurf, Factory, Zed, VS Code, opencode, and MCP configuration that can contain API keys or server credentials. The report establishes collection capability in the artifact, not victim-side collection or exfiltration of agent state.
 - Claude Code documentation confirms that an alternate configuration directory contains session history and, on Linux and Windows, credentials; macOS credentials remain in the system Keychain.
 - Claude Code stores project transcripts as JSONL under `~/.claude/projects/<project>/`, with retention and non-persistence controls that affect artifact availability. This documents the local surface, not malicious collection.
 - Codex stores local history under `CODEX_HOME` (for example, `~/.codex/history.jsonl`) when history persistence is enabled; `history.persistence = "none"` disables future local-history persistence and `history.max_bytes` can remove older entries. These are legitimate privacy and retention controls as well as forensic coverage conditions.
@@ -175,10 +176,11 @@ Examples:
 Hunt ideas:
 
 - Any unexpected process, including the agent itself or one of its descendants, recursively reads transcript/history/cache directories.
+- A non-agent process reads agent or MCP configuration across several product families before filtering, archiving, or egress.
 - Bulk state reads followed by zip/tar/base64/curl/gh/cloud upload.
 - Agent configuration and session state are copied together or appear on a new host.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/)
 
 ---
 
@@ -536,12 +538,12 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Surface:** Runtime & Environment
 - **Tactics:** Discovery
 - **Maturity:** demonstrated
-- **Evidence sources:** incident-report, secondary-analysis
-- **Highlights:** Nx s1ngularity, Trivy OpenVSX extension, Hades
-- **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006
+- **Evidence sources:** primary-artifact, incident-report, secondary-analysis
+- **Highlights:** Nx s1ngularity, Trivy OpenVSX extension, Hades, Jscrambler npm compromise
+- **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006, EAA-C-017
 - **Related:** EAA-001, EAA-006, EAA-015
 
-An attacker enumerates installed agent binaries or agent-related configuration, tools, authority, state, or capabilities to choose a later abuse path. Procedures should distinguish binary discovery from configuration, capability, authority, and state discovery.
+An attacker enumerates installed agent binaries or agent-related configuration, tools, authority, state, or capabilities to locate collectable agent assets or choose a later abuse path. Procedures should distinguish binary discovery from configuration, capability, authority, and state discovery.
 
 ```text
 malware/package/extension
@@ -555,6 +557,7 @@ Examples:
 - Nx malware contained and ran post-install logic that checked for local AI-agent CLIs before deciding which invocation paths to attempt. Public reporting does not provide victim runtime evidence showing which specific agent binaries were found.
 - Trivy extension code attempted multiple local agent families and supplied prompts that asked about available tools or access.
 - The analyzed Hades payload contained directory-tree traversal logic for locating rule files or configuration directories belonging to many agent ecosystems; public reporting does not confirm that traversal on a victim endpoint.
+- The native stealer embedded in malicious Jscrambler npm releases contained product-specific paths and selectors for configuration belonging to several AI developer tools. Static analysis establishes the discovery logic in the artifact, but neither source confirms victim-side enumeration or collection.
 - These inspectable discovery paths establish `demonstrated`. They do not meet the catalog's `observed` threshold because the public cases do not confirm a specific agent binary, configuration, or capability was found on a victim endpoint.
 
 Hunt ideas:
@@ -563,7 +566,7 @@ Hunt ideas:
 - Process checks for multiple agent binaries in quick succession.
 - Recon is followed by agent launch, config write, or state collection.
 
-Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages)
+Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package)
 
 ---
 
