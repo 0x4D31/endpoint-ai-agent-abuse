@@ -26,6 +26,8 @@ Include:
 
 Do not generalize behavior from one product to all local agents. If support has only been verified for one product or version, say so.
 
+Use technique relationships only for a stable relationship between the attacker actions themselves. Product- or case-specific order belongs in the ordered case procedures and activation notes; do not encode one implementation's sequence as a universal `requires`, `enables`, or `precedes` relationship.
+
 `Highlights` is an optional editorial summary. `Case mappings` is the canonical Markdown projection: list every structured case that maps the technique, once, in catalog order; use `none` when there is no mapped case. The validator derives this list from case procedures and rejects missing, extra, duplicate, or reordered mappings.
 
 ## Case changes
@@ -56,6 +58,15 @@ Each procedure row must cite one or more direct links or stable source labels re
 For every source cited by a procedure row, add the exact matching technique-evidence assertion in `data/catalog.json`: `present` → `artifact-present`, `planted` → `procedure-planted`, `attempted` → `execution-attempted`, `executed` → `execution-confirmed`, and `impact-confirmed` → `impact-confirmed`. Merely listing the source elsewhere in the technique is not enough.
 
 When an affected or fixed version range comes from a different source than the procedure outcome, record it in `scope.version_source_refs` and project it through a `Version sources` table column. Version sources must carry `version-range-documented` evidence for the technique and must not be presented as execution or impact evidence.
+
+Add structured `scope` whenever a source establishes any material applicability limit:
+
+- `products` names the affected agent or agent runtime, not the package, repository, or extension carrying the procedure;
+- `versions` records only source-supported affected, fixed, or tested ranges;
+- `operating_systems` records only source-supported operating systems; and
+- an empty array means the source does not establish that dimension, not that the procedure applies universally.
+
+Do not place values such as `unknown`, `all`, or `not publicly specified` in scope arrays. State important unknowns in the claim or activation notes instead. Record carrier package versions and artifact hashes in the claim or source description when they materially identify the evidence.
 
 Confidence is claim-scoped. Assign it to each evidence item in `data/catalog.json` and to each case step; do not assign one confidence value to an entire technique, report, or campaign. A source can support artifact presence at high confidence while supporting activation only at medium or low confidence. A case step cannot claim greater confidence than the strongest exact source/support assertion it cites.
 
