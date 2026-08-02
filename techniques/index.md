@@ -191,7 +191,7 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research
 - **Highlights:** historical Claude Code MCP approval-bypass research; Mitiga MCP endpoint-rewrite research
-- **Case mappings:** EAA-C-011, EAA-C-014, EAA-C-015
+- **Case mappings:** EAA-C-011, EAA-C-014, EAA-C-015, EAA-C-018
 - **Related:** EAA-009, EAA-010, EAA-011, EAA-014, EAA-015, EAA-016
 
 An attacker adds or modifies local MCP or tool configuration so the agent connects to an attacker-selected server or gains a new filesystem, shell, browser, SaaS, or network capability. Project-scoped MCP definitions normally require product-specific trust or server approval; configuration presence alone is not proof of activation.
@@ -216,7 +216,7 @@ Hunt ideas:
 - Stdio MCP command uses shell, package manager, network fetch, or unpinned package execution.
 - Capability appears shortly before sensitive file, browser, GitHub, Slack, or cloud activity.
 
-Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g)
+Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability)
 
 ---
 
@@ -504,9 +504,9 @@ Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits
 - **Surface:** Identity & Authority
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** observed
-- **Evidence sources:** reproducible-research, incident-report, secondary-analysis
-- **Highlights:** OALABS compromised Claude/Codex investigation; Trivy attempted path; Mitiga and Dash research
-- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012
+- **Evidence sources:** primary-artifact, reproducible-research, incident-report, secondary-analysis
+- **Highlights:** OALABS compromised Claude/Codex investigation; Trivy attempted path; Mitiga, Dash, and Wiz research
+- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018
 - **Related:** EAA-001, EAA-002, EAA-006, EAA-016
 
 An attacker uses the agent's existing access to local shell, filesystem, authenticated CLIs, browser or session state, MCP servers, or SaaS/cloud tools. These authority sources have different audit and revocation semantics and should be identified separately at procedure level.
@@ -521,6 +521,7 @@ Examples:
 
 - The Trivy extension attempted to use local agents and authenticated GitHub tooling as part of its collection/exfiltration path.
 - OALABS recovered sessions showing an attacker using local Claude and Codex agents with their available shell, filesystem, and network access to conduct real intrusions and data exfiltration.
+- Wiz demonstrated an Amazon Q MCP command inheriting a developer environment and successfully using its active AWS session in controlled testing.
 
 Hunt ideas:
 
@@ -529,7 +530,7 @@ Hunt ideas:
 - SaaS/cloud audit event correlates to an unusual local agent session.
 - Distinguish an agent using delegated authority from direct credential theft; the same downstream service event may otherwise appear to be an ordinary human action.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability)
 
 ---
 

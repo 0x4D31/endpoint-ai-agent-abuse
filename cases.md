@@ -319,3 +319,21 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 - `S1` — [Socket analysis](https://socket.dev/blog/jscrambler-supply-chain-attack)
 - `S2` — [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package)
+
+## EAA-C-018 — Amazon Q MCP auto-execution vulnerability
+
+**Type:** vendor advisory
+
+**Date:** published 2026-06-23
+
+| Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
+|---|---|---|---|---|---|---|
+| 1 | EAA-006 | executed | high | Wiz demonstrated an affected Amazon Q Developer extension loading and executing a repository-controlled MCP command when Amazon Q was activated. | S2 | S1 |
+| 2 | EAA-015 | impact-confirmed | high | In controlled testing, the spawned command inherited the developer environment and successfully used the active AWS session with `aws sts get-caller-identity`. | S2 | S1 |
+
+**Activation notes:** A malicious repository had to contain `.amazonq/mcp.json`, an affected Amazon Q Developer extension had to be active, and the repository had to be opened. The AWS advisory says the user also had to trust the workspace when prompted; Wiz reports that the tested path had no MCP consent prompt or workspace-trust check. EAA preserves that disagreement rather than treating either activation description as settled. AWS identifies Language Servers for AWS 1.65.0 and `@aws/lsp-codewhisperer` 0.0.113 as patched.
+
+**Sources:**
+
+- `S1` — [AWS advisory GHSA-xhcr-j4j9-3gh7](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7)
+- `S2` — [Wiz research](https://www.wiz.io/blog/amazon-q-vulnerability)

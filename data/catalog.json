@@ -354,6 +354,21 @@
       "types": ["primary-artifact"],
       "published": "2026-07-11",
       "verified_on": "2026-07-11"
+    },
+    {
+      "id": "SRC-045",
+      "title": "AWS Language Servers arbitrary-code-execution advisory",
+      "url": "https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7",
+      "types": ["primary-artifact"],
+      "published": "2026-06-23",
+      "verified_on": "2026-08-02"
+    },
+    {
+      "id": "SRC-046",
+      "title": "Wiz Amazon Q MCP auto-execution research",
+      "url": "https://www.wiz.io/blog/amazon-q-vulnerability",
+      "types": ["reproducible-research"],
+      "published": "2026-06-26"
     }
   ],
   "techniques": [
@@ -506,7 +521,10 @@
         {"source_id": "SRC-029", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-029", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-036", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-041", "support": "version-range-documented", "confidence": "high"}
+        {"source_id": "SRC-041", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-045", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-046", "support": "mechanism-demonstrated", "confidence": "high"},
+        {"source_id": "SRC-046", "support": "execution-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-009"},
@@ -516,7 +534,7 @@
         {"type": "related-to", "target": "EAA-015"},
         {"type": "related-to", "target": "EAA-016"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-08-02"
     },
     {
       "id": "EAA-007",
@@ -704,7 +722,9 @@
         {"source_id": "SRC-024", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-025", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-010", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-045", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-046", "support": "impact-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
@@ -712,7 +732,7 @@
         {"type": "related-to", "target": "EAA-006"},
         {"type": "related-to", "target": "EAA-016"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-08-02"
     },
     {
       "id": "EAA-016",
@@ -1438,6 +1458,60 @@
             "versions": ["8.14, 8.16, 8.17, 8.20 (vendor-advisory list)"],
             "operating_systems": ["Linux x86-64", "Windows x86-64", "macOS arm64"],
             "version_source_refs": ["SRC-044"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-018",
+      "name": "Amazon Q MCP auto-execution vulnerability",
+      "type": "vendor advisory",
+      "contexts": ["controlled-research", "vendor-advisory", "patched-vulnerability"],
+      "date_start": "2026-06-23",
+      "date_basis": "published",
+      "activation_notes": "A malicious repository had to contain `.amazonq/mcp.json`, an affected Amazon Q Developer extension had to be active, and the repository had to be opened. The AWS advisory says the user also had to trust the workspace when prompted; Wiz reports that the tested path had no MCP consent prompt or workspace-trust check. EAA preserves that disagreement rather than treating either activation description as settled. AWS identifies Language Servers for AWS 1.65.0 and `@aws/lsp-codewhisperer` 0.0.113 as patched.",
+      "source_refs": ["SRC-045", "SRC-046"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-006",
+          "outcome": "executed",
+          "confidence": "high",
+          "claim": "Wiz demonstrated an affected Amazon Q Developer extension loading and executing a repository-controlled MCP command when Amazon Q was activated.",
+          "source_refs": ["SRC-046"],
+          "activation_conditions": [
+            "The user opened a repository containing a malicious `.amazonq/mcp.json` file.",
+            "Amazon Q Developer was activated in the affected environment.",
+            "Workspace trust was required according to AWS but not according to the Wiz test report."
+          ],
+          "scope": {
+            "products": ["Amazon Q Developer extension for Visual Studio Code"],
+            "versions": [
+              "Language Servers for AWS earlier than 1.65.0",
+              "@aws/lsp-codewhisperer earlier than 0.0.113"
+            ],
+            "operating_systems": [],
+            "version_source_refs": ["SRC-045"]
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-015",
+          "outcome": "impact-confirmed",
+          "confidence": "high",
+          "claim": "In controlled testing, the spawned command inherited the developer environment and successfully used the active AWS session with `aws sts get-caller-identity`.",
+          "source_refs": ["SRC-046"],
+          "activation_conditions": [
+            "The MCP command executed in an environment with an active AWS session."
+          ],
+          "scope": {
+            "products": ["Amazon Q Developer extension for Visual Studio Code"],
+            "versions": [
+              "Language Servers for AWS earlier than 1.65.0",
+              "@aws/lsp-codewhisperer earlier than 0.0.113"
+            ],
+            "operating_systems": [],
+            "version_source_refs": ["SRC-045"]
           }
         }
       ]

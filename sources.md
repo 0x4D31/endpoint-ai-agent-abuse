@@ -35,6 +35,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Claude Code startup-warning advisory — https://github.com/anthropics/claude-code/security/advisories/GHSA-ph6w-f82w-28w6
 - Claude Code pre-trust execution advisory, CVE-2025-59536 — https://github.com/advisories/GHSA-4fgq-fpq9-mr3g
 - Claude Code pre-trust data-leakage advisory, CVE-2026-21852 — https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7
+- AWS Language Servers arbitrary-code-execution advisory, CVE-2026-12957 — https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7
 - OpenAI Codex advanced configuration — https://developers.openai.com/codex/config-advanced/
 - OpenAI Codex environment variables — https://developers.openai.com/codex/environment-variables/
 - OpenAI Codex configuration reference — https://developers.openai.com/codex/config-reference/
@@ -54,3 +55,4 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Dash Security Claude Code Remote Control as C2 — https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server
 - Bloom Security Claude Code OpenTelemetry redirection — https://bloom.security/blog/welcome-to-otel-claudeifornia
 - Adversa AI SymJack agent-mediated configuration overwrite — https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/
+- Wiz Amazon Q MCP auto-execution research — https://www.wiz.io/blog/amazon-q-vulnerability
