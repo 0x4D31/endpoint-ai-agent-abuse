@@ -372,3 +372,20 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 **Sources:**
 
 - `S1` — [Anthropic advisory GHSA-ff64-7w26-62rf](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)
+
+## EAA-C-021 — ContextCrush Context7 custom-rule injection
+
+**Type:** research
+
+**Date:** published 2026-03-05
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-018 | impact-confirmed | high | Noma registered a Context7 library with poisoned Custom Rules that were returned verbatim with library documentation and induced the coding agent to follow the embedded instructions. | S1 |
+| 2 | EAA-015 | impact-confirmed | high | In the controlled sequence, the coding agent read project `.env` files and sent their contents to an attacker-controlled GitHub repository as an issue. | S1 |
+
+**Activation notes:** An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Noma reports that Context7 fixed the issue within two days before publication and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.
+
+**Sources:**
+
+- `S1` — [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/)

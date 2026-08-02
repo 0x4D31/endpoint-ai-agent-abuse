@@ -758,7 +758,8 @@
         {"source_id": "SRC-010", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-045", "support": "version-range-documented", "confidence": "high"},
-        {"source_id": "SRC-046", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-046", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
@@ -822,7 +823,8 @@
       "tactics": ["Execution"],
       "maturity": "demonstrated",
       "evidence": [
-        {"source_id": "SRC-049", "support": "mechanism-demonstrated", "confidence": "high"}
+        {"source_id": "SRC-049", "support": "mechanism-demonstrated", "confidence": "high"},
+        {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
@@ -1665,6 +1667,42 @@
             "versions": ["earlier than 2.1.2"],
             "operating_systems": []
           }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-021",
+      "name": "ContextCrush Context7 custom-rule injection",
+      "type": "research",
+      "contexts": ["controlled-research", "patched-vulnerability"],
+      "date_start": "2026-03-05",
+      "date_basis": "published",
+      "activation_notes": "An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Noma reports that Context7 fixed the issue within two days before publication and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.",
+      "source_refs": ["SRC-049"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-018",
+          "outcome": "impact-confirmed",
+          "confidence": "high",
+          "claim": "Noma registered a Context7 library with poisoned Custom Rules that were returned verbatim with library documentation and induced the coding agent to follow the embedded instructions.",
+          "source_refs": ["SRC-049"],
+          "activation_conditions": [
+            "The attacker controlled a Context7 library entry and its Custom Rules.",
+            "The developer queried the poisoned library through the affected Context7 MCP service.",
+            "The retrieved rules entered the coding agent's active context."
+          ]
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-015",
+          "outcome": "impact-confirmed",
+          "confidence": "high",
+          "claim": "In the controlled sequence, the coding agent read project `.env` files and sent their contents to an attacker-controlled GitHub repository as an issue.",
+          "source_refs": ["SRC-049"],
+          "activation_conditions": [
+            "The coding agent had access to project files and an outbound path to GitHub."
+          ]
         }
       ]
     }
