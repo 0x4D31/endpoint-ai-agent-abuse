@@ -62,7 +62,7 @@ When an affected or fixed version range comes from a different source than the p
 Add structured `scope` whenever a source establishes any material applicability limit:
 
 - `products` names the affected agent or agent runtime, not the package, repository, or extension carrying the procedure;
-- `versions` records only source-supported affected, fixed, or tested ranges;
+- `versions` records only source-supported affected, fixed, or tested ranges and names the carrier when the range belongs to a package or extension rather than the agent;
 - `operating_systems` records only source-supported operating systems; and
 - an empty array means the source does not establish that dimension, not that the procedure applies universally.
 

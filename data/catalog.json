@@ -1456,12 +1456,12 @@
           "technique_id": "EAA-016",
           "outcome": "present",
           "confidence": "high",
-          "claim": "Static analysis of the embedded native payload identified product-specific paths and selectors for Claude-related configuration, Cursor, Windsurf, Factory, Zed, VS Code, opencode, and MCP configuration.",
+          "claim": "Static analysis of the embedded native payload identified product-specific paths and selectors for Claude Desktop, Cursor, Windsurf, Factory, Zed, VS Code, opencode, and MCP configuration.",
           "source_refs": ["SRC-043"],
           "activation_conditions": [],
           "scope": {
-            "products": ["jscrambler npm package"],
-            "versions": ["8.14, 8.16, 8.17, 8.20 (vendor-advisory list)"],
+            "products": ["Claude Desktop", "Cursor", "Windsurf", "Factory", "Zed", "Visual Studio Code", "opencode"],
+            "versions": ["jscrambler package 8.14, 8.16, 8.17, and 8.20 (vendor-advisory list)"],
             "operating_systems": ["Linux x86-64", "Windows x86-64", "macOS arm64"],
             "version_source_refs": ["SRC-044"]
           }
@@ -1475,8 +1475,8 @@
           "source_refs": ["SRC-043"],
           "activation_conditions": [],
           "scope": {
-            "products": ["jscrambler npm package"],
-            "versions": ["8.14, 8.16, 8.17, 8.20 (vendor-advisory list)"],
+            "products": ["Claude Desktop", "Cursor", "Windsurf", "Factory", "Zed", "Visual Studio Code", "opencode"],
+            "versions": ["jscrambler package 8.14, 8.16, 8.17, and 8.20 (vendor-advisory list)"],
             "operating_systems": ["Linux x86-64", "Windows x86-64", "macOS arm64"],
             "version_source_refs": ["SRC-044"]
           }
