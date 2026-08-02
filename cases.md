@@ -389,3 +389,21 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 **Sources:**
 
 - `S1` — [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/)
+
+## EAA-C-022 — GitLost public-issue data disclosure
+
+**Type:** research
+
+**Date:** 2026-04-02
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-018 | impact-confirmed | high | A crafted public issue body entered an assigned GitHub Agentic Workflow and caused the agent to follow its request for same-organization repository content. | S1, S2 |
+| 2 | EAA-015 | impact-confirmed | high | The workflow used its cross-repository read access to retrieve a private repository's README and posted the contents in a public issue comment. | S1, S2 |
+
+**Activation notes:** The organization had configured a GitHub Agentic Workflow to run on `issues.assigned`, read the issue title and body, post through `add-comment`, and read other public and private repositories. An unauthenticated user then had to create the crafted public issue and the automation had to assign it. The public bot comment identifies the engine as Claude and the model as `claude-opus-4-6`. This is a controlled proof of concept, not evidence of exploitation against an unrelated organization.
+
+**Sources:**
+
+- `S1` — [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/)
+- `S2` — [Public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153)

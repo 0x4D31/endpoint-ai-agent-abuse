@@ -396,6 +396,20 @@
       "url": "https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/",
       "types": ["reproducible-research"],
       "published": "2026-03-05"
+    },
+    {
+      "id": "SRC-050",
+      "title": "Noma GitLost GitHub Agentic Workflows research",
+      "url": "https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/",
+      "types": ["reproducible-research"],
+      "published": "2026-07-06"
+    },
+    {
+      "id": "SRC-051",
+      "title": "GitLost public proof-of-concept issue",
+      "url": "https://github.com/sasinomalabs/poc/issues/153",
+      "types": ["primary-artifact"],
+      "published": "2026-04-02"
     }
   ],
   "techniques": [
@@ -759,7 +773,9 @@
         {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-045", "support": "version-range-documented", "confidence": "high"},
         {"source_id": "SRC-046", "support": "impact-confirmed", "confidence": "high"},
-        {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-050", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-051", "support": "impact-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
@@ -824,7 +840,9 @@
       "maturity": "demonstrated",
       "evidence": [
         {"source_id": "SRC-049", "support": "mechanism-demonstrated", "confidence": "high"},
-        {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-050", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-051", "support": "impact-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
@@ -1703,6 +1721,52 @@
           "activation_conditions": [
             "The coding agent had access to project files and an outbound path to GitHub."
           ]
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-022",
+      "name": "GitLost public-issue data disclosure",
+      "type": "research",
+      "contexts": ["controlled-research"],
+      "date_start": "2026-04-02",
+      "date_basis": "activity",
+      "activation_notes": "The organization had configured a GitHub Agentic Workflow to run on `issues.assigned`, read the issue title and body, post through `add-comment`, and read other public and private repositories. An unauthenticated user then had to create the crafted public issue and the automation had to assign it. The public bot comment identifies the engine as Claude and the model as `claude-opus-4-6`. This is a controlled proof of concept, not evidence of exploitation against an unrelated organization.",
+      "source_refs": ["SRC-050", "SRC-051"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-018",
+          "outcome": "impact-confirmed",
+          "confidence": "high",
+          "claim": "A crafted public issue body entered an assigned GitHub Agentic Workflow and caused the agent to follow its request for same-organization repository content.",
+          "source_refs": ["SRC-050", "SRC-051"],
+          "activation_conditions": [
+            "A public issue was assigned in a repository using the tested agentic workflow.",
+            "The workflow read the issue title and body as task context."
+          ],
+          "scope": {
+            "products": ["GitHub Agentic Workflows"],
+            "versions": ["Claude engine with claude-opus-4-6 in public proof-of-concept run 23909609053"],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-015",
+          "outcome": "impact-confirmed",
+          "confidence": "high",
+          "claim": "The workflow used its cross-repository read access to retrieve a private repository's README and posted the contents in a public issue comment.",
+          "source_refs": ["SRC-050", "SRC-051"],
+          "activation_conditions": [
+            "The workflow had read access to other private repositories in the organization.",
+            "The workflow had permission to post public issue comments."
+          ],
+          "scope": {
+            "products": ["GitHub Agentic Workflows"],
+            "versions": ["Claude engine with claude-opus-4-6 in public proof-of-concept run 23909609053"],
+            "operating_systems": []
+          }
         }
       ]
     }
