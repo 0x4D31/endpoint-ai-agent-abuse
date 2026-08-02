@@ -3,7 +3,7 @@
   "schema_version": "1.0.0",
   "name": "Endpoint AI Agent Abuse",
   "short_name": "EAA",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "CC0-1.0",
   "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
   "last_reviewed": "2026-08-02",
