@@ -42,7 +42,7 @@ Cases separately record whether a procedure was present, planted, attempted, exe
 | [EAA-006](techniques/index.md#eaa-006--mcp-or-tool-configuration-abuse) | MCP or tool configuration abuse | Tools & Integrations | Execution, Persistence | demonstrated |
 | [EAA-007](techniques/index.md#eaa-007--hostile-modelapi-gateway-routing) | Hostile model/API gateway routing | Runtime & Environment | Collection, Exfiltration | demonstrated |
 | [EAA-008](techniques/index.md#eaa-008--shadow-agent-profile-or-config-directory) | Shadow agent profile or config directory | Runtime & Environment | Execution, Defense Evasion | demonstrated |
-| [EAA-009](techniques/index.md#eaa-009--remote-plugin-sideload-or-marketplace-installation) | Remote plugin sideload or marketplace installation | Control Plane | Execution, Persistence | feasible |
+| [EAA-009](techniques/index.md#eaa-009--remote-plugin-or-skill-installation) | Remote plugin or skill installation | Control Plane | Execution, Persistence | feasible |
 | [EAA-010](techniques/index.md#eaa-010--mcp-tool-poisoning-or-definition-drift) | MCP tool poisoning or definition drift | Tools & Integrations | Execution, Collection, Exfiltration | demonstrated |
 | [EAA-011](techniques/index.md#eaa-011--environment-variable-manipulation-of-mcp-activation) | Environment-variable manipulation of MCP activation | Tools & Integrations | Execution | feasible |
 | [EAA-012](techniques/index.md#eaa-012--telemetry-redirection-or-sensitive-logging) | Telemetry redirection or sensitive logging | State & Telemetry | Execution, Collection, Exfiltration | demonstrated |

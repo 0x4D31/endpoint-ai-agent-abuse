@@ -288,7 +288,7 @@ Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env
 
 ---
 
-## EAA-009 — Remote plugin sideload or marketplace installation
+## EAA-009 — Remote plugin or skill installation
 
 - **Surface:** Control Plane
 - **Tactics:** Execution, Persistence
@@ -298,11 +298,11 @@ Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env
 - **Case mappings:** none
 - **Related:** EAA-003, EAA-006, EAA-008, EAA-013
 
-An attacker causes the agent to sideload a remote plugin archive or install or update a plugin from an attacker-controlled marketplace. Plugins can bring hooks, commands, skills, MCP servers, binaries, monitors, or other executable behavior.
+An attacker causes an agent environment to acquire and load a plugin or skill package from an attacker-controlled remote source or marketplace. Packages can bring hooks, commands, skills, MCP servers, binaries, monitors, or other executable behavior.
 
 ```text
-remote archive passed at startup or marketplace plugin installed
-  -> plugin is loaded for one or later sessions
+remote package passed at startup or installed from a marketplace
+  -> plugin or skill is loaded for one or later sessions
   -> new command/hook/MCP/skill becomes available
 ```
 
@@ -310,15 +310,17 @@ Examples:
 
 - Claude Code fetches `--plugin-url` archives at startup and loads them for that session only.
 - Marketplace registration, plugin installation, enablement, and update are separate state changes. Adding a marketplace alone does not establish that a plugin was installed or loaded.
+- A plugin can distribute skills, and a skill may also be installed directly where a product supports it. EAA-009 covers the acquisition or installation action; attacker modification of an already enabled cloud-hosted skill that later syncs is EAA-013.
 - Managed policy can constrain plugin and marketplace sources. Claude Code 2.1.193 and later documents managed-only `disableSideloadFlags`, which rejects `--plugin-dir`, `--plugin-url`, `--agents`, and `--mcp-config`; applicable policy and product version are activation conditions.
 
 Hunt ideas:
 
 - Agent starts with remote plugin URL or unapproved plugin directory.
 - New plugin marketplace appears in config, followed by installation or enablement of a plugin from that source.
+- New skill content appears with remote-download, package-manager, or marketplace provenance.
 - Plugin reload is followed by first-seen hook, MCP, command, monitor, or binary execution.
 
-Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude Code plugins reference](https://code.claude.com/docs/en/plugins-reference), [Claude Code plugin discovery and security](https://code.claude.com/docs/en/discover-plugins), [Claude Code settings](https://code.claude.com/docs/en/settings)
+Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude Code plugins reference](https://code.claude.com/docs/en/plugins-reference), [Claude Code plugin discovery and security](https://code.claude.com/docs/en/discover-plugins), [Claude Code settings](https://code.claude.com/docs/en/settings), [Claude Code skills](https://code.claude.com/docs/en/skills)
 
 ---
 

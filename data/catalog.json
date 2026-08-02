@@ -631,8 +631,8 @@
     },
     {
       "id": "EAA-009",
-      "name": "Remote plugin sideload or marketplace installation",
-      "summary": "An attacker causes an agent to sideload a plugin archive or install or update a plugin from an attacker-controlled marketplace.",
+      "name": "Remote plugin or skill installation",
+      "summary": "An attacker causes an agent environment to acquire and load a plugin or skill package from an attacker-controlled remote source or marketplace.",
       "primary_surface": "control-plane",
       "secondary_surfaces": [],
       "tactics": ["Execution", "Persistence"],
@@ -641,7 +641,8 @@
         {"source_id": "SRC-017", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-018", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-019", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-021", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -649,7 +650,7 @@
         {"type": "related-to", "target": "EAA-008"},
         {"type": "related-to", "target": "EAA-013"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-08-02"
     },
     {
       "id": "EAA-010",
