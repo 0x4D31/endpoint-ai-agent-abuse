@@ -2,7 +2,7 @@
 
 EAA favors narrow, falsifiable entries over broad risk statements. Contributions should make it possible for another researcher to verify the mechanism and for a defender to understand what evidence would remain.
 
-Read [`evidence.md`](evidence.md) before proposing a technique or case.
+Read [`scope.md`](scope.md) and [`evidence.md`](evidence.md) before proposing a technique or case.
 
 ## Technique changes
 

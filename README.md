@@ -9,6 +9,7 @@ This is not a general AI security taxonomy or a claim that every technique appli
 ## Start here
 
 - [`techniques/index.md`](techniques/index.md) — main catalog
+- [`scope.md`](scope.md) — inclusion boundary and adjacent-case decisions
 - [`surfaces.md`](surfaces.md) — where a technique acts
 - [`tactics.md`](tactics.md) — the adversary objective
 - [`cases.md`](cases.md) — procedure-level incident, artifact, and research mappings
