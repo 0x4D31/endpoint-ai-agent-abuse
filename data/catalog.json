@@ -376,6 +376,14 @@
       "url": "https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning",
       "types": ["incident-report"],
       "published": "2026-02-20"
+    },
+    {
+      "id": "SRC-048",
+      "title": "Claude Code persistent-configuration injection advisory",
+      "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf",
+      "types": ["primary-artifact"],
+      "published": "2026-02-06",
+      "verified_on": "2026-08-02"
     }
   ],
   "techniques": [
@@ -444,7 +452,9 @@
         {"source_id": "SRC-012", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-035", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-039", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-040", "support": "version-range-documented", "confidence": "high"}
+        {"source_id": "SRC-040", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-048", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-048", "support": "procedure-planted", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
@@ -452,7 +462,7 @@
         {"type": "related-to", "target": "EAA-009"},
         {"type": "related-to", "target": "EAA-014"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-08-02"
     },
     {
       "id": "EAA-004",
@@ -1591,6 +1601,36 @@
             "products": ["Claude Code", "Claude Desktop", "Cursor", "Continue", "Windsurf/Codeium"],
             "versions": [],
             "operating_systems": ["Linux", "macOS", "Windows"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-020",
+      "name": "Claude Code persistent settings injection",
+      "type": "vendor advisory",
+      "contexts": ["vendor-advisory", "patched-vulnerability"],
+      "date_start": "2026-02-06",
+      "date_basis": "published",
+      "activation_notes": "The bubblewrap-sandboxed path required `.claude/settings.json` to be absent when Claude Code started, malicious code to run inside the sandbox while the parent `.claude` directory remained writable, and Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.",
+      "source_refs": ["SRC-048"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-003",
+          "outcome": "planted",
+          "confidence": "high",
+          "claim": "In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to execute with host privileges after restart.",
+          "source_refs": ["SRC-048"],
+          "activation_conditions": [
+            "`.claude/settings.json` did not exist when the sandbox started.",
+            "Malicious code ran inside the bubblewrap sandbox and could write the parent `.claude` directory.",
+            "Claude Code restarted after the hook was planted."
+          ],
+          "scope": {
+            "products": ["Claude Code"],
+            "versions": ["earlier than 2.1.2"],
+            "operating_systems": []
           }
         }
       ]

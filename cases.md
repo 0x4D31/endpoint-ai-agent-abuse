@@ -356,3 +356,19 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 **Sources:**
 
 - `S1` — [Socket analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
+
+## EAA-C-020 — Claude Code persistent settings injection
+
+**Type:** vendor advisory
+
+**Date:** published 2026-02-06
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-003 | planted | high | In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to execute with host privileges after restart. | S1 |
+
+**Activation notes:** The bubblewrap-sandboxed path required `.claude/settings.json` to be absent when Claude Code started, malicious code to run inside the sandbox while the parent `.claude` directory remained writable, and Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.
+
+**Sources:**
+
+- `S1` — [Anthropic advisory GHSA-ff64-7w26-62rf](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)

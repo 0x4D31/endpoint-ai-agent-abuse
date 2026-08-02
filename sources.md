@@ -37,6 +37,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Claude Code pre-trust execution advisory, CVE-2025-59536 — https://github.com/advisories/GHSA-4fgq-fpq9-mr3g
 - Claude Code pre-trust data-leakage advisory, CVE-2026-21852 — https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7
 - AWS Language Servers arbitrary-code-execution advisory, CVE-2026-12957 — https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7
+- Claude Code persistent-configuration injection advisory, CVE-2026-25725 — https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf
 - OpenAI Codex advanced configuration — https://developers.openai.com/codex/config-advanced/
 - OpenAI Codex environment variables — https://developers.openai.com/codex/environment-variables/
 - OpenAI Codex configuration reference — https://developers.openai.com/codex/config-reference/
