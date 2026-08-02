@@ -6,7 +6,7 @@
   "version": "0.2.1",
   "license": "CC0-1.0",
   "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
-  "last_reviewed": "2026-07-11",
+  "last_reviewed": "2026-08-02",
   "surfaces": [
     {
       "id": "launcher",
@@ -22,6 +22,11 @@
       "id": "control-plane",
       "name": "Control Plane",
       "description": "Persistent instructions, memory, rules, hooks, plugins, skills, and policy that shape agent behavior."
+    },
+    {
+      "id": "task-context",
+      "name": "Task & Retrieved Context",
+      "description": "Issues, documents, logs, tool results, and other non-control-plane content brought into an active agent task."
     },
     {
       "id": "state-telemetry",
@@ -384,6 +389,13 @@
       "types": ["primary-artifact"],
       "published": "2026-02-06",
       "verified_on": "2026-08-02"
+    },
+    {
+      "id": "SRC-049",
+      "title": "Noma ContextCrush Context7 research",
+      "url": "https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/",
+      "types": ["reproducible-research"],
+      "published": "2026-03-05"
     }
   ],
   "techniques": [
@@ -490,7 +502,8 @@
         {"type": "related-to", "target": "EAA-005"},
         {"type": "related-to", "target": "EAA-008"},
         {"type": "related-to", "target": "EAA-013"},
-        {"type": "related-to", "target": "EAA-014"}
+        {"type": "related-to", "target": "EAA-014"},
+        {"type": "related-to", "target": "EAA-018"}
       ],
       "last_reviewed": "2026-07-09"
     },
@@ -642,7 +655,8 @@
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-006"},
-        {"type": "related-to", "target": "EAA-011"}
+        {"type": "related-to", "target": "EAA-011"},
+        {"type": "related-to", "target": "EAA-018"}
       ],
       "last_reviewed": "2026-08-02"
     },
@@ -750,7 +764,8 @@
         {"type": "related-to", "target": "EAA-001"},
         {"type": "related-to", "target": "EAA-002"},
         {"type": "related-to", "target": "EAA-006"},
-        {"type": "related-to", "target": "EAA-016"}
+        {"type": "related-to", "target": "EAA-016"},
+        {"type": "related-to", "target": "EAA-018"}
       ],
       "last_reviewed": "2026-08-02"
     },
@@ -797,6 +812,24 @@
         {"type": "related-to", "target": "EAA-012"}
       ],
       "last_reviewed": "2026-07-09"
+    },
+    {
+      "id": "EAA-018",
+      "name": "Indirect instruction injection through task context",
+      "summary": "An attacker causes adversarial instructions in non-control-plane content to enter an endpoint agent's active task or retrieved context.",
+      "primary_surface": "task-context",
+      "secondary_surfaces": [],
+      "tactics": ["Execution"],
+      "maturity": "demonstrated",
+      "evidence": [
+        {"source_id": "SRC-049", "support": "mechanism-demonstrated", "confidence": "high"}
+      ],
+      "relationships": [
+        {"type": "related-to", "target": "EAA-004"},
+        {"type": "related-to", "target": "EAA-010"},
+        {"type": "related-to", "target": "EAA-015"}
+      ],
+      "last_reviewed": "2026-08-02"
     }
   ],
   "cases": [

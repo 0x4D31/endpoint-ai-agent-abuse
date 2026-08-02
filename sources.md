@@ -58,3 +58,4 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Bloom Security Claude Code OpenTelemetry redirection — https://bloom.security/blog/welcome-to-otel-claudeifornia
 - Adversa AI SymJack agent-mediated configuration overwrite — https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/
 - Wiz Amazon Q MCP auto-execution research — https://www.wiz.io/blog/amazon-q-vulnerability
+- Noma ContextCrush Context7 research — https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/

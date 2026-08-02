@@ -51,6 +51,7 @@ Cases separately record whether a procedure was present, planted, attempted, exe
 | [EAA-015](techniques/index.md#eaa-015--inherited-authority-abuse) | Inherited authority abuse | Identity & Authority | Execution, Collection, Exfiltration | observed |
 | [EAA-016](techniques/index.md#eaa-016--agent-environment-discovery) | Agent environment discovery | Runtime & Environment | Discovery | demonstrated |
 | [EAA-017](techniques/index.md#eaa-017--agent-native-evidence-tampering) | Agent-native evidence tampering | State & Telemetry | Defense Evasion | observed |
+| [EAA-018](techniques/index.md#eaa-018--indirect-instruction-injection-through-task-context) | Indirect instruction injection through task context | Task & Retrieved Context | Execution | demonstrated |
 
 ## Validation
 

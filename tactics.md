@@ -5,7 +5,7 @@ Tactics describe **why** an adversary performs an endpoint-agent technique. They
 | Tactic | Objective | Techniques |
 |---|---|---|
 | Discovery | Learn which agents, configuration, tools, state, or authority are available. | EAA-016 |
-| Execution | Cause an agent, hook, plugin, helper, or connected tool to perform an attacker-selected action. | EAA-001, EAA-002, EAA-003, EAA-006, EAA-008, EAA-009, EAA-010, EAA-011, EAA-012, EAA-013, EAA-015 |
+| Execution | Cause an agent, hook, plugin, helper, or connected tool to perform an attacker-selected action. | EAA-001, EAA-002, EAA-003, EAA-006, EAA-008, EAA-009, EAA-010, EAA-011, EAA-012, EAA-013, EAA-015, EAA-018 |
 | Persistence | Make attacker-controlled behavior or context survive a turn, reload, session, restart, or project change. | EAA-003, EAA-004, EAA-006, EAA-009, EAA-013, EAA-014 |
 | Credential Access | Obtain credentials, tokens, or authentication material. | EAA-005 |
 | Collection | Gather agent state, local data, tool context, or other information of interest. | EAA-005, EAA-007, EAA-010, EAA-012, EAA-015 |

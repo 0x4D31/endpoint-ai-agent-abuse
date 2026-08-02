@@ -119,7 +119,7 @@ Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-
 - **Evidence sources:** official-documentation, reproducible-research, incident-report
 - **Highlights:** Miasma, Hades; Cisco auto-memory research
 - **Case mappings:** EAA-C-004, EAA-C-005, EAA-C-006, EAA-C-007, EAA-C-010, EAA-C-014
-- **Related:** EAA-003, EAA-005, EAA-008, EAA-013, EAA-014
+- **Related:** EAA-003, EAA-005, EAA-008, EAA-013, EAA-014, EAA-018
 
 An attacker modifies local agent instructions, rules, or auto-memory so later sessions receive attacker-controlled guidance as context. Instruction/rule poisoning and auto-memory poisoning use different storage and loading paths; they remain grouped here because the durable effect is the same, but procedures should identify which path was used.
 
@@ -330,7 +330,7 @@ Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report
 - **Highlights:** MCP rug-pull/tool-poisoning research
 - **Case mappings:** EAA-C-009, EAA-C-019
-- **Related:** EAA-006, EAA-011
+- **Related:** EAA-006, EAA-011, EAA-018
 
 An MCP server embeds adversarial instructions in tool metadata or changes an advertised tool definition after an earlier benign presentation. This can steer the agent before a tool is selected, shadow another server's tool, or change how a capability is understood later.
 
@@ -507,7 +507,7 @@ Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits
 - **Evidence sources:** primary-artifact, reproducible-research, incident-report, secondary-analysis
 - **Highlights:** OALABS compromised Claude/Codex investigation; Trivy attempted path; Mitiga, Dash, and Wiz research
 - **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018
-- **Related:** EAA-001, EAA-002, EAA-006, EAA-016
+- **Related:** EAA-001, EAA-002, EAA-006, EAA-016, EAA-018
 
 An attacker uses the agent's existing access to local shell, filesystem, authenticated CLIs, browser or session state, MCP servers, or SaaS/cloud tools. These authority sources have different audit and revocation semantics and should be identified separately at procedure level.
 
@@ -604,3 +604,42 @@ Hunt ideas:
 - Treat a missing record as an evidence-gap signal, not proof of tampering: normal retention, compaction, non-persistent modes, crashes, and delayed flushing can produce gaps too.
 
 Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory)
+
+---
+
+## EAA-018 — Indirect instruction injection through task context
+
+- **Surface:** Task & Retrieved Context
+- **Tactics:** Execution
+- **Maturity:** demonstrated
+- **Evidence sources:** reproducible-research
+- **Highlights:** ContextCrush Context7 research
+- **Case mappings:** none
+- **Related:** EAA-004, EAA-010, EAA-015
+
+An attacker causes adversarial instructions in non-control-plane content to enter an endpoint agent's active task or retrieved context. The content is presented as data—such as an issue, document, log entry, error, or tool result—but can influence the agent's local or delegated actions.
+
+```text
+attacker-controlled task data or retrieved content
+  -> content enters an active agent context
+  -> agent may propose or perform an unrelated local or delegated action
+```
+
+Boundaries:
+
+- Designated persistent instruction files, rules, and memory remain EAA-004.
+- MCP configuration remains EAA-006, and adversarial MCP tool metadata remains EAA-010.
+- Public placement or recommendation alone is insufficient; a case needs evidence that the content reached an endpoint agent or that the mechanism was exercised in controlled research.
+- Follow-on use of credentials, authenticated tools, or delegated services is mapped separately to EAA-015.
+
+Examples:
+
+- Noma demonstrated attacker-controlled Context7 custom rules being delivered verbatim with library documentation through an MCP tool result. In the controlled scenario, the retrieved content induced the coding agent to read `.env` files and publish their contents through a GitHub issue.
+
+Hunt ideas:
+
+- Preserve the content and provenance of issues, documents, telemetry, and tool results supplied to an agent when policy permits.
+- Correlate retrieved content with later tool calls, child processes, file access, network activity, and remote-service audit events that the user's request does not explain.
+- Treat instruction-like text as context, not proof; require a resulting proposal, attempt, execution, or effect.
+
+Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/)
