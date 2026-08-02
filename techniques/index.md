@@ -189,9 +189,9 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Surface:** Tools & Integrations
 - **Tactics:** Execution, Persistence
 - **Maturity:** demonstrated
-- **Evidence sources:** official-documentation, primary-artifact, reproducible-research
+- **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report
 - **Highlights:** historical Claude Code MCP approval-bypass research; Mitiga MCP endpoint-rewrite research
-- **Case mappings:** EAA-C-011, EAA-C-014, EAA-C-015, EAA-C-018
+- **Case mappings:** EAA-C-011, EAA-C-014, EAA-C-015, EAA-C-018, EAA-C-019
 - **Related:** EAA-009, EAA-010, EAA-011, EAA-014, EAA-015, EAA-016
 
 An attacker adds or modifies local MCP or tool configuration so the agent connects to an attacker-selected server or gains a new filesystem, shell, browser, SaaS, or network capability. Project-scoped MCP definitions normally require product-specific trust or server approval; configuration presence alone is not proof of activation.
@@ -216,7 +216,7 @@ Hunt ideas:
 - Stdio MCP command uses shell, package manager, network fetch, or unpinned package execution.
 - Capability appears shortly before sensitive file, browser, GitHub, Slack, or cloud activity.
 
-Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability)
+Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 
@@ -327,9 +327,9 @@ Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude
 - **Surface:** Tools & Integrations
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** demonstrated
-- **Evidence sources:** official-documentation, primary-artifact, reproducible-research
+- **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report
 - **Highlights:** MCP rug-pull/tool-poisoning research
-- **Case mappings:** EAA-C-009
+- **Case mappings:** EAA-C-009, EAA-C-019
 - **Related:** EAA-006, EAA-011
 
 An MCP server embeds adversarial instructions in tool metadata or changes an advertised tool definition after an earlier benign presentation. This can steer the agent before a tool is selected, shadow another server's tool, or change how a capability is understood later.
@@ -352,7 +352,7 @@ Hunt ideas:
 - New write/network/admin capability appears mid-session.
 - MCP tool metadata precedes an agent action without a matching user request or expected tool selection.
 
-Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments), [Trail of Bits MCP line-jumping](https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/), [Claude Code MCP docs](https://code.claude.com/docs/en/mcp)
+Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments), [Trail of Bits MCP line-jumping](https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/), [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 
@@ -470,8 +470,8 @@ Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env
 - **Tactics:** Persistence
 - **Maturity:** observed
 - **Evidence sources:** incident-report
-- **Highlights:** Miasma, Hades, Immobiliare Labs Backstage plugins
-- **Case mappings:** EAA-C-004, EAA-C-005, EAA-C-006, EAA-C-007
+- **Highlights:** Miasma, Hades, Immobiliare Labs Backstage plugins, SANDWORM_MODE
+- **Case mappings:** EAA-C-004, EAA-C-005, EAA-C-006, EAA-C-007, EAA-C-019
 - **Related:** EAA-003, EAA-004, EAA-006
 
 An attacker-controlled process writes equivalent hook, instruction, rule, skill, or tool-configuration artifacts for two or more local agent ecosystems during one fan-out operation. The atomic action is the multi-ecosystem write. Procedure records should also map the underlying hook, instruction, skill, or tool-configuration technique and separately record whether any product later activated the planted content.
@@ -495,7 +495,7 @@ Hunt ideas:
 - Same payload string appears across multiple assistant config formats.
 - Writes occur during package install, repo setup, or IDE extension activation.
 
-Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [StepSecurity Immobiliare Labs report](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised)
+Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [StepSecurity Immobiliare Labs report](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 
@@ -540,8 +540,8 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Tactics:** Discovery
 - **Maturity:** demonstrated
 - **Evidence sources:** primary-artifact, incident-report, secondary-analysis
-- **Highlights:** Nx s1ngularity, Trivy OpenVSX extension, Hades, Jscrambler npm compromise
-- **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006, EAA-C-017
+- **Highlights:** Nx s1ngularity, Trivy OpenVSX extension, Hades, Jscrambler npm compromise, SANDWORM_MODE
+- **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006, EAA-C-017, EAA-C-019
 - **Related:** EAA-001, EAA-006, EAA-015
 
 An attacker enumerates installed agent binaries or agent-related configuration, tools, authority, state, or capabilities to locate collectable agent assets or choose a later abuse path. Procedures should distinguish binary discovery from configuration, capability, authority, and state discovery.
@@ -567,7 +567,7 @@ Hunt ideas:
 - Process checks for multiple agent binaries in quick succession.
 - Recon is followed by agent launch, config write, or state collection.
 
-Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package)
+Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 

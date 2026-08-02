@@ -337,3 +337,22 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 - `S1` — [AWS advisory GHSA-xhcr-j4j9-3gh7](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7)
 - `S2` — [Wiz research](https://www.wiz.io/blog/amazon-q-vulnerability)
+
+## EAA-C-019 — SANDWORM_MODE AI toolchain poisoning
+
+**Type:** campaign
+
+**Date:** reported 2026-02-20
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-016 | present | high | The analyzed payload contained checks for agent configuration paths, local model runtimes, and LLM-provider credentials. | S1 |
+| 2 | EAA-006 | present | high | The payload contained code to deploy a rogue local MCP server and add it to discovered agent configuration files. | S1 |
+| 3 | EAA-010 | present | high | The rogue MCP server advertised innocuous-looking tools whose descriptions contained embedded adversarial instructions. | S1 |
+| 4 | EAA-014 | present | high | One payload implemented fan-out writes for Claude Code, Claude Desktop, Cursor, Continue, and Windsurf/Codeium MCP configurations. | S1 |
+
+**Activation notes:** Socket reported an active npm campaign and analyzed routines for discovering agent environments, deploying a rogue MCP server, embedding adversarial instructions in its tool descriptions, and writing configurations for several agent ecosystems. The broader second stage was delayed for 48 to 96 hours on non-CI hosts. Public reporting does not establish that the agent-specific configuration writes completed on a victim endpoint or that a targeted agent loaded or followed the poisoned tools, so every agent-related procedure remains `present`.
+
+**Sources:**
+
+- `S1` — [Socket analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
