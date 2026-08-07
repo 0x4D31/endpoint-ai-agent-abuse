@@ -5,7 +5,7 @@
 Scope and task-context update.
 
 - Added an explicit victim-side agent scope, hosted-runner boundary, and adjacent-case decisions.
-- Added Task & Retrieved Context and EAA-018 for indirect instruction injection through non-control-plane content.
+- Added Task & Retrieved Context and EAA-018 for indirect instruction injection through task data or retrieved content.
 - Broadened EAA-009 to name remote skill installation while keeping later cloud-hosted modification and sync in EAA-013.
 - Added procedure-level cases for Amazon Q MCP auto-execution, SANDWORM_MODE, Claude Code persistent settings injection, ContextCrush, and GitLost.
 - Preserved source disagreements and activation gates, including the Amazon Q workspace-trust discrepancy and unconfirmed SANDWORM_MODE agent activation.

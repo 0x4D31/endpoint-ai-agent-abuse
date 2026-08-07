@@ -42,6 +42,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - OpenAI Codex environment variables — https://developers.openai.com/codex/environment-variables/
 - OpenAI Codex configuration reference — https://developers.openai.com/codex/config-reference/
 - OpenAI Codex hooks — https://developers.openai.com/codex/hooks
+- OpenAI skills documentation — https://learn.chatgpt.com/docs/build-skills
 - Gemini CLI hooks — https://geminicli.com/docs/hooks/
 - Gemini CLI MCP servers — https://geminicli.com/docs/tools/mcp-server/
 - Gemini CLI configuration reference — https://geminicli.com/docs/reference/configuration/

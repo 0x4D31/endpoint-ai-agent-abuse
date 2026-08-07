@@ -9,7 +9,7 @@ EAA tracks adversarial abuse of an AI agent, or its agent-specific ecosystem, in
 A technique or case belongs in EAA when all of the following are true:
 
 1. **Victim-side agent:** the affected agent, runner, or agent configuration belongs to or operates for the victim, rather than being only an attacker-operated tool.
-2. **Agent-specific mechanism:** the attacker acts through an agent launcher, control plane, runtime, tool integration, state store, telemetry path, or inherited authority. Generic malware in an AI-branded package is not enough.
+2. **Agent-specific mechanism:** the attacker acts through an agent launcher, task or retrieved-context input path, control plane, runtime, tool integration, state store, telemetry path, or inherited authority. Generic malware in an AI-branded package is not enough.
 3. **Endpoint or delegated consequence:** the mechanism can affect local execution, persistence, discovery, collection, exfiltration, defense evasion, or an authenticated action delegated from that environment.
 
 Publication or discovery alone may support a `present` outcome only when the inspected artifact itself implements an EAA technique. It does not establish planting, activation, execution, or impact on a victim.

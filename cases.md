@@ -367,7 +367,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-003 | planted | high | In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to execute with host privileges after restart. | S1 |
 
-**Activation notes:** The bubblewrap-sandboxed path required `.claude/settings.json` to be absent when Claude Code started, malicious code to run inside the sandbox while the parent `.claude` directory remained writable, and Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.
+**Activation notes:** The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later host-privileged hook execution additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.
 
 **Sources:**
 
@@ -384,7 +384,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | 1 | EAA-018 | impact-confirmed | high | Noma registered a Context7 library with poisoned Custom Rules that were returned verbatim with library documentation and induced the coding agent to follow the embedded instructions. | S1 |
 | 2 | EAA-015 | impact-confirmed | high | In the controlled sequence, the coding agent read project `.env` files and sent their contents to an attacker-controlled GitHub repository as an issue. | S1 |
 
-**Activation notes:** An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Noma reports that Context7 fixed the issue within two days before publication and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.
+**Activation notes:** An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Although Context7 named the upstream field Custom Rules, the endpoint agent received it inside retrieved MCP content rather than from an endpoint-designated rule or instruction store. Noma reports that Context7 fixed the issue within two days before publication and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.
 
 **Sources:**
 

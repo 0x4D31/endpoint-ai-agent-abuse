@@ -6,7 +6,7 @@
   "version": "0.3.0",
   "license": "CC0-1.0",
   "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
-  "last_reviewed": "2026-08-02",
+  "last_reviewed": "2026-08-07",
   "surfaces": [
     {
       "id": "launcher",
@@ -26,7 +26,7 @@
     {
       "id": "task-context",
       "name": "Task & Retrieved Context",
-      "description": "Issues, documents, logs, tool results, and other non-control-plane content brought into an active agent task."
+      "description": "Issues, documents, logs, tool results, and other content delivered as task data or retrieved context rather than through a designated endpoint instruction, configuration, extension, or tool-definition surface."
     },
     {
       "id": "state-telemetry",
@@ -410,6 +410,13 @@
       "url": "https://github.com/sasinomalabs/poc/issues/153",
       "types": ["primary-artifact"],
       "published": "2026-04-02"
+    },
+    {
+      "id": "SRC-052",
+      "title": "OpenAI skills documentation",
+      "url": "https://learn.chatgpt.com/docs/build-skills",
+      "types": ["official-documentation"],
+      "verified_on": "2026-08-07"
     }
   ],
   "techniques": [
@@ -515,11 +522,12 @@
         {"type": "related-to", "target": "EAA-003"},
         {"type": "related-to", "target": "EAA-005"},
         {"type": "related-to", "target": "EAA-008"},
+        {"type": "related-to", "target": "EAA-009"},
         {"type": "related-to", "target": "EAA-013"},
         {"type": "related-to", "target": "EAA-014"},
         {"type": "related-to", "target": "EAA-018"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-08-07"
     },
     {
       "id": "EAA-005",
@@ -632,7 +640,7 @@
     {
       "id": "EAA-009",
       "name": "Remote plugin or skill installation",
-      "summary": "An attacker causes an agent environment to acquire and load a plugin or skill package from an attacker-controlled remote source or marketplace.",
+      "summary": "An attacker causes an agent extension mechanism to fetch and load an attacker-controlled plugin or standalone skill through a product-supported sideload or installation path.",
       "primary_surface": "control-plane",
       "secondary_surfaces": [],
       "tactics": ["Execution", "Persistence"],
@@ -642,15 +650,16 @@
         {"source_id": "SRC-018", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-019", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-021", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-052", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
+        {"type": "related-to", "target": "EAA-004"},
         {"type": "related-to", "target": "EAA-006"},
         {"type": "related-to", "target": "EAA-008"},
         {"type": "related-to", "target": "EAA-013"}
       ],
-      "last_reviewed": "2026-08-02"
+      "last_reviewed": "2026-08-07"
     },
     {
       "id": "EAA-010",
@@ -834,7 +843,7 @@
     {
       "id": "EAA-018",
       "name": "Indirect instruction injection through task context",
-      "summary": "An attacker causes adversarial instructions in non-control-plane content to enter an endpoint agent's active task or retrieved context.",
+      "summary": "An attacker causes adversarial instructions delivered as task data or retrieved context, rather than through a designated endpoint instruction, configuration, extension, or tool-definition surface, to enter an active agent task.",
       "primary_surface": "task-context",
       "secondary_surfaces": [],
       "tactics": ["Execution"],
@@ -850,7 +859,7 @@
         {"type": "related-to", "target": "EAA-010"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-08-02"
+      "last_reviewed": "2026-08-07"
     }
   ],
   "cases": [
@@ -1666,7 +1675,7 @@
       "contexts": ["vendor-advisory", "patched-vulnerability"],
       "date_start": "2026-02-06",
       "date_basis": "published",
-      "activation_notes": "The bubblewrap-sandboxed path required `.claude/settings.json` to be absent when Claude Code started, malicious code to run inside the sandbox while the parent `.claude` directory remained writable, and Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.",
+      "activation_notes": "The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later host-privileged hook execution additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.",
       "source_refs": ["SRC-048"],
       "procedures": [
         {
@@ -1678,8 +1687,7 @@
           "source_refs": ["SRC-048"],
           "activation_conditions": [
             "`.claude/settings.json` did not exist when the sandbox started.",
-            "Malicious code ran inside the bubblewrap sandbox and could write the parent `.claude` directory.",
-            "Claude Code restarted after the hook was planted."
+            "Malicious code ran inside the bubblewrap sandbox and could write the parent `.claude` directory."
           ],
           "scope": {
             "products": ["Claude Code"],
@@ -1696,7 +1704,7 @@
       "contexts": ["controlled-research", "patched-vulnerability"],
       "date_start": "2026-03-05",
       "date_basis": "published",
-      "activation_notes": "An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Noma reports that Context7 fixed the issue within two days before publication and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.",
+      "activation_notes": "An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Although Context7 named the upstream field Custom Rules, the endpoint agent received it inside retrieved MCP content rather than from an endpoint-designated rule or instruction store. Noma reports that Context7 fixed the issue within two days before publication and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.",
       "source_refs": ["SRC-049"],
       "procedures": [
         {

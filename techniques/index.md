@@ -119,7 +119,7 @@ Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-
 - **Evidence sources:** official-documentation, reproducible-research, incident-report
 - **Highlights:** Miasma, Hades; Cisco auto-memory research
 - **Case mappings:** EAA-C-004, EAA-C-005, EAA-C-006, EAA-C-007, EAA-C-010, EAA-C-014
-- **Related:** EAA-003, EAA-005, EAA-008, EAA-013, EAA-014, EAA-018
+- **Related:** EAA-003, EAA-005, EAA-008, EAA-009, EAA-013, EAA-014, EAA-018
 
 An attacker modifies local agent instructions, rules, or auto-memory so later sessions receive attacker-controlled guidance as context. Instruction/rule poisoning and auto-memory poisoning use different storage and loading paths; they remain grouped here because the durable effect is the same, but procedures should identify which path was used.
 
@@ -294,15 +294,15 @@ Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env
 - **Tactics:** Execution, Persistence
 - **Maturity:** feasible
 - **Evidence sources:** official-documentation
-- **Highlights:** no known public malicious use as of 2026-07-09
 - **Case mappings:** none
-- **Related:** EAA-003, EAA-006, EAA-008, EAA-013
+- **Related:** EAA-003, EAA-004, EAA-006, EAA-008, EAA-013
 
-An attacker causes an agent environment to acquire and load a plugin or skill package from an attacker-controlled remote source or marketplace. Packages can bring hooks, commands, skills, MCP servers, binaries, monitors, or other executable behavior.
+An attacker causes an agent's extension mechanism to fetch and load an attacker-controlled plugin archive, marketplace plugin, or standalone skill through a product-supported sideload or installation path. Acquired content can bring hooks, commands, skills, MCP servers, binaries, monitors, or other executable behavior.
 
 ```text
-remote package passed at startup or installed from a marketplace
-  -> plugin or skill is loaded for one or later sessions
+remote plugin URL, marketplace item, or skill repository selected
+  -> product-supported sideload or installer fetches the content
+  -> plugin or standalone skill is loaded for one or later sessions
   -> new command/hook/MCP/skill becomes available
 ```
 
@@ -310,17 +310,19 @@ Examples:
 
 - Claude Code fetches `--plugin-url` archives at startup and loads them for that session only.
 - Marketplace registration, plugin installation, enablement, and update are separate state changes. Adding a marketplace alone does not establish that a plugin was installed or loaded.
-- A plugin can distribute skills, and a skill may also be installed directly where a product supports it. EAA-009 covers the acquisition or installation action; attacker modification of an already enabled cloud-hosted skill that later syncs is EAA-013.
+- Claude Code plugins can distribute skills, so a plugin installation can deliver skill content without a separate skill installer.
+- Codex documents `$skill-installer` for curated skills and for downloading skills from other repositories. A skill merely present in a cloned project is not EAA-009 without a distinct product-supported installation action; persistent project-skill instructions remain EAA-004.
+- EAA-009 covers acquisition or installation. Attacker modification of an already enabled cloud-hosted skill that later syncs is EAA-013.
 - Managed policy can constrain plugin and marketplace sources. Claude Code 2.1.193 and later documents managed-only `disableSideloadFlags`, which rejects `--plugin-dir`, `--plugin-url`, `--agents`, and `--mcp-config`; applicable policy and product version are activation conditions.
 
 Hunt ideas:
 
 - Agent starts with remote plugin URL or unapproved plugin directory.
 - New plugin marketplace appears in config, followed by installation or enablement of a plugin from that source.
-- New skill content appears with remote-download, package-manager, or marketplace provenance.
+- New standalone skill content appears in a user or administrator skill directory with installer or remote-repository provenance.
 - Plugin reload is followed by first-seen hook, MCP, command, monitor, or binary execution.
 
-Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude Code plugins reference](https://code.claude.com/docs/en/plugins-reference), [Claude Code plugin discovery and security](https://code.claude.com/docs/en/discover-plugins), [Claude Code settings](https://code.claude.com/docs/en/settings), [Claude Code skills](https://code.claude.com/docs/en/skills)
+Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude Code plugins reference](https://code.claude.com/docs/en/plugins-reference), [Claude Code plugin discovery and security](https://code.claude.com/docs/en/discover-plugins), [Claude Code settings](https://code.claude.com/docs/en/settings), [OpenAI skills documentation](https://learn.chatgpt.com/docs/build-skills)
 
 ---
 
@@ -364,7 +366,6 @@ Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-inj
 - **Tactics:** Execution
 - **Maturity:** feasible
 - **Evidence sources:** official-documentation
-- **Highlights:** no known public malicious use as of 2026-07-09
 - **Case mappings:** none
 - **Related:** EAA-006, EAA-007, EAA-010
 
@@ -436,7 +437,6 @@ Sources: [Claude Code monitoring docs](https://code.claude.com/docs/en/monitorin
 - **Tactics:** Execution, Persistence
 - **Maturity:** feasible
 - **Evidence sources:** official-documentation
-- **Highlights:** no known public malicious use of cloud skill sync as of 2026-07-09
 - **Case mappings:** none
 - **Related:** EAA-004, EAA-009
 
@@ -619,7 +619,7 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Case mappings:** EAA-C-021, EAA-C-022
 - **Related:** EAA-004, EAA-010, EAA-015
 
-An attacker causes adversarial instructions in non-control-plane content to enter an endpoint agent's active task or retrieved context. The content is presented as data—such as an issue, document, log entry, error, or tool result—but can influence the agent's local or delegated actions.
+An attacker causes adversarial instructions delivered as task data or retrieved context—rather than through a designated endpoint instruction, configuration, extension, or tool-definition surface—to enter an active agent task. The content can arrive through an issue, document, log entry, error, or tool result and influence the agent's local or delegated actions.
 
 ```text
 attacker-controlled task data or retrieved content
@@ -629,7 +629,7 @@ attacker-controlled task data or retrieved content
 
 Boundaries:
 
-- Designated persistent instruction files, rules, and memory remain EAA-004.
+- Instructions delivered transiently inside retrieved content or a tool result are EAA-018 even when the upstream service labels them `rules` or `AI instructions`. Instructions loaded from the endpoint agent's persistent rules, memory, or instruction files remain EAA-004.
 - MCP configuration remains EAA-006, and adversarial MCP tool metadata remains EAA-010.
 - Public placement or recommendation alone is insufficient; a case needs evidence that the content reached an endpoint agent or that the mechanism was exercised in controlled research.
 - Follow-on use of credentials, authenticated tools, or delegated services is mapped separately to EAA-015.
