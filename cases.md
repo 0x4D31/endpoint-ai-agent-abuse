@@ -310,7 +310,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
 |---|---|---|---|---|---|---|
-| 1 | EAA-016 | present | high | Static analysis of the embedded native payload identified product-specific paths and selectors for Claude-related configuration, Cursor, Windsurf, Factory, Zed, VS Code, opencode, and MCP configuration. | S1 | S2 |
+| 1 | EAA-016 | present | high | Static analysis of the embedded native payload identified product-specific paths and selectors for Claude Desktop, Cursor, Windsurf, Factory, Zed, VS Code, opencode, and MCP configuration. | S1 | S2 |
 | 2 | EAA-005 | present | high | The credential-stealer artifact contained selectors for collecting agent and MCP configuration that can hold API keys or server credentials; the same payload separately implemented outbound upload. | S1 | S2 |
 
 **Activation notes:** Socket identified 8.14.0, 8.16.0, and 8.17.0 as preinstall-triggered malicious releases and 8.18.0 and 8.20.0 as triggered on package import or CLI execution. Jscrambler's ongoing advisory currently lists 8.14, 8.16, 8.17, and 8.20, omitting 8.18; both sources identify 8.22 as safe. Jscrambler reported zero known downloads while warning that npm statistics may lag. The agent-related rows therefore establish capability present in the analyzed artifact, not victim-side discovery, collection, or exfiltration. The bundled payloads targeted Linux x86-64, Windows x86-64, and macOS arm64.
@@ -319,3 +319,91 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 - `S1` — [Socket analysis](https://socket.dev/blog/jscrambler-supply-chain-attack)
 - `S2` — [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package)
+
+## EAA-C-018 — Amazon Q MCP auto-execution vulnerability
+
+**Type:** vendor advisory
+
+**Date:** published 2026-06-23
+
+| Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
+|---|---|---|---|---|---|---|
+| 1 | EAA-006 | executed | high | Wiz demonstrated an affected Amazon Q Developer extension loading and executing a repository-controlled MCP command when Amazon Q was activated. | S2 | S1 |
+| 2 | EAA-015 | impact-confirmed | high | In controlled testing, the spawned command inherited the developer environment and successfully used the active AWS session with `aws sts get-caller-identity`. | S2 | S1 |
+
+**Activation notes:** A malicious repository had to contain `.amazonq/mcp.json`, an affected Amazon Q Developer extension had to be active, and the repository had to be opened. The AWS advisory says the user also had to trust the workspace when prompted; Wiz reports that the tested path had no MCP consent prompt or workspace-trust check. EAA preserves that disagreement rather than treating either activation description as settled. AWS identifies Language Servers for AWS 1.65.0 and `@aws/lsp-codewhisperer` 0.0.113 as patched.
+
+**Sources:**
+
+- `S1` — [AWS advisory GHSA-xhcr-j4j9-3gh7](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7)
+- `S2` — [Wiz research](https://www.wiz.io/blog/amazon-q-vulnerability)
+
+## EAA-C-019 — SANDWORM_MODE AI toolchain poisoning
+
+**Type:** campaign
+
+**Date:** reported 2026-02-20
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-016 | present | high | The analyzed payload contained checks for agent configuration paths, local model runtimes, and LLM-provider credentials. | S1 |
+| 2 | EAA-006 | present | high | The payload contained code to deploy a rogue local MCP server and write server entries to paths it treated as agent configuration files. | S1 |
+| 3 | EAA-010 | present | high | The rogue MCP server advertised innocuous-looking tools whose descriptions contained embedded adversarial instructions. | S1 |
+| 4 | EAA-014 | present | high | One payload implemented fan-out writes targeting paths it treated as configuration for Claude Code, Claude Desktop, Cursor, Continue, and Windsurf/Codeium. | S1 |
+
+**Activation notes:** Socket reported an active npm campaign and analyzed routines for discovering agent environments, deploying a rogue MCP server, embedding adversarial instructions in its tool descriptions, and writing paths it treated as configuration across several agent ecosystems. Socket reports the Claude Code target as `~/.claude/settings.json`; current [Claude Code configuration documentation](https://code.claude.com/docs/en/debug-your-config) says `settings.json` ignores `mcpServers`, so this does not establish a usable Claude Code MCP registration. The broader second stage was delayed for 48 to 96 hours on non-CI hosts. Public reporting does not establish that the agent-specific writes completed on a victim endpoint or that a targeted agent loaded or followed the poisoned tools, so every agent-related procedure remains `present`.
+
+**Sources:**
+
+- `S1` — [Socket analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
+
+## EAA-C-020 — Claude Code persistent settings injection
+
+**Type:** vendor advisory
+
+**Date:** published 2026-02-06
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-003 | planted | high | In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to execute with host privileges after restart. | S1 |
+
+**Activation notes:** The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later host-privileged hook execution additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.
+
+**Sources:**
+
+- `S1` — [Anthropic advisory GHSA-ff64-7w26-62rf](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)
+
+## EAA-C-021 — ContextCrush Context7 custom-rule injection
+
+**Type:** research
+
+**Date:** published 2026-03-05
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-018 | impact-confirmed | high | Noma registered a Context7 library with poisoned Custom Rules that were returned verbatim with library documentation and induced the coding agent to follow the embedded instructions. | S1 |
+| 2 | EAA-015 | impact-confirmed | high | In the controlled sequence, the coding agent read project `.env` files and sent their contents to an attacker-controlled GitHub repository as an issue. | S1 |
+
+**Activation notes:** An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Although Context7 named the upstream field Custom Rules, the endpoint agent received it inside retrieved MCP content rather than from an endpoint-designated rule or instruction store. Noma reports that the fix was deployed on 2026-02-23, before the 2026-03-05 disclosure, and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.
+
+**Sources:**
+
+- `S1` — [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/)
+
+## EAA-C-022 — GitLost public-issue data disclosure
+
+**Type:** research
+
+**Date:** 2026-04-02
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-018 | impact-confirmed | high | A crafted public issue body entered an assigned GitHub Agentic Workflow and caused the agent to follow its request for same-organization repository content. | S1, S2 |
+| 2 | EAA-015 | impact-confirmed | high | The workflow used its cross-repository read access to retrieve a private repository's README and posted the contents in a public issue comment. | S1, S2 |
+
+**Activation notes:** The organization had configured a GitHub Agentic Workflow to run on `issues.assigned`, read the issue title and body, post through `add-comment`, and read other public and private repositories. An unauthenticated user then had to create the crafted public issue and the automation had to assign it. The public bot comment identifies the engine as Claude and the model as `claude-opus-4-6`. This is a controlled proof of concept, not evidence of exploitation against an unrelated organization.
+
+**Sources:**
+
+- `S1` — [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/)
+- `S2` — [Public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153)

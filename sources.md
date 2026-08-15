@@ -16,6 +16,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - OALABS copied-agent and transcript-tampering investigation — https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html
 - Socket Jscrambler npm compromise analysis — https://socket.dev/blog/jscrambler-supply-chain-attack
 - Jscrambler unauthorized-publication advisory — https://jscrambler.com/blog/security-advisory-malicious-npm-package
+- Socket SANDWORM_MODE campaign analysis — https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning
 
 ## Vendor documentation and advisories
 
@@ -28,6 +29,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Claude Code plugins reference — https://code.claude.com/docs/en/plugins-reference
 - Claude Code plugin discovery and security — https://code.claude.com/docs/en/discover-plugins
 - Claude Code MCP — https://code.claude.com/docs/en/mcp
+- Claude Code configuration debugging — https://code.claude.com/docs/en/debug-your-config
 - Claude Code monitoring and OpenTelemetry — https://code.claude.com/docs/en/monitoring-usage
 - Claude Code sessions and transcript persistence — https://code.claude.com/docs/en/sessions
 - Claude Code directory and application data — https://code.claude.com/docs/en/claude-directory
@@ -35,10 +37,13 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Claude Code startup-warning advisory — https://github.com/anthropics/claude-code/security/advisories/GHSA-ph6w-f82w-28w6
 - Claude Code pre-trust execution advisory, CVE-2025-59536 — https://github.com/advisories/GHSA-4fgq-fpq9-mr3g
 - Claude Code pre-trust data-leakage advisory, CVE-2026-21852 — https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7
+- AWS Language Servers arbitrary-code-execution advisory, CVE-2026-12957 — https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7
+- Claude Code persistent-configuration injection advisory, CVE-2026-25725 — https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf
 - OpenAI Codex advanced configuration — https://developers.openai.com/codex/config-advanced/
 - OpenAI Codex environment variables — https://developers.openai.com/codex/environment-variables/
 - OpenAI Codex configuration reference — https://developers.openai.com/codex/config-reference/
 - OpenAI Codex hooks — https://developers.openai.com/codex/hooks
+- OpenAI skills documentation — https://learn.chatgpt.com/docs/build-skills
 - Gemini CLI hooks — https://geminicli.com/docs/hooks/
 - Gemini CLI MCP servers — https://geminicli.com/docs/tools/mcp-server/
 - Gemini CLI configuration reference — https://geminicli.com/docs/reference/configuration/
@@ -54,3 +59,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Dash Security Claude Code Remote Control as C2 — https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server
 - Bloom Security Claude Code OpenTelemetry redirection — https://bloom.security/blog/welcome-to-otel-claudeifornia
 - Adversa AI SymJack agent-mediated configuration overwrite — https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/
+- Wiz Amazon Q MCP auto-execution research — https://www.wiz.io/blog/amazon-q-vulnerability
+- Noma ContextCrush Context7 research — https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/
+- Noma GitLost GitHub Agentic Workflows research — https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/
+- GitLost public proof-of-concept issue — https://github.com/sasinomalabs/poc/issues/153

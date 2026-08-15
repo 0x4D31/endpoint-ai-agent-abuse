@@ -178,3 +178,19 @@ new alternate profile or auth state -> unattended Remote Control start -> remote
 Prioritize isolated profiles created immediately before launch, pre-seeded workspace trust, background starts without a local interactive session, and agents authenticated to accounts outside the organization's control.
 
 **Limitations:** Remote Control is a legitimate feature and uses expected vendor infrastructure. Endpoint network data may not reveal the controlling account, and legitimate users may create alternate profiles. Account ownership and organizational policy are stronger signals than destination allowlisting alone.
+
+## H13 — Context-sourced instruction to endpoint action
+
+**Techniques:** EAA-018
+
+**Required telemetry:** user request and session boundary, retrieved-content or tool-result provenance and content where policy permits, agent tool calls, endpoint process/file/network effects, and remote-service audit logs.
+
+```text
+untrusted issue, document, log, or tool result
+  -> content enters active agent context
+  -> unrelated local or delegated action
+```
+
+Prioritize actions that match instructions in retrieved content but are not explained by the user's request, especially credential reads, new process execution, outbound publishing, or destructive changes. Preserve a digest and source identifier when raw content cannot be retained.
+
+**Limitations:** setup documentation and issue-driven automation legitimately influence agent actions. Content may be unavailable, truncated, or redacted, and model or harness behavior can change by version. Instruction-like text alone is not malicious execution; require temporal and semantic correlation with an attempted or completed effect.

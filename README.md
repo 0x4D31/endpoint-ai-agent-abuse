@@ -9,6 +9,7 @@ This is not a general AI security taxonomy or a claim that every technique appli
 ## Start here
 
 - [`techniques/index.md`](techniques/index.md) — main catalog
+- [`scope.md`](scope.md) — inclusion boundary and adjacent-case decisions
 - [`surfaces.md`](surfaces.md) — where a technique acts
 - [`tactics.md`](tactics.md) — the adversary objective
 - [`cases.md`](cases.md) — procedure-level incident, artifact, and research mappings
@@ -41,7 +42,7 @@ Cases separately record whether a procedure was present, planted, attempted, exe
 | [EAA-006](techniques/index.md#eaa-006--mcp-or-tool-configuration-abuse) | MCP or tool configuration abuse | Tools & Integrations | Execution, Persistence | demonstrated |
 | [EAA-007](techniques/index.md#eaa-007--hostile-modelapi-gateway-routing) | Hostile model/API gateway routing | Runtime & Environment | Collection, Exfiltration | demonstrated |
 | [EAA-008](techniques/index.md#eaa-008--shadow-agent-profile-or-config-directory) | Shadow agent profile or config directory | Runtime & Environment | Execution, Defense Evasion | demonstrated |
-| [EAA-009](techniques/index.md#eaa-009--remote-plugin-sideload-or-marketplace-installation) | Remote plugin sideload or marketplace installation | Control Plane | Execution, Persistence | feasible |
+| [EAA-009](techniques/index.md#eaa-009--remote-plugin-or-skill-installation) | Remote plugin or skill installation | Control Plane | Execution, Persistence | feasible |
 | [EAA-010](techniques/index.md#eaa-010--mcp-tool-poisoning-or-definition-drift) | MCP tool poisoning or definition drift | Tools & Integrations | Execution, Collection, Exfiltration | demonstrated |
 | [EAA-011](techniques/index.md#eaa-011--environment-variable-manipulation-of-mcp-activation) | Environment-variable manipulation of MCP activation | Tools & Integrations | Execution | feasible |
 | [EAA-012](techniques/index.md#eaa-012--telemetry-redirection-or-sensitive-logging) | Telemetry redirection or sensitive logging | State & Telemetry | Execution, Collection, Exfiltration | demonstrated |
@@ -50,6 +51,7 @@ Cases separately record whether a procedure was present, planted, attempted, exe
 | [EAA-015](techniques/index.md#eaa-015--inherited-authority-abuse) | Inherited authority abuse | Identity & Authority | Execution, Collection, Exfiltration | observed |
 | [EAA-016](techniques/index.md#eaa-016--agent-environment-discovery) | Agent environment discovery | Runtime & Environment | Discovery | demonstrated |
 | [EAA-017](techniques/index.md#eaa-017--agent-native-evidence-tampering) | Agent-native evidence tampering | State & Telemetry | Defense Evasion | observed |
+| [EAA-018](techniques/index.md#eaa-018--indirect-instruction-injection-through-task-context) | Indirect instruction injection through task context | Task & Retrieved Context | Execution | demonstrated |
 
 ## Validation
 
@@ -63,7 +65,7 @@ It validates the structured catalog and cross-checks IDs, metadata, relationship
 
 ## Versioning
 
-Current catalog version: **0.2.1**.
+Current catalog version: **0.3.0**.
 
 Bump minor versions for taxonomy, surface, evidence, or naming changes. Patch versions are enough for wording fixes, source updates, and new examples that do not change the model.
 

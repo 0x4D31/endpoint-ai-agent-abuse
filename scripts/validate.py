@@ -27,6 +27,8 @@ OUTCOME_SUPPORT = {
     "impact-confirmed": "impact-confirmed",
 }
 
+DISALLOWED_SCOPE_SENTINELS = {"all", "not publicly specified", "unknown"}
+
 
 class DuplicateKeyError(ValueError):
     pass
@@ -489,6 +491,17 @@ def validate_catalog_semantics(
                         f"{strongest_confidence!r} for {required_support!r}"
                     )
             scope = procedure.get("scope")
+            if isinstance(scope, dict):
+                for dimension in ("products", "versions", "operating_systems"):
+                    for value_index, value in enumerate(scope.get(dimension, [])):
+                        if (
+                            isinstance(value, str)
+                            and value.strip().casefold() in DISALLOWED_SCOPE_SENTINELS
+                        ):
+                            errors.append(
+                                f"{procedure_path}.scope.{dimension}[{value_index}]: "
+                                f"disallowed sentinel value {value!r}; use an empty array"
+                            )
             scope_refs = (
                 scope.get("version_source_refs", [])
                 if isinstance(scope, dict)

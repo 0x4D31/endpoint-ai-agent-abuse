@@ -7,6 +7,7 @@ Surfaces describe **where** an endpoint-agent technique acts. They are separate 
 | Launcher | The process, automation, extension, package lifecycle, service, or user session that starts the agent and selects its execution mode. | EAA-001, EAA-002 |
 | Runtime & Environment | Launch-time environment, profile selection, provider routing, installed-agent discovery, and other effective runtime state. | EAA-007, EAA-008, EAA-016 |
 | Control Plane | Instructions, memory, rules, hooks, plugins, skills, and other durable inputs that shape behavior across turns or sessions. | EAA-003, EAA-004, EAA-009, EAA-013, EAA-014 |
+| Task & Retrieved Context | Issues, pull requests, ordinary documents, logs, telemetry, tool results, and other content delivered as task data or retrieved context rather than through a designated endpoint instruction, configuration, extension, or tool-definition surface. | EAA-018 |
 | State & Telemetry | Transcripts, tool history, logs, caches, session state, and observability output. | EAA-005, EAA-012, EAA-017 |
 | Tools & Integrations | MCP servers, tool definitions, plugin-provided capabilities, and the configuration that connects an agent to local or remote tools. | EAA-006, EAA-010, EAA-011 |
 | Identity & Authority | Filesystem, shell, browser, CLI, cloud, SaaS, and integration access inherited from the user or endpoint. | EAA-015 |
@@ -29,6 +30,7 @@ Surfaces describe **where** an endpoint-agent technique acts. They are separate 
 - The primary surface should describe the part of the agent ecosystem most directly manipulated by the technique.
 - Secondary surfaces are direct contacts in the technique definition, not a list of every possible impact surface.
 - Product-specific paths, scopes, and precedence belong in procedure records rather than the surface definition.
+- Classify instruction-bearing content by how it enters the endpoint agent: task data and retrieved results belong to Task & Retrieved Context, while content loaded through designated endpoint instruction, configuration, extension, or tool-definition surfaces retains that surface's classification.
 - A technique can cross surfaces. For example, a malicious launcher may select a shadow profile, which loads a hook that later uses inherited authority.
 - Cross-agent fan-out planting does not prove that every planted configuration activated.
 
@@ -38,6 +40,7 @@ Example chain:
 package install script            -> Launcher
 alternate profile / base URL      -> Runtime & Environment
 project or user hook write        -> Control Plane
+issue, document, or tool result   -> Task & Retrieved Context
 new or changed MCP definition     -> Tools & Integrations
 transcript read or rewrite        -> State & Telemetry
 authenticated GitHub action       -> Identity & Authority
