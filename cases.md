@@ -347,11 +347,11 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
 | 1 | EAA-016 | present | high | The analyzed payload contained checks for agent configuration paths, local model runtimes, and LLM-provider credentials. | S1 |
-| 2 | EAA-006 | present | high | The payload contained code to deploy a rogue local MCP server and add it to discovered agent configuration files. | S1 |
+| 2 | EAA-006 | present | high | The payload contained code to deploy a rogue local MCP server and write server entries to paths it treated as agent configuration files. | S1 |
 | 3 | EAA-010 | present | high | The rogue MCP server advertised innocuous-looking tools whose descriptions contained embedded adversarial instructions. | S1 |
-| 4 | EAA-014 | present | high | One payload implemented fan-out writes for Claude Code, Claude Desktop, Cursor, Continue, and Windsurf/Codeium MCP configurations. | S1 |
+| 4 | EAA-014 | present | high | One payload implemented fan-out writes targeting paths it treated as configuration for Claude Code, Claude Desktop, Cursor, Continue, and Windsurf/Codeium. | S1 |
 
-**Activation notes:** Socket reported an active npm campaign and analyzed routines for discovering agent environments, deploying a rogue MCP server, embedding adversarial instructions in its tool descriptions, and writing configurations for several agent ecosystems. The broader second stage was delayed for 48 to 96 hours on non-CI hosts. Public reporting does not establish that the agent-specific configuration writes completed on a victim endpoint or that a targeted agent loaded or followed the poisoned tools, so every agent-related procedure remains `present`.
+**Activation notes:** Socket reported an active npm campaign and analyzed routines for discovering agent environments, deploying a rogue MCP server, embedding adversarial instructions in its tool descriptions, and writing paths it treated as configuration across several agent ecosystems. Socket reports the Claude Code target as `~/.claude/settings.json`; current [Claude Code configuration documentation](https://code.claude.com/docs/en/debug-your-config) says `settings.json` ignores `mcpServers`, so this does not establish a usable Claude Code MCP registration. The broader second stage was delayed for 48 to 96 hours on non-CI hosts. Public reporting does not establish that the agent-specific writes completed on a victim endpoint or that a targeted agent loaded or followed the poisoned tools, so every agent-related procedure remains `present`.
 
 **Sources:**
 
@@ -384,7 +384,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | 1 | EAA-018 | impact-confirmed | high | Noma registered a Context7 library with poisoned Custom Rules that were returned verbatim with library documentation and induced the coding agent to follow the embedded instructions. | S1 |
 | 2 | EAA-015 | impact-confirmed | high | In the controlled sequence, the coding agent read project `.env` files and sent their contents to an attacker-controlled GitHub repository as an issue. | S1 |
 
-**Activation notes:** An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Although Context7 named the upstream field Custom Rules, the endpoint agent received it inside retrieved MCP content rather than from an endpoint-designated rule or instruction store. Noma reports that Context7 fixed the issue within two days before publication and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.
+**Activation notes:** An attacker had to control a library entry and its Custom Rules in the Context7 registry. A developer then had to query that library through the affected Context7 MCP service from a coding agent with local file and outbound GitHub access. Although Context7 named the upstream field Custom Rules, the endpoint agent received it inside retrieved MCP content rather than from an endpoint-designated rule or instruction store. Noma reports that the fix was deployed on 2026-02-23, before the 2026-03-05 disclosure, and found no evidence of in-the-wild exploitation. The report names several Context7-compatible coding assistants but does not identify the exact agent, version, or operating system used for the demonstrated sequence.
 
 **Sources:**
 

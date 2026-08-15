@@ -146,6 +146,18 @@ class CatalogValidationTests(unittest.TestCase):
             )
         )
 
+    def test_scope_sentinel_value_is_rejected(self) -> None:
+        catalog = copy.deepcopy(self.catalog)
+        case = next(item for item in catalog["cases"] if item["id"] == "EAA-C-013")
+        case["procedures"][0]["scope"]["versions"] = ["not publicly specified"]
+        self.assertTrue(
+            any(
+                "disallowed sentinel value 'not publicly specified'; use an empty array"
+                in error
+                for error in self.semantic_errors(catalog)
+            )
+        )
+
     def test_official_documentation_requires_verified_on(self) -> None:
         catalog = copy.deepcopy(self.catalog)
         source = next(item for item in catalog["sources"] if item["id"] == "SRC-012")

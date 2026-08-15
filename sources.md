@@ -29,6 +29,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Claude Code plugins reference — https://code.claude.com/docs/en/plugins-reference
 - Claude Code plugin discovery and security — https://code.claude.com/docs/en/discover-plugins
 - Claude Code MCP — https://code.claude.com/docs/en/mcp
+- Claude Code configuration debugging — https://code.claude.com/docs/en/debug-your-config
 - Claude Code monitoring and OpenTelemetry — https://code.claude.com/docs/en/monitoring-usage
 - Claude Code sessions and transcript persistence — https://code.claude.com/docs/en/sessions
 - Claude Code directory and application data — https://code.claude.com/docs/en/claude-directory

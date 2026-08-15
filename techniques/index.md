@@ -216,7 +216,7 @@ Hunt ideas:
 - Stdio MCP command uses shell, package manager, network fetch, or unpinned package execution.
 - Capability appears shortly before sensitive file, browser, GitHub, Slack, or cloud activity.
 
-Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
+Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Claude Code configuration debugging](https://code.claude.com/docs/en/debug-your-config), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 
@@ -624,14 +624,14 @@ An attacker causes adversarial instructions delivered as task data or retrieved 
 ```text
 attacker-controlled task data or retrieved content
   -> content enters an active agent context
-  -> agent may propose or perform an unrelated local or delegated action
+  -> agent attempts or performs an unrelated local or delegated action
 ```
 
 Boundaries:
 
 - Instructions delivered transiently inside retrieved content or a tool result are EAA-018 even when the upstream service labels them `rules` or `AI instructions`. Instructions loaded from the endpoint agent's persistent rules, memory, or instruction files remain EAA-004.
 - MCP configuration remains EAA-006, and adversarial MCP tool metadata remains EAA-010.
-- Public placement or recommendation alone is insufficient; a case needs evidence that the content reached an endpoint agent or that the mechanism was exercised in controlled research.
+- Public placement, retrieval, context entry, or changed model output alone is insufficient; a case needs evidence that the agent at least attempted an unrelated local or delegated action.
 - Follow-on use of credentials, authenticated tools, or delegated services is mapped separately to EAA-015.
 
 Examples:
@@ -642,6 +642,6 @@ Hunt ideas:
 
 - Preserve the content and provenance of issues, documents, telemetry, and tool results supplied to an agent when policy permits.
 - Correlate retrieved content with later tool calls, child processes, file access, network activity, and remote-service audit events that the user's request does not explain.
-- Treat instruction-like text as context, not proof; require a resulting proposal, attempt, execution, or effect.
+- Treat instruction-like text as context, not proof; require a resulting attempt, execution, or effect.
 
 Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153)
