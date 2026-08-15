@@ -153,7 +153,7 @@ Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Ope
 - **Surface:** State & Telemetry
 - **Tactics:** Credential Access, Collection
 - **Maturity:** observed
-- **Evidence sources:** official-documentation, primary-artifact, incident-report, secondary-analysis
+- **Evidence sources:** official-documentation, primary-artifact, incident-report, reproducible-research, secondary-analysis
 - **Highlights:** OALABS compromised Claude/Codex investigation; Jscrambler npm compromise
 - **Case mappings:** EAA-C-008, EAA-C-017
 - **Related:** EAA-004, EAA-012, EAA-017
@@ -175,6 +175,7 @@ Examples:
 - Claude Code stores project transcripts as JSONL under `~/.claude/projects/<project>/`, with retention and non-persistence controls that affect artifact availability. This documents the local surface, not malicious collection.
 - Codex stores local history under `CODEX_HOME` (for example, `~/.codex/history.jsonl`) when history persistence is enabled; `history.persistence = "none"` disables future local-history persistence and `history.max_bytes` can remove older entries. These are legitimate privacy and retention controls as well as forensic coverage conditions.
 - Computer History memories may contain sensitive information, are not encrypted by Computer History, and may be accessible to other programs running as the same macOS user. Raw interaction-event files have a different boundary: OpenAI says they are isolated in the ChatGPT App Group and unavailable to other apps without explicit permission.
+- SpecterOps Blacklight v0.2.0 implements selected-session analysis for Codex, Claude Code, Cursor, and Antigravity CLI artifacts. Its first-party research reports controlled transfer of selected session files through a Mythic C2 channel and their subsequent offline analysis; Blacklight itself provides no artifact transport, credential reuse, or downstream access.
 
 Hunt ideas:
 
@@ -184,7 +185,7 @@ Hunt ideas:
 - Bulk state reads followed by zip/tar/base64/curl/gh/cloud upload.
 - Agent configuration and session state are copied together or appear on a new host.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history), [SpecterOps Blacklight v0.2.0](https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0), [SpecterOps Blacklight research](https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/)
 
 ---
 
@@ -545,7 +546,7 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Surface:** Runtime & Environment
 - **Tactics:** Discovery
 - **Maturity:** demonstrated
-- **Evidence sources:** primary-artifact, incident-report, secondary-analysis
+- **Evidence sources:** primary-artifact, incident-report, reproducible-research, secondary-analysis
 - **Highlights:** Nx s1ngularity, Trivy OpenVSX extension, Hades, Jscrambler npm compromise, SANDWORM_MODE
 - **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006, EAA-C-017, EAA-C-019
 - **Related:** EAA-001, EAA-006, EAA-015
@@ -565,6 +566,7 @@ Examples:
 - Trivy extension code attempted multiple local agent families and supplied prompts that asked about available tools or access.
 - The analyzed Hades payload contained directory-tree traversal logic for locating rule files or configuration directories belonging to many agent ecosystems; public reporting does not confirm that traversal on a victim endpoint.
 - The native stealer embedded in malicious Jscrambler npm releases contained product-specific paths and selectors for configuration belonging to several AI developer tools. Static analysis establishes the discovery logic in the artifact, but neither source confirms victim-side enumeration or collection.
+- Blacklight Scout v0.2.0 implements bounded enumeration and ranking of known authentication, configuration, rules, and session paths for Codex, Claude Code, Cursor, and Antigravity CLI. Its BOF and POSIX loaders inspect filesystem metadata and directory entries without reading artifact bodies; the Windows native and managed executables may read bounded, allowlisted configuration, rules/permission, and authentication text files to emit derived counts and signals, but do not emit underlying values or read session bodies.
 - These inspectable discovery paths establish `demonstrated`. They do not meet the catalog's `observed` threshold because the public cases do not confirm a specific agent binary, configuration, or capability was found on a victim endpoint.
 
 Hunt ideas:
@@ -573,7 +575,7 @@ Hunt ideas:
 - Process checks for multiple agent binaries in quick succession.
 - Recon is followed by agent launch, config write, or state collection.
 
-Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
+Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning), [SpecterOps Blacklight v0.2.0](https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0), [SpecterOps Blacklight research](https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/)
 
 ---
 

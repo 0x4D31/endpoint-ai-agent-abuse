@@ -65,3 +65,5 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Noma GitLost GitHub Agentic Workflows research — https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/
 - GitLost public proof-of-concept issue — https://github.com/sasinomalabs/poc/issues/153
 - IRFlow v1.0.10 ChatGPT Computer History forensic research — https://r3nzsec.github.io/irflow-timeline/dfir-tips/ai-query-history#chatgpt-computer-history-skysight
+- SpecterOps Blacklight v0.2.0 release — https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0
+- SpecterOps Blacklight endpoint-artifact research — https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/
