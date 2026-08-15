@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.2
+
+Blacklight implementation and hunting update.
+
+- Added Blacklight v0.2.0 and its first-party research as implementation and controlled-execution evidence for existing EAA-005 and EAA-016.
+- Added adversary-emulation guidance that separates metadata enumeration, selected artifact reads, operator-provided C2 transfer, and offline analysis.
+- Preserved Blacklight's boundaries: no agent invocation, credential reuse, inherited-authority exercise, source agent-state modification, or evidence tampering.
+- Added no new technique or case, and made no maturity, relationship, or schema change.
+
 ## 0.3.1
 
 Computer History evidence and forensics update.

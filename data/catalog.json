@@ -3,7 +3,7 @@
   "schema_version": "1.0.0",
   "name": "Endpoint AI Agent Abuse",
   "short_name": "EAA",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "CC0-1.0",
   "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
   "last_reviewed": "2026-08-15",
@@ -439,6 +439,21 @@
       "types": ["reproducible-research"],
       "published": "2026-08-14",
       "verified_on": "2026-08-15"
+    },
+    {
+      "id": "SRC-056",
+      "title": "SpecterOps Blacklight v0.2.0 release",
+      "url": "https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0",
+      "types": ["primary-artifact"],
+      "published": "2026-08-10"
+    },
+    {
+      "id": "SRC-057",
+      "title": "SpecterOps Blacklight endpoint-artifact research",
+      "url": "https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/",
+      "types": ["reproducible-research"],
+      "published": "2026-08-12",
+      "verified_on": "2026-08-15"
     }
   ],
   "techniques": [
@@ -570,7 +585,9 @@
         {"source_id": "SRC-032", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-043", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-044", "support": "version-range-documented", "confidence": "high"},
-        {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-056", "support": "mechanism-demonstrated", "confidence": "high"},
+        {"source_id": "SRC-057", "support": "execution-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
@@ -837,14 +854,16 @@
         {"source_id": "SRC-008", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-043", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-044", "support": "version-range-documented", "confidence": "high"},
-        {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"}
+        {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-056", "support": "mechanism-demonstrated", "confidence": "high"},
+        {"source_id": "SRC-057", "support": "execution-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
         {"type": "related-to", "target": "EAA-006"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-08-02"
+      "last_reviewed": "2026-08-15"
     },
     {
       "id": "EAA-017",

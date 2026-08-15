@@ -58,6 +58,8 @@ bulk or cross-product agent-state read -> archive/filter -> network or remote-st
 
 Include reads by the agent itself: an operator can ask an agent to find and process its own histories, so a `claude`, `codex`, or similar reader should not be automatically allowlisted. Also consider a non-agent process that probes several vendors' MCP or agent-configuration paths in one run, particularly when the reads are followed by filtering or egress. Computer History memory files may be readable by same-user software and may contain sensitive information; its temporary raw event files are separately isolated in the ChatGPT App Group and should not be assumed to have the same access boundary.
 
+Blacklight provides a controlled fixture for separating cross-product metadata enumeration, operator-selected transfer, and offline session parsing. Test detections for each stage independently: a path reference, filesystem metadata probe, or ranked candidate does not establish that file content was read. Its defender guidance also illustrates sensor limits: Windows event 4663 requires Audit File System plus a matching SACL; standard macOS FSEvents records changes rather than reads, while an Endpoint Security `open` event does not prove bytes were consumed; and Linux file-access telemetry can be high-volume.
+
 **Limitations:** file-read telemetry is expensive and often unavailable. Backup, indexing, migration, support, and forensic tools legitimately read state in bulk. Some credentials are stored in OS credential stores rather than the agent directory.
 
 ## H5 — Hostile gateway or shadow profile
@@ -127,6 +129,8 @@ multi-product enumeration -> agent launch / control-plane write / state collecti
 ```
 
 Look for one process probing many agent binaries, config roots, MCP files, skills, hooks, rules, trust stores, or transcript paths in a short window.
+
+Blacklight Scout can exercise this multi-product enumeration deterministically without reading session bodies in its BOF and POSIX modes. When the documented BOF and POSIX loaders run in-process, their filesystem activity is attributed to the hosting C2 agent process rather than to a distinct `blacklight` executable; verify the chosen runner's execution model and correlate the enumeration with later selected-file transfer or content parsing.
 
 **Limitations:** inventory agents, security scanners, backup software, IDEs, dotfile managers, and migration tools can produce the same enumeration. Require unusual provenance or a later action.
 
