@@ -134,15 +134,17 @@ Examples:
 
 - Miasma planted persistent assistant instructions or rule files across multiple agent ecosystems. The analyzed Hades payload contained routines intended to write comparable files; public reporting does not establish that those routines ran on a victim endpoint.
 - Cisco demonstrated poisoning Claude Code auto-memory and a user-level prompt hook. Claude Code 2.1.50 changed how memory is placed in context; current documentation says memory is context rather than enforced configuration.
+- OpenAI's current macOS-only Computer History feature is off by default, requires Memories, and records only allowed apps and websites. It periodically turns their interaction events into local Markdown memories that later ChatGPT or Codex sessions may use. OpenAI documents that these files are readable and modifiable, which establishes a durable memory-poisoning surface. It does not establish that fabricated raw event or metadata files are accepted by the product.
 - This technique's `observed` maturity is anchored in incident-confirmed instruction or rule planting. It does not establish that a later model followed every planted instruction.
 
 Hunt ideas:
 
 - Non-editor process writes memory, rule, or instruction files.
+- An unexpected process writes under `$CODEX_HOME/memories/extensions/skysight/` (usually `~/.codex/memories/extensions/skysight/`), followed by use of the changed memory in a later ChatGPT or Codex session.
 - New instruction asks the agent to auto-run commands, ignore warnings, suppress findings, trust a domain, or send output elsewhere.
 - Memory/rule write is followed by new tool behavior in later sessions.
 
-Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Cisco memory-poisoning research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/)
+Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history), [Cisco memory-poisoning research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/)
 
 ---
 
@@ -172,15 +174,17 @@ Examples:
 - Claude Code documentation confirms that an alternate configuration directory contains session history and, on Linux and Windows, credentials; macOS credentials remain in the system Keychain.
 - Claude Code stores project transcripts as JSONL under `~/.claude/projects/<project>/`, with retention and non-persistence controls that affect artifact availability. This documents the local surface, not malicious collection.
 - Codex stores local history under `CODEX_HOME` (for example, `~/.codex/history.jsonl`) when history persistence is enabled; `history.persistence = "none"` disables future local-history persistence and `history.max_bytes` can remove older entries. These are legitimate privacy and retention controls as well as forensic coverage conditions.
+- Computer History memories may contain sensitive information, are not encrypted by Computer History, and may be accessible to other programs running as the same macOS user. Raw interaction-event files have a different boundary: OpenAI says they are isolated in the ChatGPT App Group and unavailable to other apps without explicit permission.
 
 Hunt ideas:
 
 - Any unexpected process, including the agent itself or one of its descendants, recursively reads transcript/history/cache directories.
+- An unexpected same-user process reads or copies Computer History memory files under `$CODEX_HOME/memories/extensions/skysight/` (usually `~/.codex/memories/extensions/skysight/`); keep this separate from access to App Group-isolated raw events.
 - A non-agent process reads agent or MCP configuration across several product families before filtering, archiving, or egress.
 - Bulk state reads followed by zip/tar/base64/curl/gh/cloud upload.
 - Agent configuration and session state are copied together or appear on a new host.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history)
 
 ---
 
@@ -578,7 +582,7 @@ Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-fo
 - **Surface:** State & Telemetry
 - **Tactics:** Defense Evasion
 - **Maturity:** observed
-- **Evidence sources:** official-documentation, incident-report
+- **Evidence sources:** official-documentation, reproducible-research, incident-report
 - **Highlights:** OALABS compromised Claude/Codex investigation
 - **Case mappings:** EAA-C-008
 - **Related:** EAA-005, EAA-012
@@ -596,6 +600,7 @@ Examples:
 
 - In the OALABS investigation, the operator asked Claude to locate the active Claude Code transcript, remove all content after a selected point, and replace the live JSONL file with the truncated copy. The recovered sequence showed both the request and the subsequent file operations.
 - Claude Code 2.1.124 and later documents `claude project purge`, which can delete project transcripts, memory, tasks, debug logs, file history, prompt history, and metadata. This is a legitimate privacy operation and a forensic coverage condition; its existence does not imply malicious use. The OALABS incident remains the observed anchor for this technique.
+- For the current opt-in macOS Computer History feature, OpenAI documents that items and memories can be deleted or cleared. IRFlow v1.0.10's live analysis found that closed-segment event counts can retain a deletion lead and that cleared summaries can remain recoverable from the local memories Git object store. These are residual consistency signals, not authenticated evidence or proof of malicious tampering.
 
 Hunt ideas:
 
@@ -603,9 +608,12 @@ Hunt ideas:
 - Transcript size, hashes, event ordering, or sequence identifiers regress or contain gaps while independent process, file, network, or service audit evidence continues.
 - A session-history file is replaced from a temporary or working path shortly after sensitive activity.
 - Native project-purge invocation or retention changes occur immediately before or after sensitive activity; distinguish authorized privacy deletion from concealment by requiring an independent contradiction.
+- For closed Computer History segments, compare `metadata.eventCount` with well-formed event records and count malformed lines separately. Treat a shortfall as a lead, not a verdict.
+- Treat event-ID gaps and missing segment buckets as leads only; IRFlow found that IDs can advance without persisted events and that an idle interval can produce no bucket.
+- Recover cleared Computer History summaries from the local memories Git object store when available, then corroborate them with raw, endpoint, or remote evidence. Recovery proves that a summary existed and was removed, not that the model-generated summary was complete or true.
 - Treat a missing record as an evidence-gap signal, not proof of tampering: normal retention, compaction, non-persistent modes, crashes, and delayed flushing can produce gaps too.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history), [IRFlow v1.0.10 Computer History forensic research](https://r3nzsec.github.io/irflow-timeline/dfir-tips/ai-query-history#chatgpt-computer-history-skysight)
 
 ---
 
@@ -614,7 +622,7 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Surface:** Task & Retrieved Context
 - **Tactics:** Execution
 - **Maturity:** demonstrated
-- **Evidence sources:** primary-artifact, reproducible-research
+- **Evidence sources:** official-documentation, primary-artifact, reproducible-research
 - **Highlights:** ContextCrush and GitLost research
 - **Case mappings:** EAA-C-021, EAA-C-022
 - **Related:** EAA-004, EAA-010, EAA-015
@@ -637,11 +645,13 @@ Boundaries:
 Examples:
 
 - Noma demonstrated attacker-controlled Context7 custom rules being delivered verbatim with library documentation through an MCP tool result. In the controlled scenario, the retrieved content induced the coding agent to read `.env` files and publish their contents through a GitHub issue.
+- For the current opt-in macOS Computer History feature, OpenAI warns that malicious instructions from an app or website allowed to contribute history can enter later ChatGPT or Codex context. Map transient interaction-event context here; map instructions loaded from generated persistent memory files to EAA-004. The documentation establishes the surface and stated risk, not successful activation in a tested attack.
 
 Hunt ideas:
 
 - Preserve the content and provenance of issues, documents, telemetry, and tool results supplied to an agent when policy permits.
+- Preserve the originating app or website, Computer History event or memory path, later session boundary, and attempted action so transient EAA-018 context can be distinguished from persistent EAA-004 memory.
 - Correlate retrieved content with later tool calls, child processes, file access, network activity, and remote-service audit events that the user's request does not explain.
 - Treat instruction-like text as context, not proof; require a resulting attempt, execution, or effect.
 
-Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153)
+Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history)

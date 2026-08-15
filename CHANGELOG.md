@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.1
+
+Computer History evidence and forensics update.
+
+- Added official ChatGPT Computer History documentation to the existing persistent-memory, state-collection, evidence-tampering, and task-context techniques.
+- Added IRFlow residual-evidence guidance for Computer History event counts, summaries, and Git recovery.
+- Preserved the distinctions between App Group-isolated raw events and memories potentially accessible to same-user software, and between deletion leads and proof of tampering.
+- Added no technique, case, maturity, or schema change.
+
 ## 0.3.0
 
 Scope and task-context update.
