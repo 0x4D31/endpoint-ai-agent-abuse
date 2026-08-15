@@ -3,10 +3,10 @@
   "schema_version": "1.0.0",
   "name": "Endpoint AI Agent Abuse",
   "short_name": "EAA",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "CC0-1.0",
   "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
-  "last_reviewed": "2026-08-07",
+  "last_reviewed": "2026-08-15",
   "surfaces": [
     {
       "id": "launcher",
@@ -424,6 +424,21 @@
       "url": "https://code.claude.com/docs/en/debug-your-config",
       "types": ["official-documentation"],
       "verified_on": "2026-08-15"
+    },
+    {
+      "id": "SRC-054",
+      "title": "OpenAI ChatGPT Computer History documentation",
+      "url": "https://learn.chatgpt.com/docs/customization/computer-history",
+      "types": ["official-documentation"],
+      "verified_on": "2026-08-15"
+    },
+    {
+      "id": "SRC-055",
+      "title": "IRFlow v1.0.10 ChatGPT Computer History forensic research",
+      "url": "https://r3nzsec.github.io/irflow-timeline/dfir-tips/ai-query-history#chatgpt-computer-history-skysight",
+      "types": ["reproducible-research"],
+      "published": "2026-08-14",
+      "verified_on": "2026-08-15"
     }
   ],
   "techniques": [
@@ -523,7 +538,8 @@
         {"source_id": "SRC-008", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-009", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-029", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-029", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-029", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -534,7 +550,7 @@
         {"type": "related-to", "target": "EAA-014"},
         {"type": "related-to", "target": "EAA-018"}
       ],
-      "last_reviewed": "2026-08-07"
+      "last_reviewed": "2026-08-15"
     },
     {
       "id": "EAA-005",
@@ -553,14 +569,15 @@
         {"source_id": "SRC-031", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-032", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-043", "support": "artifact-present", "confidence": "high"},
-        {"source_id": "SRC-044", "support": "version-range-documented", "confidence": "high"}
+        {"source_id": "SRC-044", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
         {"type": "related-to", "target": "EAA-012"},
         {"type": "related-to", "target": "EAA-017"}
       ],
-      "last_reviewed": "2026-07-11"
+      "last_reviewed": "2026-08-15"
     },
     {
       "id": "EAA-006",
@@ -840,13 +857,15 @@
       "evidence": [
         {"source_id": "SRC-010", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"},
-        {"source_id": "SRC-031", "support": "surface-documented", "confidence": "high"}
+        {"source_id": "SRC-031", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"},
+        {"source_id": "SRC-055", "support": "surface-documented", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-005"},
         {"type": "related-to", "target": "EAA-012"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-08-15"
     },
     {
       "id": "EAA-018",
@@ -860,14 +879,15 @@
         {"source_id": "SRC-049", "support": "mechanism-demonstrated", "confidence": "high"},
         {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-050", "support": "impact-confirmed", "confidence": "high"},
-        {"source_id": "SRC-051", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-051", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
         {"type": "related-to", "target": "EAA-010"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-08-07"
+      "last_reviewed": "2026-08-15"
     }
   ],
   "cases": [

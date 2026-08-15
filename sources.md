@@ -44,6 +44,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - OpenAI Codex configuration reference — https://developers.openai.com/codex/config-reference/
 - OpenAI Codex hooks — https://developers.openai.com/codex/hooks
 - OpenAI skills documentation — https://learn.chatgpt.com/docs/build-skills
+- OpenAI ChatGPT Computer History documentation — https://learn.chatgpt.com/docs/customization/computer-history
 - Gemini CLI hooks — https://geminicli.com/docs/hooks/
 - Gemini CLI MCP servers — https://geminicli.com/docs/tools/mcp-server/
 - Gemini CLI configuration reference — https://geminicli.com/docs/reference/configuration/
@@ -63,3 +64,4 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Noma ContextCrush Context7 research — https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/
 - Noma GitLost GitHub Agentic Workflows research — https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/
 - GitLost public proof-of-concept issue — https://github.com/sasinomalabs/poc/issues/153
+- IRFlow v1.0.10 ChatGPT Computer History forensic research — https://r3nzsec.github.io/irflow-timeline/dfir-tips/ai-query-history#chatgpt-computer-history-skysight

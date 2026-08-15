@@ -42,7 +42,7 @@ agent process + permissive setting + no TTY + unexpected initiator
 unexpected writer -> agent control-plane file -> trust/load condition -> agent start/reload -> effect
 ```
 
-Track project, user, and managed scopes separately. Include hooks, instruction/memory files, rules, plugins, skills, marketplaces, and trust-state files.
+Track project, user, and managed scopes separately. Include hooks, instruction/memory files, rules, plugins, skills, marketplaces, and trust-state files. For Computer History, monitor generated memories under `$CODEX_HOME/memories/extensions/skysight/` (usually `~/.codex/memories/extensions/skysight/`); OpenAI documents these as modifiable local Markdown that future ChatGPT or Codex sessions may use.
 
 **Limitations:** editors, sync clients, installers, and agent self-maintenance legitimately change these files. A write does not prove that the relevant version loaded it or that workspace trust was granted. Content-only sensors may miss atomic rename or replace operations.
 
@@ -56,7 +56,7 @@ Track project, user, and managed scopes separately. Include hooks, instruction/m
 bulk or cross-product agent-state read -> archive/filter -> network or remote-storage write
 ```
 
-Include reads by the agent itself: an operator can ask an agent to find and process its own histories, so a `claude`, `codex`, or similar reader should not be automatically allowlisted. Also consider a non-agent process that probes several vendors' MCP or agent-configuration paths in one run, particularly when the reads are followed by filtering or egress.
+Include reads by the agent itself: an operator can ask an agent to find and process its own histories, so a `claude`, `codex`, or similar reader should not be automatically allowlisted. Also consider a non-agent process that probes several vendors' MCP or agent-configuration paths in one run, particularly when the reads are followed by filtering or egress. Computer History memory files may be readable by same-user software and may contain sensitive information; its temporary raw event files are separately isolated in the ChatGPT App Group and should not be assumed to have the same access boundary.
 
 **Limitations:** file-read telemetry is expensive and often unavailable. Backup, indexing, migration, support, and forensic tools legitimately read state in bulk. Some credentials are stored in OS credential stores rather than the agent directory.
 
@@ -148,7 +148,7 @@ Examples include a remote repository creation, cloud change, or local sensitive 
 
 **Techniques:** EAA-005, EAA-017
 
-**Required telemetry:** file write/rename/delete events for session and state paths, file identity/inode where available, size and hash history, active agent session metadata, process ancestry, effective persistence/retention configuration, native purge or privacy-deletion invocation, independent endpoint events, and remote-service audit logs.
+**Required telemetry:** file write/rename/delete events for session and state paths, file identity/inode where available, size and hash history, active agent session metadata, process ancestry, effective persistence/retention configuration, native purge or privacy-deletion invocation, independent endpoint events, and remote-service audit logs. For Computer History, preserve raw segment JSONL and metadata as early as possible during the documented retention of up to 48 hours, plus generated summaries, the local memories Git repository, and the app-approval coverage map.
 
 Look for an active agent or its descendants locating and then editing its own evidence, especially around sensitive actions.
 
@@ -163,7 +163,9 @@ Useful signals include sudden size regression, atomic replacement of a live tran
 
 Claude Code 2.1.124 and later documents `claude project purge`; Codex documents `history.persistence = "none"` and history-size cleanup. Those legitimate controls can explain missing state, but an invocation or configuration change tightly coupled to sensitive activity is worth correlating with independent telemetry. See [Claude Code application-data documentation](https://code.claude.com/docs/en/claude-directory) and [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/).
 
-**Limitations:** normal history-size compaction, retention cleanup, session reset, application migration, crash recovery, privacy deletion, and user editing can look similar. The agent process may legitimately write its own state. Require timing plus an independent contradiction; do not infer hidden content from the gap.
+For each closed Computer History segment, compare `metadata.eventCount` with the well-formed records present and count malformed lines separately. An unexplained shortfall after accounting for malformed lines is a deletion lead; an event-ID gap or missing bucket alone is not. IRFlow v1.0.10 also documents recovery of cleared summaries from the local memories Git object store, but this proves only that a model-generated summary existed and was removed. Corroborate it with raw events, endpoint telemetry, or remote audit records, and do not treat local Git history as an independent integrity boundary. See the [OpenAI Computer History documentation](https://learn.chatgpt.com/docs/customization/computer-history) and [IRFlow v1.0.10 forensic research](https://r3nzsec.github.io/irflow-timeline/dfir-tips/ai-query-history#chatgpt-computer-history-skysight).
+
+**Limitations:** normal history-size compaction, retention cleanup, session reset, application migration, crash recovery, privacy deletion, and user editing can look similar. Computer History summaries are model-generated, may self-redact, and can outlive the raw event stream; absence for an app may reflect capture permissions. The agent process may legitimately write its own state. Require timing plus an independent contradiction; do not infer hidden content from the gap.
 
 ## H12 — Shadow identity or Remote Control session
 
@@ -183,14 +185,14 @@ Prioritize isolated profiles created immediately before launch, pre-seeded works
 
 **Techniques:** EAA-018
 
-**Required telemetry:** user request and session boundary, retrieved-content or tool-result provenance and content where policy permits, agent tool calls, endpoint process/file/network effects, and remote-service audit logs.
+**Required telemetry:** user request and session boundary, retrieved-content or tool-result provenance and content where policy permits, Computer History source app or website and event/memory provenance when applicable, agent tool calls, endpoint process/file/network effects, and remote-service audit logs.
 
 ```text
-untrusted issue, document, log, or tool result
+untrusted issue, document, log, app/site interaction event, or tool result
   -> content enters active agent context
   -> unrelated local or delegated action
 ```
 
-Prioritize actions that match instructions in retrieved content but are not explained by the user's request, especially credential reads, new process execution, outbound publishing, or destructive changes. Preserve a digest and source identifier when raw content cannot be retained.
+Prioritize actions that match instructions in retrieved content but are not explained by the user's request, especially credential reads, new process execution, outbound publishing, or destructive changes. Preserve a digest and source identifier when raw content cannot be retained. For Computer History, classify direct interaction-event context as EAA-018 and generated persistent memory as EAA-004; OpenAI documents the injection risk, but a finding still requires an attempted or completed action.
 
 **Limitations:** setup documentation and issue-driven automation legitimately influence agent actions. Content may be unavailable, truncated, or redacted, and model or harness behavior can change by version. Instruction-like text alone is not malicious execution; require temporal and semantic correlation with an attempted or completed effect.
