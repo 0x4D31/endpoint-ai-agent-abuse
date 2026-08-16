@@ -1114,7 +1114,7 @@
       "contexts": ["observed-incident", "malicious-artifact"],
       "date_start": "2026-06-08",
       "date_basis": "reported",
-      "activation_notes": "The package payload first had to run before it could plant agent-specific files. This catalog does not claim one Python entry mechanism for every affected distribution. Later activation required a compatible product to load the planted files under its own trust and lifecycle rules. The source establishes that the planting code was present, not that it ran on a victim endpoint or that an agent later acted on the files.",
+      "activation_notes": "StepSecurity describes an obfuscated `__init__.py` import hook as the campaign's entry path, but EAA does not assume one Python trigger across every affected distribution. Before any agent-side effect, the payload's planting routines had to execute and a compatible product then had to load the written files under its own trust and lifecycle rules. Public evidence establishes the planting code in analyzed artifacts, not victim-side planting or later agent action.",
       "source_refs": ["SRC-008"],
       "procedures": [
         {
