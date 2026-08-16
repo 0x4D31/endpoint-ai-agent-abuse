@@ -1113,7 +1113,7 @@
       "type": "campaign",
       "contexts": ["observed-incident", "malicious-artifact"],
       "date_start": "2026-06-08",
-      "date_basis": "activity",
+      "date_basis": "reported",
       "activation_notes": "The package payload first had to run before it could plant agent-specific files. This catalog does not claim one Python entry mechanism for every affected distribution. Later activation required a compatible product to load the planted files under its own trust and lifecycle rules. The source establishes that the planting code was present, not that it ran on a victim endpoint or that an agent later acted on the files.",
       "source_refs": ["SRC-008"],
       "procedures": [
