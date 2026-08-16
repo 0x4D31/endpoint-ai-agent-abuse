@@ -116,7 +116,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | 2 | EAA-004 | present | high | The payload contained routines for planting assistant instruction or rule files in discovered workspaces. | S1 |
 | 3 | EAA-014 | present | high | The planting logic targeted multiple local assistant ecosystems from one payload. | S1 |
 
-**Activation notes:** The package payload first had to run before it could plant agent-specific files. This catalog does not claim one Python entry mechanism for every affected distribution. Later activation required a compatible product to load the planted files under its own trust and lifecycle rules. The source establishes that the planting code was present, not that it ran on a victim endpoint or that an agent later acted on the files.
+**Activation notes:** StepSecurity describes an obfuscated `__init__.py` import hook as the campaign's entry path, but EAA does not assume one Python trigger across every affected distribution. Before any agent-side effect, the payload's planting routines had to execute and a compatible product then had to load the written files under its own trust and lifecycle rules. Public evidence establishes the planting code in analyzed artifacts, not victim-side planting or later agent action.
 
 **Sources:**
 
