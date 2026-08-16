@@ -116,7 +116,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | 2 | EAA-004 | present | high | The payload contained routines for planting assistant instruction or rule files in discovered workspaces. | S1 |
 | 3 | EAA-014 | present | high | The planting logic targeted multiple local assistant ecosystems from one payload. | S1 |
 
-**Activation notes:** An affected Python package had to be imported for the initial payload chain to run. Later assistant behavior required a compatible product to load the written files under its own trust and lifecycle rules. Public reporting establishes the malicious artifacts and code paths, not subsequent model compliance or agent-side execution on every endpoint.
+**Activation notes:** A compatible install of the exact `ensmallen` 0.8.101 wheel places its top-level `ensmallen-setup.pth` file in a site directory. A later site-enabled Python startup selects the file's executable line; importing the `ensmallen` package is unnecessary. Later assistant behavior required a compatible product to load the written files under its own trust and lifecycle rules. Public reporting establishes the malicious artifacts and code paths, not subsequent model compliance or agent-side execution on every endpoint.
 
 **Sources:**
 
