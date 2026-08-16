@@ -1114,7 +1114,7 @@
       "contexts": ["observed-incident", "malicious-artifact"],
       "date_start": "2026-06-08",
       "date_basis": "activity",
-      "activation_notes": "An affected Python package had to be imported for the initial payload chain to run. Later assistant behavior required a compatible product to load the written files under its own trust and lifecycle rules. Public reporting establishes the malicious artifacts and code paths, not subsequent model compliance or agent-side execution on every endpoint.",
+      "activation_notes": "A compatible install of the exact `ensmallen` 0.8.101 wheel places its top-level `ensmallen-setup.pth` file in a site directory. A later site-enabled Python startup selects the file's executable line; importing the `ensmallen` package is unnecessary. Later assistant behavior required a compatible product to load the written files under its own trust and lifecycle rules. Public reporting establishes the malicious artifacts and code paths, not subsequent model compliance or agent-side execution on every endpoint.",
       "source_refs": ["SRC-008"],
       "procedures": [
         {
