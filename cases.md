@@ -108,7 +108,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 **Type:** campaign
 
-**Date:** 2026-06-08
+**Date:** reported 2026-06-08
 
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
