@@ -80,8 +80,8 @@ Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-fo
 - **Tactics:** Execution, Persistence
 - **Maturity:** observed
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report
-- **Highlights:** Mini Shai-Hulud, Miasma, Immobiliare Labs; Cisco, Mitiga, and Check Point research
-- **Case mappings:** EAA-C-003, EAA-C-004, EAA-C-005, EAA-C-007, EAA-C-010, EAA-C-011, EAA-C-015, EAA-C-020
+- **Highlights:** Mini Shai-Hulud, ChainDrop, Miasma, Immobiliare Labs; Cisco, Mitiga, and Check Point research
+- **Case mappings:** EAA-C-003, EAA-C-004, EAA-C-005, EAA-C-007, EAA-C-010, EAA-C-011, EAA-C-015, EAA-C-020, EAA-C-023
 - **Related:** EAA-004, EAA-008, EAA-009, EAA-014
 
 An attacker writes agent hook configuration intended to run attacker-controlled commands during session start, tool use, stop, or another lifecycle event. The scoped action is planting the hook, not the hook's later execution. Incident-confirmed planting therefore supports `observed`; execution still depends on the product, version, configuration scope, event, and applicable trust or approval state.
@@ -96,6 +96,7 @@ malicious package/repo/extension
 Examples:
 
 - Mini Shai-Hulud planted project-scoped Claude Code `SessionStart` hooks in repositories it could modify. As with other project configuration, execution depends on the affected product version and trust state.
+- ChainDrop's recovered payload contained routines to plant Claude Code and VS Code startup configuration. Public reporting confirms the routines in the malicious artifact, but not that those agent-specific writes completed on a victim or later fired; the case therefore records them as `present`, not `planted` or executed.
 - Miasma planted project-scoped Claude and Gemini startup hooks. The malicious files establish planting; activation must be evaluated against the affected product version and workspace trust state.
 - Current Gemini CLI documentation includes `SessionStart` and other lifecycle hook events. That establishes the product surface as verified on 2026-07-09; it does not establish that a Miasma-planted file activated on a victim or matched every historical Gemini CLI version.
 - Current Codex documentation also defines `SessionStart` and other lifecycle hooks in user and project configuration. Project-local hooks load only for a trusted `.codex` layer, and non-managed command hooks require review and hash-bound trust; this documents a gated surface, not malicious use.
@@ -107,7 +108,7 @@ Hunt ideas:
 - Hook command points to shell, package manager, network fetch, opaque script, or recently written binary.
 - A configured hook fires before or immediately after an agent session starts; correlate the configuration write, trust decision, session start, and child process rather than treating file presence alone as execution.
 
-Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-shai-hulud-has-appeared), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Cisco memory and hook research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [Mitiga MCP hook research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Check Point project-hook research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Claude Code hooks docs](https://code.claude.com/docs/en/hooks), [Gemini CLI hooks docs](https://geminicli.com/docs/hooks/), [Codex hooks docs](https://developers.openai.com/codex/hooks), [Claude Code startup-warning advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-ph6w-f82w-28w6), [Claude Code persistent-configuration advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)
+Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-shai-hulud-has-appeared), [Microsoft ChainDrop analysis](https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/), [GitGuardian ChainDrop deobfuscation](https://blog.gitguardian.com/keyv-mini-shai-hulud/), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Cisco memory and hook research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [Mitiga MCP hook research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Check Point project-hook research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Claude Code hooks docs](https://code.claude.com/docs/en/hooks), [Gemini CLI hooks docs](https://geminicli.com/docs/hooks), [Codex hooks docs](https://developers.openai.com/codex/hooks), [Claude Code startup-warning advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-ph6w-f82w-28w6), [Claude Code persistent-configuration advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)
 
 ---
 
@@ -117,8 +118,8 @@ Sources: [StepSecurity Mini Shai-Hulud](https://www.stepsecurity.io/blog/a-mini-
 - **Tactics:** Persistence
 - **Maturity:** observed
 - **Evidence sources:** official-documentation, reproducible-research, incident-report
-- **Highlights:** Miasma, Hades; Cisco auto-memory research
-- **Case mappings:** EAA-C-004, EAA-C-005, EAA-C-006, EAA-C-007, EAA-C-010, EAA-C-014
+- **Highlights:** Miasma, Hades, trojanized registry skills; Cisco auto-memory research
+- **Case mappings:** EAA-C-004, EAA-C-005, EAA-C-006, EAA-C-007, EAA-C-010, EAA-C-014, EAA-C-024
 - **Related:** EAA-003, EAA-005, EAA-008, EAA-009, EAA-013, EAA-014, EAA-018
 
 An attacker modifies local agent instructions, rules, or auto-memory so later sessions receive attacker-controlled guidance as context. Instruction/rule poisoning and auto-memory poisoning use different storage and loading paths; they remain grouped here because the durable effect is the same, but procedures should identify which path was used.
@@ -133,6 +134,7 @@ unexpected writer
 Examples:
 
 - Miasma planted persistent assistant instructions or rule files across multiple agent ecosystems. The analyzed Hades payload contained routines intended to write comparable files; public reporting does not establish that those routines ran on a victim endpoint.
+- Zenity's controlled detonation showed a trojanized registry skill using durable skill instructions and a progressively disclosed setup document to direct the agent to fetch and execute a later stage. The published install counts are registry counters, not verified victim counts.
 - Cisco demonstrated poisoning Claude Code auto-memory and a user-level prompt hook. Claude Code 2.1.50 changed how memory is placed in context; current documentation says memory is context rather than enforced configuration.
 - OpenAI's current macOS-only Computer History feature is off by default, requires Memories, and records only allowed apps and websites. It periodically turns their interaction events into local Markdown memories that later ChatGPT or Codex sessions may use. OpenAI documents that these files are readable and modifiable, which establishes a durable memory-poisoning surface. It does not establish that fabricated raw event or metadata files are accepted by the product.
 - This technique's `observed` maturity is anchored in incident-confirmed instruction or rule planting. It does not establish that a later model followed every planted instruction.
@@ -144,7 +146,7 @@ Hunt ideas:
 - New instruction asks the agent to auto-run commands, ignore warnings, suppress findings, trust a domain, or send output elsewhere.
 - Memory/rule write is followed by new tool behavior in later sessions.
 
-Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history), [Cisco memory-poisoning research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/)
+Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history), [Cisco memory-poisoning research](https://blogs.cisco.com/ai/identifying-and-remediating-a-persistent-memory-compromise-in-claude-code), [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents), [StepSecurity Miasma Phantom Gyp](https://www.stepsecurity.io/blog/binding-gyp-npm-supply-chain-attack-spreads-like-worm), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [StepSecurity Immobiliare Labs](https://www.stepsecurity.io/blog/immobiliarelabs-npm-packages-compromised), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Zenity skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain)
 
 ---
 
@@ -154,8 +156,8 @@ Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Ope
 - **Tactics:** Credential Access, Collection
 - **Maturity:** observed
 - **Evidence sources:** official-documentation, primary-artifact, incident-report, reproducible-research, secondary-analysis
-- **Highlights:** OALABS compromised Claude/Codex investigation; Jscrambler npm compromise
-- **Case mappings:** EAA-C-008, EAA-C-017
+- **Highlights:** OALABS compromised Claude/Codex investigation; Jscrambler and ChainDrop npm compromises
+- **Case mappings:** EAA-C-008, EAA-C-017, EAA-C-023
 - **Related:** EAA-004, EAA-012, EAA-017
 
 An attacker reads or copies local transcripts, tool histories, plans, logs, caches, session stores, or parts or complete copies of agent profiles to recover credentials, tokens, secrets, internal context, repository details, identity material, or operational history. Credential Access applies only when authentication material is actually among the collected state.
@@ -171,6 +173,7 @@ Examples:
 
 - In the OALABS investigation, a compromised Claude installation and its session history were copied to attacker-controlled systems and reused. The researchers also found other archived copies of stolen Claude instances.
 - Socket's static analysis of the malicious Jscrambler npm releases found product-specific paths and selectors for Claude-related configuration, Cursor, Windsurf, Factory, Zed, VS Code, opencode, and MCP configuration that can contain API keys or server credentials. The report establishes collection capability in the artifact, not victim-side collection or exfiltration of agent state.
+- ChainDrop expanded the predecessor campaign's hardcoded secret-location set and included product-specific paths for Cursor, OpenClaw, OpenAI Codex, OpenCode, Gemini, and Hermes. The recovered code establishes agent-state collection capability, not collection of a named victim's agent files.
 - Claude Code documentation confirms that an alternate configuration directory contains session history and, on Linux and Windows, credentials; macOS credentials remain in the system Keychain.
 - Claude Code stores project transcripts as JSONL under `~/.claude/projects/<project>/`, with retention and non-persistence controls that affect artifact availability. This documents the local surface, not malicious collection.
 - Codex stores local history under `CODEX_HOME` (for example, `~/.codex/history.jsonl`) when history persistence is enabled; `history.persistence = "none"` disables future local-history persistence and `history.max_bytes` can remove older entries. These are legitimate privacy and retention controls as well as forensic coverage conditions.
@@ -185,7 +188,7 @@ Hunt ideas:
 - Bulk state reads followed by zip/tar/base64/curl/gh/cloud upload.
 - Agent configuration and session state are copied together or appear on a new host.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history), [SpecterOps Blacklight v0.2.0](https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0), [SpecterOps Blacklight research](https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [GitGuardian ChainDrop deobfuscation](https://blog.gitguardian.com/keyv-mini-shai-hulud/), [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Claude Code sessions docs](https://code.claude.com/docs/en/sessions), [Claude Code directory docs](https://code.claude.com/docs/en/claude-directory), [Codex advanced configuration](https://developers.openai.com/codex/config-advanced/), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history), [SpecterOps Blacklight v0.2.0](https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0), [SpecterOps Blacklight research](https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/)
 
 ---
 
@@ -195,8 +198,8 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Tactics:** Execution, Persistence
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report
-- **Highlights:** historical Claude Code MCP approval-bypass research; Mitiga MCP endpoint-rewrite research
-- **Case mappings:** EAA-C-011, EAA-C-014, EAA-C-015, EAA-C-018, EAA-C-019
+- **Highlights:** historical Claude Code MCP approval-bypass research; Mitiga endpoint rewrite; Kiro web-to-MCP rewrite
+- **Case mappings:** EAA-C-011, EAA-C-014, EAA-C-015, EAA-C-018, EAA-C-019, EAA-C-025
 - **Related:** EAA-009, EAA-010, EAA-011, EAA-014, EAA-015, EAA-016
 
 An attacker adds or modifies local MCP or tool configuration so the agent connects to an attacker-selected server or gains a new filesystem, shell, browser, SaaS, or network capability. Project-scoped MCP definitions normally require product-specific trust or server approval; configuration presence alone is not proof of activation.
@@ -212,6 +215,7 @@ Examples:
 
 - Check Point demonstrated that older Claude Code versions could use repository-controlled settings to approve and start a project MCP server before the trust decision. The bypass was patched before public disclosure.
 - Mitiga demonstrated same-user code rewriting an existing MCP endpoint and using a lifecycle hook to reassert the change. The proof of concept required prior local execution and a compatible OAuth-backed MCP server.
+- Intezer and Kodem demonstrated hidden web content inducing Kiro to write a user-level MCP configuration that the IDE automatically reloaded, executing an attacker-selected local command without a separate approval. AWS fixed the issue in Kiro IDE 0.11.
 - Gemini CLI documents an MCP server `trust: true` setting that bypasses all tool-call confirmations for that server. It is an explicit high-risk configuration primitive, not evidence of a product vulnerability or malicious use.
 - Poisoning the content of an already connected server's tool definitions is tracked separately in EAA-010.
 
@@ -221,7 +225,7 @@ Hunt ideas:
 - Stdio MCP command uses shell, package manager, network fetch, or unpinned package execution.
 - Capability appears shortly before sensitive file, browser, GitHub, Slack, or cloud activity.
 
-Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Claude Code configuration debugging](https://code.claude.com/docs/en/debug-your-config), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
+Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Claude Code configuration debugging](https://code.claude.com/docs/en/debug-your-config), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Mitiga MCP endpoint-rewrite research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [Adversa AI SymJack research](https://adversa.ai/blog/the-approval-prompt-is-lying-to-you-symlink-rce-in-five-ai-coding-agents-claude-code-cursor-antigravity-copilot-grok-build/), [Gemini CLI MCP server docs](https://geminicli.com/docs/tools/mcp-server/), [Claude Code pre-trust execution advisory](https://github.com/advisories/GHSA-4fgq-fpq9-mr3g), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 
@@ -297,9 +301,10 @@ Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env
 
 - **Surface:** Control Plane
 - **Tactics:** Execution, Persistence
-- **Maturity:** feasible
-- **Evidence sources:** official-documentation
-- **Case mappings:** none
+- **Maturity:** demonstrated
+- **Evidence sources:** official-documentation, reproducible-research, incident-report
+- **Highlights:** trojanized skills.sh packages targeting Paperclip and Browser Use users
+- **Case mappings:** EAA-C-024
 - **Related:** EAA-003, EAA-004, EAA-006, EAA-008, EAA-013
 
 An attacker causes an agent's extension mechanism to fetch and load an attacker-controlled plugin archive, marketplace plugin, or standalone skill through a product-supported sideload or installation path. Acquired content can bring hooks, commands, skills, MCP servers, binaries, monitors, or other executable behavior.
@@ -313,6 +318,7 @@ remote plugin URL, marketplace item, or skill repository selected
 
 Examples:
 
+- Zenity identified an active campaign of trojanized skills.sh packages and, in controlled detonation, observed an installed skill route an agent through a secondary setup document to a live remote payload. The campaign provides the missing behavioral evidence for standalone skill installation; aggregate registry install counters are not unique or verified victims.
 - Claude Code fetches `--plugin-url` archives at startup and loads them for that session only.
 - Marketplace registration, plugin installation, enablement, and update are separate state changes. Adding a marketplace alone does not establish that a plugin was installed or loaded.
 - Claude Code plugins can distribute skills, so a plugin installation can deliver skill content without a separate skill installer.
@@ -325,9 +331,10 @@ Hunt ideas:
 - Agent starts with remote plugin URL or unapproved plugin directory.
 - New plugin marketplace appears in config, followed by installation or enablement of a plugin from that source.
 - New standalone skill content appears in a user or administrator skill directory with installer or remote-repository provenance.
+- Skill instructions redirect the agent through nested setup documents or fetch executable content from a domain not present in the reviewed revision.
 - Plugin reload is followed by first-seen hook, MCP, command, monitor, or binary execution.
 
-Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude Code plugins reference](https://code.claude.com/docs/en/plugins-reference), [Claude Code plugin discovery and security](https://code.claude.com/docs/en/discover-plugins), [Claude Code settings](https://code.claude.com/docs/en/settings), [OpenAI skills documentation](https://learn.chatgpt.com/docs/build-skills)
+Sources: [Zenity skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain), [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude Code plugins reference](https://code.claude.com/docs/en/plugins-reference), [Claude Code plugin discovery and security](https://code.claude.com/docs/en/discover-plugins), [Claude Code settings](https://code.claude.com/docs/en/settings), [OpenAI skills documentation](https://learn.chatgpt.com/docs/build-skills)
 
 ---
 
@@ -337,8 +344,8 @@ Sources: [Claude Code plugins](https://code.claude.com/docs/en/plugins), [Claude
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report
-- **Highlights:** MCP rug-pull/tool-poisoning research
-- **Case mappings:** EAA-C-009, EAA-C-019
+- **Highlights:** MCP rug-pull/tool-poisoning and GhostSplice research
+- **Case mappings:** EAA-C-009, EAA-C-019, EAA-C-028
 - **Related:** EAA-006, EAA-011, EAA-018
 
 An MCP server embeds adversarial instructions in tool metadata or changes an advertised tool definition after an earlier benign presentation. This can steer the agent before a tool is selected, shadow another server's tool, or change how a capability is understood later.
@@ -353,6 +360,7 @@ Examples:
 
 - Trail of Bits demonstrated that instructions in MCP tool descriptions can influence an agent before the user invokes the malicious tool.
 - Invariant Labs published reproducible examples of direct tool poisoning, cross-server tool shadowing, and a sleeper server that presents a malicious interface on a later load.
+- ASSET Group's GhostSplice research demonstrated that a malicious MCP server can split an instruction across tool descriptions, tool results, and optionally sampling responses so that no single channel contains the complete request. Controlled runs caused Codex CLI, Cursor, and Visual Studio Code with GitHub Copilot to send seeded credentials to the malicious tool.
 - Claude Code supports MCP `list_changed` notifications and automatically refreshes advertised tools, prompts, and resources. The documentation proves live mutation is supported; it does not by itself demonstrate malicious use of that live path.
 
 Hunt ideas:
@@ -360,8 +368,9 @@ Hunt ideas:
 - Tool metadata or the tool list changes after its first observation or approval.
 - New write/network/admin capability appears mid-session.
 - MCP tool metadata precedes an agent action without a matching user request or expected tool selection.
+- Correlate metadata, result, and sampling fragments across a full MCP session; inspecting each message independently can miss a reconstructed instruction.
 
-Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments), [Trail of Bits MCP line-jumping](https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/), [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
+Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments), [Trail of Bits MCP line-jumping](https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice), [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 
@@ -512,9 +521,9 @@ Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** observed
 - **Evidence sources:** primary-artifact, reproducible-research, incident-report, secondary-analysis
-- **Highlights:** OALABS compromised Claude/Codex investigation; Trivy attempted path; Mitiga, Dash, Wiz, and Noma research
-- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018, EAA-C-021, EAA-C-022
-- **Related:** EAA-001, EAA-002, EAA-006, EAA-016, EAA-018
+- **Highlights:** OALABS compromised Claude/Codex investigation; Trivy attempted path; Mitiga, Dash, Wiz, Noma, Zenity, Kiro, and GhostSplice research
+- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018, EAA-C-021, EAA-C-022, EAA-C-024, EAA-C-025, EAA-C-028
+- **Related:** EAA-001, EAA-002, EAA-006, EAA-016, EAA-018, EAA-019, EAA-020
 
 An attacker uses the agent's existing access to local shell, filesystem, authenticated CLIs, browser or session state, MCP servers, or SaaS/cloud tools. These authority sources have different audit and revocation semantics and should be identified separately at procedure level.
 
@@ -529,6 +538,7 @@ Examples:
 - The Trivy extension attempted to use local agents and authenticated GitHub tooling as part of its collection/exfiltration path.
 - OALABS recovered sessions showing an attacker using local Claude and Codex agents with their available shell, filesystem, and network access to conduct real intrusions and data exfiltration.
 - Wiz demonstrated an Amazon Q MCP command inheriting a developer environment and successfully using its active AWS session in controlled testing.
+- Zenity's controlled detonation, Kiro's web-to-MCP chain, and GhostSplice each ended in code, file, or network activity performed with the agent's existing endpoint authority. Those cases map the delivery mechanism separately from the authority used at impact.
 
 Hunt ideas:
 
@@ -537,7 +547,9 @@ Hunt ideas:
 - SaaS/cloud audit event correlates to an unusual local agent session.
 - Distinguish an agent using delegated authority from direct credential theft; the same downstream service event may otherwise appear to be an ordinary human action.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Zenity skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/)
+
+Additional sources: [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice)
 
 ---
 
@@ -547,8 +559,8 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Tactics:** Discovery
 - **Maturity:** demonstrated
 - **Evidence sources:** primary-artifact, incident-report, reproducible-research, secondary-analysis
-- **Highlights:** Nx s1ngularity, Trivy OpenVSX extension, Hades, Jscrambler npm compromise, SANDWORM_MODE
-- **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006, EAA-C-017, EAA-C-019
+- **Highlights:** Nx s1ngularity, Trivy OpenVSX extension, Hades, Jscrambler, ChainDrop, SANDWORM_MODE
+- **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006, EAA-C-017, EAA-C-019, EAA-C-023
 - **Related:** EAA-001, EAA-006, EAA-015
 
 An attacker enumerates installed agent binaries or agent-related configuration, tools, authority, state, or capabilities to locate collectable agent assets or choose a later abuse path. Procedures should distinguish binary discovery from configuration, capability, authority, and state discovery.
@@ -566,6 +578,7 @@ Examples:
 - Trivy extension code attempted multiple local agent families and supplied prompts that asked about available tools or access.
 - The analyzed Hades payload contained directory-tree traversal logic for locating rule files or configuration directories belonging to many agent ecosystems; public reporting does not confirm that traversal on a victim endpoint.
 - The native stealer embedded in malicious Jscrambler npm releases contained product-specific paths and selectors for configuration belonging to several AI developer tools. Static analysis establishes the discovery logic in the artifact, but neither source confirms victim-side enumeration or collection.
+- ChainDrop's recovered code enumerated a wider cross-platform set of secret and product configuration paths, including multiple endpoint-agent ecosystems. Public evidence establishes capability in the artifact, not which paths existed on a victim.
 - Blacklight Scout v0.2.0 implements bounded enumeration and ranking of known authentication, configuration, rules, and session paths for Codex, Claude Code, Cursor, and Antigravity CLI. Its BOF and POSIX loaders inspect filesystem metadata and directory entries without reading artifact bodies; the Windows native and managed executables may read bounded, allowlisted configuration, rules/permission, and authentication text files to emit derived counts and signals, but do not emit underlying values or read session bodies.
 - These inspectable discovery paths establish `demonstrated`. They do not meet the catalog's `observed` threshold because the public cases do not confirm a specific agent binary, configuration, or capability was found on a victim endpoint.
 
@@ -575,7 +588,9 @@ Hunt ideas:
 - Process checks for multiple agent binaries in quick succession.
 - Recon is followed by agent launch, config write, or state collection.
 
-Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning), [SpecterOps Blacklight v0.2.0](https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0), [SpecterOps Blacklight research](https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/)
+Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [GitGuardian ChainDrop deobfuscation](https://blog.gitguardian.com/keyv-mini-shai-hulud/), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning), [SpecterOps Blacklight v0.2.0](https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0), [SpecterOps Blacklight research](https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/)
+
+Additional source: [Microsoft ChainDrop analysis](https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/)
 
 ---
 
@@ -625,9 +640,9 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Tactics:** Execution
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research
-- **Highlights:** ContextCrush and GitLost research
-- **Case mappings:** EAA-C-021, EAA-C-022
-- **Related:** EAA-004, EAA-010, EAA-015
+- **Highlights:** ContextCrush, GitLost, and Kiro web-to-MCP research
+- **Case mappings:** EAA-C-021, EAA-C-022, EAA-C-025
+- **Related:** EAA-004, EAA-010, EAA-015, EAA-019, EAA-020
 
 An attacker causes adversarial instructions delivered as task data or retrieved context—rather than through a designated endpoint instruction, configuration, extension, or tool-definition surface—to enter an active agent task. The content can arrive through an issue, document, log entry, error, or tool result and influence the agent's local or delegated actions.
 
@@ -647,6 +662,7 @@ Boundaries:
 Examples:
 
 - Noma demonstrated attacker-controlled Context7 custom rules being delivered verbatim with library documentation through an MCP tool result. In the controlled scenario, the retrieved content induced the coding agent to read `.env` files and publish their contents through a GitHub issue.
+- Intezer and Kodem demonstrated hidden instructions in web content retrieved by Kiro inducing the agent to rewrite its persistent MCP configuration, which then auto-reloaded and executed a local process.
 - For the current opt-in macOS Computer History feature, OpenAI warns that malicious instructions from an app or website allowed to contribute history can enter later ChatGPT or Codex context. Map transient interaction-event context here; map instructions loaded from generated persistent memory files to EAA-004. The documentation establishes the surface and stated risk, not successful activation in a tested attack.
 
 Hunt ideas:
@@ -656,4 +672,83 @@ Hunt ideas:
 - Correlate retrieved content with later tool calls, child processes, file access, network activity, and remote-service audit events that the user's request does not explain.
 - Treat instruction-like text as context, not proof; require a resulting attempt, execution, or effect.
 
-Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history)
+Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history)
+
+---
+
+## EAA-019 — Agent preflight helper execution through repository metadata
+
+- **Surface:** Runtime & Environment
+- **Tactics:** Execution
+- **Maturity:** demonstrated
+- **Evidence sources:** reproducible-research
+- **Highlights:** GitSpawn command execution across seven coding-agent products
+- **Case mappings:** EAA-C-026
+- **Related:** EAA-015, EAA-018
+
+An attacker supplies a working tree with command-bearing repository metadata that an endpoint agent passes to a background helper during startup, review, or context gathering. The helper interprets the metadata and executes an attacker-selected host command before the agent's ordinary trust, approval, or sandbox controls apply.
+
+```text
+working tree plus attacker-controlled repository metadata
+  -> agent runs an automatic preflight or context-gathering helper
+  -> helper interprets a command-bearing repository setting
+  -> attacker command executes with the agent process's host authority
+```
+
+Boundaries:
+
+- This technique requires repository metadata such as `.git/config`, not merely files in the checked-out worktree. A normal clone, fetch, or pull does not transfer another repository's local Git configuration; archive, shared-drive, synchronized-folder, removable-media, or similar delivery can preserve it.
+- Ordinary malicious repository content that the model reads as task context remains EAA-018. EAA-019 applies when a non-model helper interprets repository metadata as an executable directive.
+- Follow-on use of the agent process's filesystem, credentials, or authenticated tools maps separately to EAA-015.
+
+Examples:
+
+- Manifold Security's GitSpawn research demonstrated command execution through `core.fsmonitor` or analogous Git configuration during automatic repository inspection in Claude Code, OpenAI Codex, Cursor, goose, Hermes Agent, Qwen Code, and Grok Build. Product behavior and remediation status differed, so the case preserves the source's product-specific version statements rather than inferring a common fixed range.
+
+Hunt ideas:
+
+- Inspect local repository configuration before opening worktrees obtained through channels that can preserve `.git`; flag command-bearing helper keys such as `core.fsmonitor`, aliases, hooks paths, credential helpers, or text-conversion drivers.
+- Correlate agent startup or review with unexpected Git child processes and their descendants, especially before a workspace-trust decision is recorded.
+- Record repository delivery provenance. A hostile `.git/config` found after an ordinary clone may have been added locally and should not be attributed to the remote repository without evidence.
+
+Sources: [Manifold Security GitSpawn research](https://www.manifold.security/blog/ai-coding-agents-git-hijack)
+
+---
+
+## EAA-020 — Agent-consumed reference takeover
+
+- **Surface:** Task & Retrieved Context
+- **Tactics:** Execution
+- **Maturity:** demonstrated
+- **Evidence sources:** primary-artifact, reproducible-research, secondary-analysis
+- **Highlights:** dangling package references in `llms.txt` and agent-facing documentation
+- **Case mappings:** EAA-C-027
+- **Related:** EAA-015, EAA-018
+
+An attacker claims or retakes a mutable package, domain, repository, or other locator already named in operational guidance that an endpoint agent consumes. The trusted-looking source text need not change: the agent resolves the stale reference to attacker-controlled content and may install or execute it while completing the task.
+
+```text
+agent-consumed guidance contains an unowned or mutable reference
+  -> attacker gains control of the referenced destination
+  -> agent follows the unchanged guidance
+  -> attacker content is fetched, installed, or executed
+```
+
+Boundaries:
+
+- EAA-020 requires control of the referenced destination while the source guidance remains unchanged. If the attacker inserts adversarial instructions into task data or retrieved content, use EAA-018.
+- A dangling reference alone is exposure, not execution. Case outcomes should distinguish an available malicious artifact from controlled callback evidence or victim impact.
+- Ordinary dependency confusion outside an agent-consumed instruction path is outside this technique.
+
+Examples:
+
+- Alon Hertz's controlled research registered selected unclaimed package references found in public `llms.txt` files and observed inert beacon callbacks after Claude Code, OpenAI Codex, and Hermes Agent followed the published guidance in repeated tests. The public evidence does not identify affected organizations or demonstrate harmful payload behavior.
+- A separately observed Clerk documentation reference was claimed on npm as `clerk-next-fix-auth-protection` versions 7.7.7 and 8.8.8 with an install-time data-collection payload. The malicious artifact was live, but public reporting does not prove an endpoint agent installed it; that procedure is therefore `present`, not executed.
+
+Hunt ideas:
+
+- Resolve package, domain, repository, and download references in agent-facing guidance to immutable provenance where possible; alert when ownership, publication time, or signing identity changes after the referring document was published.
+- Correlate agent reads of `llms.txt`, setup guides, or generated documentation with first-time package installation, install scripts, or network access to newly registered destinations.
+- Preserve both the referring document revision and the resolved artifact. Reviewing only the unchanged document can miss the takeover.
+
+Sources: [Alon Hertz reference-takeover research](https://medium.com/@alonhertz1/data-became-code-we-ran-code-inside-fortune-500s-using-files-they-published-for-ai-agents-0cd67ffbbffc), [Ars Technica analysis](https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/), [OSV MAL-2026-11069](https://osv.dev/vulnerability/MAL-2026-11069)

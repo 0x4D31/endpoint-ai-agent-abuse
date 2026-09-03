@@ -17,6 +17,9 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Socket Jscrambler npm compromise analysis — https://socket.dev/blog/jscrambler-supply-chain-attack
 - Jscrambler unauthorized-publication advisory — https://jscrambler.com/blog/security-advisory-malicious-npm-package
 - Socket SANDWORM_MODE campaign analysis — https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning
+- Microsoft ChainDrop campaign analysis — https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/
+- GitGuardian keyv Mini Shai-Hulud analysis — https://blog.gitguardian.com/keyv-mini-shai-hulud/
+- Zenity Paperclip and Browser Use skill-supply-chain analysis — https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain
 
 ## Vendor documentation and advisories
 
@@ -38,6 +41,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Claude Code pre-trust execution advisory, CVE-2025-59536 — https://github.com/advisories/GHSA-4fgq-fpq9-mr3g
 - Claude Code pre-trust data-leakage advisory, CVE-2026-21852 — https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7
 - AWS Language Servers arbitrary-code-execution advisory, CVE-2026-12957 — https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7
+- AWS Kiro execution-sensitive file-write advisory, CVE-2026-10591 — https://aws.amazon.com/security/security-bulletins/2026-037-aws/
 - Claude Code persistent-configuration injection advisory, CVE-2026-25725 — https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf
 - OpenAI Codex advanced configuration — https://developers.openai.com/codex/config-advanced/
 - OpenAI Codex environment variables — https://developers.openai.com/codex/environment-variables/
@@ -67,3 +71,10 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - IRFlow v1.0.10 ChatGPT Computer History forensic research — https://r3nzsec.github.io/irflow-timeline/dfir-tips/ai-query-history#chatgpt-computer-history-skysight
 - SpecterOps Blacklight v0.2.0 release — https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0
 - SpecterOps Blacklight endpoint-artifact research — https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/
+- Intezer and Kodem Kiro MCP configuration research — https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/
+- Manifold GitSpawn research — https://www.manifold.security/blog/ai-coding-agents-git-hijack
+- Alon Hertz `llms.txt` dangling-reference research — https://medium.com/@alonhertz1/data-became-code-we-ran-code-inside-fortune-500s-using-files-they-published-for-ai-agents-0cd67ffbbffc
+- Ars Technica `llms.txt` agent-install reporting — https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/
+- OSV MAL-2026-11069 malicious-package record — https://osv.dev/vulnerability/MAL-2026-11069
+- ASSET GhostSplice research — https://asset-group.github.io/disclosures/ghostsplice/
+- ASSET GhostSplice proof-of-concept repository — https://github.com/asset-group/ghostsplice

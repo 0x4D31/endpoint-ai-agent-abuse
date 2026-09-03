@@ -44,6 +44,8 @@ unexpected writer -> agent control-plane file -> trust/load condition -> agent s
 
 Track project, user, and managed scopes separately. Include hooks, instruction/memory files, rules, plugins, skills, marketplaces, and trust-state files. For Computer History, monitor generated memories under `$CODEX_HOME/memories/extensions/skysight/` (usually `~/.codex/memories/extensions/skysight/`); OpenAI documents these as modifiable local Markdown that future ChatGPT or Codex sessions may use.
 
+For registry-delivered skills, retain the registry identity, resolved repository and commit, installed bytes, install time, and later updates separately. A high aggregate install counter is exposure context, not a victim count or evidence that a malicious revision loaded.
+
 **Limitations:** editors, sync clients, installers, and agent self-maintenance legitimately change these files. A write does not prove that the relevant version loaded it or that workspace trust was granted. Content-only sensors may miss atomic rename or replace operations.
 
 ## H4 — Transcript and agent-state collection
@@ -87,6 +89,8 @@ new or changed capability -> agent reload/event -> sensitive tool or network act
 ```
 
 Differentiate a tool that changed during a live session from one that presented differently on a later connection. Record description-only changes as well as schema and command changes.
+
+Correlate across channels rather than scanning each item alone. Preserve the tool description visible at connection time, later tool results or sampling messages, and arguments passed into subsequent calls; a split instruction may become harmful only when data from one channel fills parameters defined in another.
 
 **Limitations:** dynamic tool discovery and environment-specific configuration are legitimate. Many clients do not expose complete tool definitions or update events, and a first-seen capability may simply reflect a new project.
 
@@ -200,3 +204,35 @@ untrusted issue, document, log, app/site interaction event, or tool result
 Prioritize actions that match instructions in retrieved content but are not explained by the user's request, especially credential reads, new process execution, outbound publishing, or destructive changes. Preserve a digest and source identifier when raw content cannot be retained. For Computer History, classify direct interaction-event context as EAA-018 and generated persistent memory as EAA-004; OpenAI documents the injection risk, but a finding still requires an attempted or completed action.
 
 **Limitations:** setup documentation and issue-driven automation legitimately influence agent actions. Content may be unavailable, truncated, or redacted, and model or harness behavior can change by version. Instruction-like text alone is not malicious execution; require temporal and semantic correlation with an attempted or completed effect.
+
+## H14 — Repository metadata triggers an agent preflight helper
+
+**Techniques:** EAA-019
+
+**Required telemetry:** agent process start and version, working-directory provenance, delivery method for the repository, raw `.git/config` captured without invoking Git in the suspect tree, full child-process ancestry, Git command line and configuration overrides, workspace-trust timing, and the resulting host process or network effect.
+
+```text
+repository arrives with .git metadata intact
+  -> agent runs background git context command
+  -> repository-selected helper executes before approval
+```
+
+Prioritize workspaces received as archives, shared folders, synchronized directories, or removable media. A normal clone, fetch, or pull does not transfer another repository's local `.git/config`. Look for agent-spawned Git commands without a safe override followed by a child process named by `core.fsmonitor` or another command-bearing Git setting.
+
+**Limitations:** legitimate filesystem monitors, diff drivers, credential helpers, and hooks can execute during normal Git use. The vulnerable settings and product mitigations are version-sensitive. Inspect suspicious metadata as data from outside the repository and do not run routine Git commands in it during triage.
+
+## H15 — Agent-consumed reference resolves to a new owner
+
+**Techniques:** EAA-020
+
+**Required telemetry:** retrieved documentation URL and digest, referenced package/domain identity, package-manager parent process, registry provenance and publication age, publisher identity, lockfile or resolved artifact hash, agent session/tool calls, install-script execution, and outbound callbacks.
+
+```text
+agent reads operational guidance
+  -> referenced package/domain has absent or changed ownership
+  -> agent fetches and executes newly controlled content
+```
+
+Flag install or setup actions where an agent follows a reference from `llms.txt`, API documentation, a setup guide, or another retrieved source and the destination was only recently registered, has no verified relationship to the documented vendor, or changed owners after the source was published. Preserve both the instruction and the exact resolved artifact: the attacker may control only the destination, not the text.
+
+**Limitations:** new packages, renamed SDKs, mirrors, and documentation mistakes are common. Registration age or missing provenance is a risk signal, not proof of maliciousness. Require the resolved artifact, execution behavior, or a corroborating callback before claiming impact.
