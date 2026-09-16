@@ -3,7 +3,7 @@
   "schema_version": "1.0.0",
   "name": "Endpoint AI Agent Abuse",
   "short_name": "EAA",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "license": "CC0-1.0",
   "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
   "last_reviewed": "2026-09-16",
@@ -539,6 +539,94 @@
       "url": "https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75",
       "types": ["primary-artifact"],
       "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-069",
+      "title": "AWS Amazon Q VS Code extension compromise advisory",
+      "url": "https://aws.amazon.com/security/security-bulletins/AWS-2025-015/",
+      "types": ["primary-artifact"],
+      "published": "2025-07-23",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-070",
+      "title": "Malicious Amazon Q extension source commit",
+      "url": "https://github.com/aws/aws-toolkit-vscode/commit/1294b38b7fade342cfcbaf7cf80e2e5096ea1f9c",
+      "types": ["primary-artifact", "malicious-artifact"],
+      "published": "2025-07-13",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-071",
+      "title": "Snyk postmark-mcp analysis and reproduced server code",
+      "url": "https://snyk.io/blog/malicious-mcp-server-on-npm-postmark-mcp-harvests-emails/",
+      "types": ["incident-report"],
+      "published": "2025-09-25",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-072",
+      "title": "OSV MAL-2025-47604 postmark-mcp record",
+      "url": "https://osv.dev/vulnerability/MAL-2025-47604",
+      "types": ["primary-artifact"],
+      "published": "2025-09-26",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-073",
+      "title": "Microsoft Claude Code GitHub Action secret-exposure research",
+      "url": "https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/",
+      "types": ["reproducible-research"],
+      "published": "2026-06-05",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-074",
+      "title": "depthfirst OpenClaw gateway takeover research",
+      "url": "https://depthfirst.com/research/1-click-rce-to-steal-your-moltbot-data-and-keys",
+      "types": ["reproducible-research"],
+      "published": "2026-02-01",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-075",
+      "title": "OpenClaw gatewayUrl token-exfiltration advisory",
+      "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-g8p2-7wf7-98mq",
+      "types": ["primary-artifact"],
+      "published": "2026-01-31",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-076",
+      "title": "Embrace The Red AI ClickFix demonstration",
+      "url": "https://embracethered.com/blog/posts/2025/ai-clickfix-ttp-claude/",
+      "types": ["reproducible-research"],
+      "published": "2025-05-24",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-077",
+      "title": "Mitiga poisoned coding-assessment incident report",
+      "url": "https://www.mitiga.io/blog/poisoned-coding-test-ai-agent-attack",
+      "types": ["incident-report"],
+      "published": "2026-06-19",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-078",
+      "title": "Orca skill marketplace installation and update research",
+      "url": "https://orca.security/resources/blog/ai-agent-skill-supply-chain-security/",
+      "types": ["reproducible-research"],
+      "published": "2026-05-05",
+      "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-079",
+      "title": "Tenet Agentjacking through Sentry error data",
+      "url": "https://tenetsecurity.ai/blog/agentjacking-coding-agents-with-fake-sentry-errors/",
+      "types": ["reproducible-research"],
+      "published": "2026-06-17",
+      "verified_on": "2026-09-16"
     }
   ],
   "techniques": [
@@ -555,14 +643,16 @@
         {"source_id": "SRC-002", "support": "artifact-present", "confidence": "medium"},
         {"source_id": "SRC-002", "support": "execution-attempted", "confidence": "medium"},
         {"source_id": "SRC-003", "support": "artifact-present", "confidence": "high"},
-        {"source_id": "SRC-004", "support": "execution-attempted", "confidence": "medium"}
+        {"source_id": "SRC-004", "support": "execution-attempted", "confidence": "medium"},
+        {"source_id": "SRC-070", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-069", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-002"},
         {"type": "related-to", "target": "EAA-015"},
         {"type": "related-to", "target": "EAA-016"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-09-16"
     },
     {
       "id": "EAA-002",
@@ -578,13 +668,15 @@
         {"source_id": "SRC-004", "support": "execution-attempted", "confidence": "medium"},
         {"source_id": "SRC-011", "support": "mechanism-demonstrated", "confidence": "high"},
         {"source_id": "SRC-011", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-025", "support": "execution-confirmed", "confidence": "high"}
+        {"source_id": "SRC-025", "support": "execution-confirmed", "confidence": "high"},
+        {"source_id": "SRC-070", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-069", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-09-16"
     },
     {
       "id": "EAA-003",
@@ -642,7 +734,9 @@
         {"source_id": "SRC-029", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-029", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-060", "support": "execution-confirmed", "confidence": "medium"}
+        {"source_id": "SRC-060", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-077", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-078", "support": "execution-confirmed", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -653,7 +747,7 @@
         {"type": "related-to", "target": "EAA-014"},
         {"type": "related-to", "target": "EAA-018"}
       ],
-      "last_reviewed": "2026-09-03"
+      "last_reviewed": "2026-09-16"
     },
     {
       "id": "EAA-005",
@@ -692,7 +786,7 @@
       "primary_surface": "tools-integrations",
       "secondary_surfaces": ["control-plane"],
       "tactics": ["Execution", "Persistence"],
-      "maturity": "demonstrated",
+      "maturity": "observed",
       "evidence": [
         {"source_id": "SRC-015", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-023", "support": "mechanism-demonstrated", "confidence": "high"},
@@ -710,7 +804,8 @@
         {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-053", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-061", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-062", "support": "version-range-documented", "confidence": "high"}
+        {"source_id": "SRC-062", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-077", "support": "execution-confirmed", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-009"},
@@ -718,9 +813,10 @@
         {"type": "related-to", "target": "EAA-011"},
         {"type": "related-to", "target": "EAA-014"},
         {"type": "related-to", "target": "EAA-015"},
-        {"type": "related-to", "target": "EAA-016"}
+        {"type": "related-to", "target": "EAA-016"},
+        {"type": "related-to", "target": "EAA-021"}
       ],
-      "last_reviewed": "2026-09-03"
+      "last_reviewed": "2026-09-16"
     },
     {
       "id": "EAA-007",
@@ -773,7 +869,7 @@
     {
       "id": "EAA-009",
       "name": "Remote plugin or skill installation",
-      "summary": "An attacker causes an agent extension mechanism to fetch and load an attacker-controlled plugin or standalone skill through a product-supported sideload or installation path.",
+      "summary": "An attacker causes an agent extension mechanism to fetch and load an attacker-controlled plugin or standalone skill through a product-supported installation or update path.",
       "primary_surface": "control-plane",
       "secondary_surfaces": [],
       "tactics": ["Execution", "Persistence"],
@@ -785,14 +881,16 @@
         {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-052", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-060", "support": "mechanism-demonstrated", "confidence": "medium"},
-        {"source_id": "SRC-060", "support": "artifact-present", "confidence": "high"}
+        {"source_id": "SRC-060", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-078", "support": "execution-confirmed", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
         {"type": "related-to", "target": "EAA-004"},
         {"type": "related-to", "target": "EAA-006"},
         {"type": "related-to", "target": "EAA-008"},
-        {"type": "related-to", "target": "EAA-013"}
+        {"type": "related-to", "target": "EAA-013"},
+        {"type": "related-to", "target": "EAA-021"}
       ],
       "last_reviewed": "2026-09-16"
     },
@@ -803,19 +901,21 @@
       "primary_surface": "tools-integrations",
       "secondary_surfaces": [],
       "tactics": ["Execution", "Collection", "Exfiltration"],
-      "maturity": "demonstrated",
+      "maturity": "observed",
       "evidence": [
         {"source_id": "SRC-026", "support": "mechanism-demonstrated", "confidence": "high"},
         {"source_id": "SRC-026", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-027", "support": "mechanism-demonstrated", "confidence": "high"},
         {"source_id": "SRC-027", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-015", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"}
+        {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-077", "support": "execution-confirmed", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-006"},
         {"type": "related-to", "target": "EAA-011"},
-        {"type": "related-to", "target": "EAA-018"}
+        {"type": "related-to", "target": "EAA-018"},
+        {"type": "related-to", "target": "EAA-021"}
       ],
       "last_reviewed": "2026-09-16"
     },
@@ -876,7 +976,7 @@
         {"type": "related-to", "target": "EAA-004"},
         {"type": "related-to", "target": "EAA-009"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-09-16"
     },
     {
       "id": "EAA-014",
@@ -925,7 +1025,11 @@
         {"source_id": "SRC-061", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-062", "support": "version-range-documented", "confidence": "high"},
         {"source_id": "SRC-067", "support": "impact-confirmed", "confidence": "high"},
-        {"source_id": "SRC-068", "support": "impact-confirmed", "confidence": "high"}
+        {"source_id": "SRC-068", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-073", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-074", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-075", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-077", "support": "impact-confirmed", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
@@ -934,9 +1038,10 @@
         {"type": "related-to", "target": "EAA-016"},
         {"type": "related-to", "target": "EAA-018"},
         {"type": "related-to", "target": "EAA-019"},
-        {"type": "related-to", "target": "EAA-020"}
+        {"type": "related-to", "target": "EAA-020"},
+        {"type": "related-to", "target": "EAA-021"}
       ],
-      "last_reviewed": "2026-09-03"
+      "last_reviewed": "2026-09-16"
     },
     {
       "id": "EAA-016",
@@ -1003,6 +1108,10 @@
         {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-061", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-062", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-073", "support": "execution-confirmed", "confidence": "high"},
+        {"source_id": "SRC-076", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-077", "support": "artifact-present", "confidence": "medium"},
+        {"source_id": "SRC-079", "support": "execution-confirmed", "confidence": "medium"},
         {"source_id": "SRC-067", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-068", "support": "impact-confirmed", "confidence": "high"}
       ],
@@ -1053,6 +1162,27 @@
       "relationships": [
         {"type": "related-to", "target": "EAA-015"},
         {"type": "related-to", "target": "EAA-018"}
+      ],
+      "last_reviewed": "2026-09-16"
+    },
+    {
+      "id": "EAA-021",
+      "name": "Agent tool implementation poisoning",
+      "summary": "An attacker modifies or supplies executable code behind an agent tool so a normal invocation performs an undisclosed action with the tool's access.",
+      "primary_surface": "tools-integrations",
+      "secondary_surfaces": [],
+      "tactics": ["Execution", "Collection", "Exfiltration"],
+      "maturity": "demonstrated",
+      "evidence": [
+        {"source_id": "SRC-071", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-072", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-072", "support": "version-range-documented", "confidence": "high"}
+      ],
+      "relationships": [
+        {"type": "related-to", "target": "EAA-006"},
+        {"type": "related-to", "target": "EAA-009"},
+        {"type": "related-to", "target": "EAA-010"},
+        {"type": "related-to", "target": "EAA-015"}
       ],
       "last_reviewed": "2026-09-16"
     }
@@ -1765,10 +1895,7 @@
           ],
           "scope": {
             "products": ["Amazon Q Developer extension for Visual Studio Code"],
-            "versions": [
-              "Language Servers for AWS earlier than 1.65.0",
-              "@aws/lsp-codewhisperer earlier than 0.0.113"
-            ],
+            "versions": ["Language Servers for AWS earlier than 1.65.0", "@aws/lsp-codewhisperer earlier than 0.0.113"],
             "operating_systems": [],
             "version_source_refs": ["SRC-045"]
           }
@@ -1785,10 +1912,7 @@
           ],
           "scope": {
             "products": ["Amazon Q Developer extension for Visual Studio Code"],
-            "versions": [
-              "Language Servers for AWS earlier than 1.65.0",
-              "@aws/lsp-codewhisperer earlier than 0.0.113"
-            ],
+            "versions": ["Language Servers for AWS earlier than 1.65.0", "@aws/lsp-codewhisperer earlier than 0.0.113"],
             "operating_systems": [],
             "version_source_refs": ["SRC-045"]
           }
@@ -2236,6 +2360,336 @@
             "products": ["OpenAI Codex CLI", "Cursor", "Visual Studio Code with GitHub Copilot"],
             "versions": ["Codex CLI models: GPT-5.4 and GPT-5.5 (reported tests)"],
             "operating_systems": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-029",
+      "name": "Amazon Q VS Code extension destructive-agent payload",
+      "type": "incident",
+      "contexts": ["observed-incident", "malicious-artifact", "vendor-advisory"],
+      "date_start": "2025-07-23",
+      "date_basis": "published",
+      "activation_notes": "The malicious extension revision would have needed to execute its launcher and find the local Q CLI. AWS states that a syntax error prevented the shipped code from executing or changing customer environments. Version 1.84.0 carried the code; 1.85.0 removed it. The intended deletion prompt and permissive flags are artifact evidence only, not proof of an agent launch, attempted deletion, or cloud impact.",
+      "source_refs": ["SRC-069", "SRC-070"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-001",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The malicious extension commit contains a Q CLI launcher with attacker-selected destructive instructions.",
+          "source_refs": ["SRC-070"],
+          "activation_conditions": [
+            "The extension launcher must execute successfully and the Q CLI must be available."
+          ],
+          "scope": {
+            "products": ["Amazon Q Developer CLI"],
+            "versions": ["Carrier: Amazon Q Developer VS Code extension 1.84.0; removed in 1.85.0"],
+            "operating_systems": [],
+            "version_source_refs": ["SRC-069"]
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-002",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The source commit supplies trust-all and non-interactive flags to the intended Q invocation.",
+          "source_refs": ["SRC-070"],
+          "activation_conditions": [
+            "The defective extension code must reach the agent invocation; AWS reports it did not."
+          ],
+          "scope": {
+            "products": ["Amazon Q Developer CLI"],
+            "versions": ["Carrier: Amazon Q Developer VS Code extension 1.84.0; removed in 1.85.0"],
+            "operating_systems": [],
+            "version_source_refs": ["SRC-069"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-030",
+      "name": "Postmark MCP implementation backdoor",
+      "type": "malicious artifact",
+      "contexts": ["malicious-artifact"],
+      "date_start": "2025-09-25",
+      "date_basis": "published",
+      "activation_notes": "The malicious npm server had to be installed, configured with usable Postmark credentials, and invoked through its sendEmail handler. Snyk reproduces code labelled 1.0.18; the embedded package manifest says 1.0.14, so it is not an independently authenticated package-version record. OSV separately identifies the malicious range beginning at 1.0.16. These sources establish the backdoor, but publish no victim-specific agent invocation or delivery receipt. The legitimate Postmark service and official repository are not established as compromised.",
+      "source_refs": ["SRC-071", "SRC-072"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-021",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "Published postmark-mcp server code adds an unrequested BCC recipient inside the sendEmail handler, without requiring malicious instructions to the model.",
+          "source_refs": ["SRC-071", "SRC-072"],
+          "activation_conditions": [
+            "The backdoored server is invoked through sendEmail with valid service credentials."
+          ],
+          "scope": {
+            "products": [],
+            "versions": ["Carrier: postmark-mcp >=1.0.16 (OSV)"],
+            "operating_systems": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-031",
+      "name": "Claude Code GitHub Action process-environment disclosure",
+      "type": "research",
+      "contexts": ["controlled-research", "patched-vulnerability"],
+      "date_start": "2026-06-05",
+      "date_basis": "published",
+      "activation_notes": "The lab workflow accepted untrusted GitHub content and exposed an API key to the agent process. Its Read tool accessed process environment data outside the scrubbed Bash subprocess boundary. Microsoft reports mitigation in Claude Code 2.1.128. This is controlled CI-runner evidence, not a confirmed production incident. Collection is established; proposed WebFetch, shell, MCP, and logging exfiltration routes depend on workflow configuration and are not all claimed as executed.",
+      "source_refs": ["SRC-073"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-018",
+          "outcome": "executed",
+          "confidence": "high",
+          "claim": "In Microsoft's controlled workflow, injected GitHub content caused Claude Code to read the agent process environment.",
+          "source_refs": ["SRC-073"],
+          "activation_conditions": [
+            "The workflow accepts attacker-controlled issue, PR, or comment content and permits the relevant Read operation."
+          ],
+          "scope": {
+            "products": ["Claude Code GitHub Action"],
+            "versions": ["Claude Code 2.1.128: mitigation reported"],
+            "operating_systems": ["Linux"]
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-015",
+          "outcome": "impact-confirmed",
+          "confidence": "high",
+          "claim": "The Read result contained the unsanitized ANTHROPIC_API_KEY from the runner process, establishing credential collection.",
+          "source_refs": ["SRC-073"],
+          "activation_conditions": [
+            "The key is present in the process environment and the affected Read path is available."
+          ],
+          "scope": {
+            "products": ["Claude Code GitHub Action"],
+            "versions": ["Claude Code 2.1.128: mitigation reported"],
+            "operating_systems": ["Linux"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-032",
+      "name": "OpenClaw control gateway takeover",
+      "type": "research",
+      "contexts": ["controlled-research", "vendor-advisory", "patched-vulnerability"],
+      "date_start": "2026-02-01",
+      "date_basis": "published",
+      "activation_notes": "The user had previously authenticated to the Control UI and visited crafted web content. Gateway URL handling leaked the stored token; a browser connection reached the local gateway. depthfirst reports using the token's administrative authority to disable approvals, select host execution, and invoke a host command. The published command request does not independently establish the marker file's creation, so the case records reported execution at medium confidence. This is policy reconfiguration, not evidence of a container-runtime escape. The vendor advisory lists <=2026.1.28 affected and 2026.1.29 fixed; the research post states the narrower <=2026.1.24-1 range. Neither establishes real victim exploitation.",
+      "source_refs": ["SRC-074", "SRC-075"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-015",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "depthfirst reports reusing a leaked OpenClaw gateway token to disable approval checks, select host execution, and invoke a host command.",
+          "source_refs": ["SRC-074"],
+          "activation_conditions": [
+            "The browser leaks an authenticated gateway token and can reach the gateway with its administrative scopes.",
+            "The authenticated gateway permits host execution after the policy changes."
+          ],
+          "scope": {
+            "products": ["OpenClaw (formerly Moltbot/Clawdbot)"],
+            "versions": ["<=2026.1.28 affected; 2026.1.29 fixed (vendor advisory)"],
+            "operating_systems": [],
+            "version_source_refs": ["SRC-075"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-033",
+      "name": "AI ClickFix through a computer-use interface",
+      "type": "research",
+      "contexts": ["controlled-research"],
+      "date_start": "2025-05-24",
+      "date_basis": "published",
+      "activation_notes": "Claude Computer Use was directed to a researcher-controlled page, clicked a button that populated the clipboard, and followed the displayed terminal instructions. The report names model claude-3-7-sonnet-20250219 and xfce4-terminal; agent build and OS versions are unspecified. This is controlled command execution, not evidence of applicability to every computer-use product, credential theft, or destructive impact.",
+      "source_refs": ["SRC-076"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-018",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "The demonstration redirected Claude Computer Use from webpage interaction into pasting a terminal command that fetched and ran a script.",
+          "source_refs": ["SRC-076"],
+          "activation_conditions": [
+            "The agent can interact with the page, clipboard, and terminal, and can fetch the referenced script."
+          ],
+          "scope": {
+            "products": ["Claude Computer Use"],
+            "versions": ["Model: claude-3-7-sonnet-20250219 (reported demonstration)"],
+            "operating_systems": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-034",
+      "name": "Poisoned take-home assessment and MCP exfiltration",
+      "type": "incident",
+      "contexts": ["observed-incident"],
+      "date_start": "2026-06-19",
+      "date_basis": "published",
+      "activation_notes": "Mitiga reports Cursor with terminal access, MCP tools, and auto-run already enabled. Its redacted timeline shows rule, README, and MCP context loaded before collection and transmission. Victim identity, versions, and complete artifacts are unavailable, so claims use medium confidence. README and rule effects were not isolated; the README mapping records presence only. Auto-run is a prerequisite, not an attacker-made EAA-002 change. Cloud escalation paths discussed by the report are not additional confirmed outcomes.",
+      "source_refs": ["SRC-077"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-004",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "Mitiga reports that Cursor loaded poisoned project rules and followed the embedded setup workflow.",
+          "source_refs": ["SRC-077"],
+          "activation_conditions": [
+            "The victim opens the supplied repository and asks the agent how to run the project."
+          ],
+          "scope": {
+            "products": ["Cursor"],
+            "versions": [],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-018",
+          "outcome": "present",
+          "confidence": "medium",
+          "claim": "The incident report identifies hidden instruction-bearing README comments alongside persistent rule files; their independent causal contribution is not established.",
+          "source_refs": ["SRC-077"],
+          "activation_conditions": [
+            "The agent reads the README during project setup."
+          ],
+          "scope": {
+            "products": ["Cursor"],
+            "versions": [],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 3,
+          "technique_id": "EAA-006",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "The agent loaded the repository-supplied MCP integration and invoked its environment-check tool.",
+          "source_refs": ["SRC-077"],
+          "activation_conditions": [
+            "MCP tools are enabled and the supplied server configuration is activated."
+          ],
+          "scope": {
+            "products": ["Cursor"],
+            "versions": [],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 4,
+          "technique_id": "EAA-010",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "Mitiga attributes the environment-check call to a poisoned tool description that presented credential submission as setup validation.",
+          "source_refs": ["SRC-077"],
+          "activation_conditions": [
+            "The poisoned description reaches the active agent context."
+          ],
+          "scope": {
+            "products": ["Cursor"],
+            "versions": [],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 5,
+          "technique_id": "EAA-015",
+          "outcome": "impact-confirmed",
+          "confidence": "medium",
+          "claim": "The reported sequence read cloud credentials and transmitted collected data through the MCP environment-check call.",
+          "source_refs": ["SRC-077"],
+          "activation_conditions": [
+            "Credentials are readable and the attacker-selected integration accepts the call."
+          ],
+          "scope": {
+            "products": ["Cursor"],
+            "versions": [],
+            "operating_systems": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-035",
+      "name": "Skill marketplace replacement and delayed update",
+      "type": "research",
+      "contexts": ["controlled-research"],
+      "date_start": "2026-05-05",
+      "date_basis": "published",
+      "activation_notes": "Orca reports installation, nested replacement, and later update flows with benign execution callbacks. The publication does not identify the marketplace or pin agent and installer versions; confidence is medium. A user or agent had to install a skill or run the update command, then activate the changed instructions. This supports EAA-009 and EAA-004; a repository update is not evidence of EAA-013's account-enabled cloud-skill synchronization path. Popularity counters and callback counts do not establish malicious victim compromise.",
+      "source_refs": ["SRC-078"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-009",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "Orca reports that skill installation and update flows fetched attacker-controlled revisions, including nested installation that replaced an existing same-name skill.",
+          "source_refs": ["SRC-078"],
+          "activation_conditions": [
+            "The installer or updater resolves the attacker-controlled skill source."
+          ]
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-004",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "The changed skill instructions were followed and generated benign execution callbacks in the reported research.",
+          "source_refs": ["SRC-078"],
+          "activation_conditions": [
+            "The installed or updated skill is activated with command and network access."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-036",
+      "name": "Agentjacking through Sentry error context",
+      "type": "research",
+      "contexts": ["controlled-research"],
+      "date_start": "2026-06-17",
+      "date_basis": "published",
+      "activation_notes": "Researchers submitted error data through a public Sentry ingest credential; an agent then retrieved it through the legitimate Sentry integration while triaging an issue. The server definition need not be changed. The report identifies Claude Code 2.1.161 in a June 2 capture and gives macOS and Windows/WSL examples; these details do not describe every tested agent or host. Other product versions and complete per-host traces are unavailable, so execution confidence is medium. The case records package execution; redacted exposure probes do not establish credential reuse or subsequent compromise. Organizational reach and exposed keys are not counted as confirmed compromise.",
+      "source_refs": ["SRC-079"],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-018",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "Tenet reports that fabricated diagnostic instructions in Sentry error data induced coding agents to execute a researcher-controlled npm validation package.",
+          "source_refs": ["SRC-079"],
+          "activation_conditions": [
+            "Injected error data is accepted, retrieved into the agent task, and followed with package execution permitted."
+          ],
+          "scope": {
+            "products": ["Cursor", "Claude Code", "OpenAI Codex"],
+            "versions": ["Claude Code 2.1.161 (reported capture, 2026-06-02)"],
+            "operating_systems": ["macOS", "Windows (WSL Ubuntu 20.04)"]
           }
         }
       ]

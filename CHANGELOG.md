@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0
+
+Agent-tool implementation and case evidence update.
+
+- Added a version-pinned comparison of selected mechanisms with MITRE ATLAS and primary-source case-selection decisions.
+- Added EAA-021 for hidden side effects in executable agent-tool implementations, grounded in the Postmark MCP artifact.
+- Added eight cases: Amazon Q extension payload, Postmark MCP, Claude Code GitHub Action, OpenClaw gateway takeover, AI ClickFix, Mitiga poisoned assessment, Orca skill updates, and Sentry Agentjacking.
+- Promoted EAA-006 and EAA-010 to observed using the medium-confidence Mitiga incident assertions; preserved per-procedure qualifications.
+- Clarified skill update versus cloud synchronization, rendered task context, runtime policy changes, and tool arguments versus actual service effects. EAA-013 remains feasible.
+- Recorded Amazon Q and Postmark artifact presence separately from execution, limited OpenClaw to reported execution, and captured the reported Sentry test version.
+- Retained schema 1.0.0.
+
 ## 0.4.0
 
 Recent campaign and execution-path update.

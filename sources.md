@@ -81,3 +81,17 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 ## Supplemental coverage
 
 - Ars Technica analysis of agent-consumed dangling references — https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/
+
+## Additional case evidence
+
+- AWS Amazon Q VS Code extension compromise advisory — https://aws.amazon.com/security/security-bulletins/AWS-2025-015/
+- Malicious Amazon Q extension source commit — https://github.com/aws/aws-toolkit-vscode/commit/1294b38b7fade342cfcbaf7cf80e2e5096ea1f9c
+- Snyk postmark-mcp analysis and reproduced server code — https://snyk.io/blog/malicious-mcp-server-on-npm-postmark-mcp-harvests-emails/
+- OSV MAL-2025-47604 postmark-mcp record — https://osv.dev/vulnerability/MAL-2025-47604
+- Microsoft Claude Code GitHub Action secret-exposure research — https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/
+- depthfirst OpenClaw gateway takeover research — https://depthfirst.com/research/1-click-rce-to-steal-your-moltbot-data-and-keys
+- OpenClaw gatewayUrl token-exfiltration advisory — https://github.com/openclaw/openclaw/security/advisories/GHSA-g8p2-7wf7-98mq
+- Embrace The Red AI ClickFix demonstration — https://embracethered.com/blog/posts/2025/ai-clickfix-ttp-claude/
+- Mitiga poisoned coding-assessment incident report — https://www.mitiga.io/blog/poisoned-coding-test-ai-agent-attack
+- Orca skill marketplace installation and update research — https://orca.security/resources/blog/ai-agent-skill-supply-chain-security/
+- Tenet Agentjacking through Sentry error data — https://tenetsecurity.ai/blog/agentjacking-coding-agents-with-fake-sentry-errors/

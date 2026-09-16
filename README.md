@@ -9,6 +9,7 @@ This is not a general AI security taxonomy or a claim that every technique appli
 ## Start here
 
 - [`techniques/index.md`](techniques/index.md) — main catalog
+- [`atlas.md`](atlas.md) — selected mechanism comparisons with MITRE ATLAS and case-selection decisions
 - [`scope.md`](scope.md) — inclusion boundary and adjacent-case decisions
 - [`surfaces.md`](surfaces.md) — where a technique acts
 - [`tactics.md`](tactics.md) — the adversary objective
@@ -39,11 +40,11 @@ Cases separately record whether a procedure was present, planted, attempted, exe
 | [EAA-003](techniques/index.md#eaa-003--lifecycle-hook-planting) | Lifecycle hook planting | Control Plane | Execution, Persistence | observed |
 | [EAA-004](techniques/index.md#eaa-004--persistent-instruction-or-memory-poisoning) | Persistent instruction or memory poisoning | Control Plane | Persistence | observed |
 | [EAA-005](techniques/index.md#eaa-005--transcript-and-agent-state-collection) | Transcript and agent-state collection | State & Telemetry | Credential Access, Collection | observed |
-| [EAA-006](techniques/index.md#eaa-006--mcp-or-tool-configuration-abuse) | MCP or tool configuration abuse | Tools & Integrations | Execution, Persistence | demonstrated |
+| [EAA-006](techniques/index.md#eaa-006--mcp-or-tool-configuration-abuse) | MCP or tool configuration abuse | Tools & Integrations | Execution, Persistence | observed |
 | [EAA-007](techniques/index.md#eaa-007--hostile-modelapi-gateway-routing) | Hostile model/API gateway routing | Runtime & Environment | Collection, Exfiltration | demonstrated |
 | [EAA-008](techniques/index.md#eaa-008--shadow-agent-profile-or-config-directory) | Shadow agent profile or config directory | Runtime & Environment | Execution, Defense Evasion | demonstrated |
 | [EAA-009](techniques/index.md#eaa-009--remote-plugin-or-skill-installation) | Remote plugin or skill installation | Control Plane | Execution, Persistence | demonstrated |
-| [EAA-010](techniques/index.md#eaa-010--mcp-tool-poisoning-or-definition-drift) | MCP tool poisoning or definition drift | Tools & Integrations | Execution, Collection, Exfiltration | demonstrated |
+| [EAA-010](techniques/index.md#eaa-010--mcp-tool-poisoning-or-definition-drift) | MCP tool poisoning or definition drift | Tools & Integrations | Execution, Collection, Exfiltration | observed |
 | [EAA-011](techniques/index.md#eaa-011--environment-variable-manipulation-of-mcp-activation) | Environment-variable manipulation of MCP activation | Tools & Integrations | Execution | feasible |
 | [EAA-012](techniques/index.md#eaa-012--telemetry-redirection-or-sensitive-logging) | Telemetry redirection or sensitive logging | State & Telemetry | Execution, Collection, Exfiltration | demonstrated |
 | [EAA-013](techniques/index.md#eaa-013--cloud-hosted-skill-poisoning-and-sync) | Cloud-hosted skill poisoning and sync | Control Plane | Execution, Persistence | feasible |
@@ -54,6 +55,7 @@ Cases separately record whether a procedure was present, planted, attempted, exe
 | [EAA-018](techniques/index.md#eaa-018--indirect-instruction-injection-through-task-context) | Indirect instruction injection through task context | Task & Retrieved Context | Execution | demonstrated |
 | [EAA-019](techniques/index.md#eaa-019--agent-preflight-helper-execution-through-repository-metadata) | Agent preflight helper execution through repository metadata | Runtime & Environment | Execution | demonstrated |
 | [EAA-020](techniques/index.md#eaa-020--agent-consumed-reference-takeover) | Agent-consumed reference takeover | Task & Retrieved Context | Execution | demonstrated |
+| [EAA-021](techniques/index.md#eaa-021--agent-tool-implementation-poisoning) | Agent tool implementation poisoning | Tools & Integrations | Execution, Collection, Exfiltration | demonstrated |
 
 ## Validation
 
@@ -67,7 +69,7 @@ It validates the structured catalog and cross-checks IDs, metadata, relationship
 
 ## Versioning
 
-Current catalog version: **0.4.0**.
+Current catalog version: **0.5.0**.
 
 Bump minor versions for taxonomy, surface, evidence, or naming changes. Patch versions are enough for wording fixes, source updates, and new examples that do not change the model.
 
