@@ -326,6 +326,8 @@ Examples:
 - EAA-009 covers acquisition or installation. Attacker modification of an already enabled cloud-hosted skill that later syncs is EAA-013.
 - Managed policy can constrain plugin and marketplace sources. Claude Code 2.1.193 and later documents managed-only `disableSideloadFlags`, which rejects `--plugin-dir`, `--plugin-url`, `--agents`, and `--mcp-config`; applicable policy and product version are activation conditions.
 
+The Zenity case establishes distributed malicious skill artifacts and subsequent controlled activation, but does not document the skill-acquisition step. Its EAA-009 outcome is therefore `present`.
+
 Hunt ideas:
 
 - Agent starts with remote plugin URL or unapproved plugin directory.
@@ -344,8 +346,8 @@ Sources: [Zenity skill-supply-chain research](https://labs.zenity.io/post/attack
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report
-- **Highlights:** MCP rug-pull/tool-poisoning and GhostSplice research
-- **Case mappings:** EAA-C-009, EAA-C-019, EAA-C-028
+- **Highlights:** MCP rug-pull and tool-poisoning research
+- **Case mappings:** EAA-C-009, EAA-C-019
 - **Related:** EAA-006, EAA-011, EAA-018
 
 An MCP server embeds adversarial instructions in tool metadata or changes an advertised tool definition after an earlier benign presentation. This can steer the agent before a tool is selected, shadow another server's tool, or change how a capability is understood later.
@@ -360,7 +362,6 @@ Examples:
 
 - Trail of Bits demonstrated that instructions in MCP tool descriptions can influence an agent before the user invokes the malicious tool.
 - Invariant Labs published reproducible examples of direct tool poisoning, cross-server tool shadowing, and a sleeper server that presents a malicious interface on a later load.
-- ASSET Group's GhostSplice research demonstrated that a malicious MCP server can split an instruction across tool definitions and successive tool results, with a separate VS Code sampling-request variant so that no single channel contains the complete request. Controlled runs caused Codex CLI, Cursor, and Visual Studio Code with GitHub Copilot to send seeded credentials to the malicious tool.
 - Claude Code supports MCP `list_changed` notifications and automatically refreshes advertised tools, prompts, and resources. The documentation proves live mutation is supported; it does not by itself demonstrate malicious use of that live path.
 
 Hunt ideas:
@@ -368,9 +369,8 @@ Hunt ideas:
 - Tool metadata or the tool list changes after its first observation or approval.
 - New write/network/admin capability appears mid-session.
 - MCP tool metadata precedes an agent action without a matching user request or expected tool selection.
-- Correlate metadata, result, and sampling fragments across a full MCP session; inspecting each message independently can miss a reconstructed instruction.
 
-Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments), [Trail of Bits MCP line-jumping](https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75), [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
+Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments), [Trail of Bits MCP line-jumping](https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/), [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 
@@ -638,8 +638,8 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Tactics:** Execution
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research
-- **Highlights:** ContextCrush, GitLost, and Kiro web-to-MCP research
-- **Case mappings:** EAA-C-021, EAA-C-022, EAA-C-025
+- **Highlights:** ContextCrush, GitLost, Kiro, and GhostSplice research
+- **Case mappings:** EAA-C-021, EAA-C-022, EAA-C-025, EAA-C-028
 - **Related:** EAA-004, EAA-010, EAA-015, EAA-019, EAA-020
 
 An attacker causes adversarial instructions delivered as task data or retrieved context—rather than through a designated endpoint instruction, configuration, extension, or tool-definition surface—to enter an active agent task. The content can arrive through an issue, document, log entry, error, or tool result and influence the agent's local or delegated actions.
@@ -663,6 +663,8 @@ Examples:
 - Intezer and Kodem demonstrated hidden instructions in web content retrieved by Kiro inducing the agent to rewrite its persistent MCP configuration, which then auto-reloaded and executed a local process.
 - For the current opt-in macOS Computer History feature, OpenAI warns that malicious instructions from an app or website allowed to contribute history can enter later ChatGPT or Codex context. Map transient interaction-event context here; map instructions loaded from generated persistent memory files to EAA-004. The documentation establishes the surface and stated risk, not successful activation in a tested attack.
 
+GhostSplice's main flow places the file-to-parameter transfer instructions in MCP tool results. An otherwise ordinary tool schema does not make that procedure tool-description poisoning; the case maps the returned instructions here.
+
 Hunt ideas:
 
 - Preserve the content and provenance of issues, documents, telemetry, and tool results supplied to an agent when policy permits.
@@ -670,7 +672,7 @@ Hunt ideas:
 - Correlate retrieved content with later tool calls, child processes, file access, network activity, and remote-service audit events that the user's request does not explain.
 - Treat instruction-like text as context, not proof; require a resulting attempt, execution, or effect.
 
-Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history)
+Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [OpenAI ChatGPT Computer History docs](https://learn.chatgpt.com/docs/customization/computer-history), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75)
 
 ---
 
@@ -680,11 +682,11 @@ Sources: [Noma ContextCrush research](https://noma.security/blog/contextcrush-co
 - **Tactics:** Execution
 - **Maturity:** demonstrated
 - **Evidence sources:** reproducible-research
-- **Highlights:** GitSpawn command execution across seven coding-agent products
+- **Highlights:** GitSpawn repository-metadata execution research
 - **Case mappings:** EAA-C-026
 - **Related:** EAA-015, EAA-018
 
-An attacker supplies a working tree with command-bearing repository metadata that an endpoint agent passes to a background helper during startup, review, or context gathering. The helper interprets the metadata and executes an attacker-selected host command before the agent's ordinary trust, approval, or sandbox controls apply.
+An attacker supplies a working tree with command-bearing repository metadata that an endpoint agent passes to a background helper during startup, review, or context gathering. The helper interprets the metadata and executes an attacker-selected host command outside the agent's ordinary tool-approval or sandbox checks. The activation point and workspace-trust timing depend on the product.
 
 ```text
 working tree plus attacker-controlled repository metadata
@@ -701,11 +703,11 @@ Boundaries:
 
 Examples:
 
-- Manifold Security's GitSpawn research demonstrated command execution through `core.fsmonitor` or analogous Git configuration during automatic repository inspection in Claude Code, OpenAI Codex, Cursor, goose, Hermes Agent, Qwen Code, and Grok Build. Product behavior and remediation status differed, so the case preserves the source's product-specific version statements rather than inferring a common fixed range.
+- Manifold documents helper execution in Claude Code, goose, Hermes Agent, Qwen Code, and Grok Build. It additionally reports Codex and Cursor as affected and patched, but does not publish equivalent mechanism detail for those two products. The case retains that distinction.
 
 Hunt ideas:
 
-- Inspect local repository configuration before opening worktrees obtained through channels that can preserve `.git`; flag command-bearing helper keys such as `core.fsmonitor`, aliases, hooks paths, credential helpers, or text-conversion drivers.
+- Inspect local repository configuration before opening worktrees obtained through channels that can preserve `.git`; inspect `core.fsmonitor` and other helper settings only where the observed Git subcommand can activate them. A legitimate helper configuration alone is not evidence of abuse.
 - Correlate agent startup or review with unexpected Git child processes and their descendants, especially before a workspace-trust decision is recorded.
 - Record repository delivery provenance. A hostile `.git/config` found after an ordinary clone may have been added locally and should not be attributed to the remote repository without evidence.
 
