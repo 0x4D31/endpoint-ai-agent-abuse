@@ -90,8 +90,6 @@ new or changed capability -> agent reload/event -> sensitive tool or network act
 
 Track executable implementation revisions independently of advertised definitions. Differentiate a tool that changed during a live session from one that presented differently on a later connection. Record description-only changes as well as schema and command changes.
 
-Correlate across channels rather than scanning each item alone. Preserve the tool description visible at connection time, later tool results or sampling messages, and arguments passed into subsequent calls; a split instruction may become harmful only when data from one channel fills parameters defined in another.
-
 **Limitations:** dynamic tool discovery and environment-specific configuration are legitimate. Many clients do not expose complete tool definitions or update events, and a first-seen capability may simply reflect a new project.
 
 ## H7 — Observability export to an unapproved collector
@@ -202,6 +200,8 @@ untrusted issue, document, log, app/site interaction event, or tool result
 ```
 
 For computer-use workflows, preserve the displayed page, clipboard origin where available, and terminal events. For CI agents, distinguish the parent process environment from scrubbed subprocess environments; a Bash sandbox does not establish the boundary of every built-in tool.
+
+Correlate across channels rather than scanning each item alone. Preserve the tool description visible at connection time, later tool results or sampling messages, and arguments passed into subsequent calls; a split instruction may become harmful only when data from one channel fills parameters defined in another.
 
 Prioritize actions that match instructions in retrieved content but are not explained by the user's request, especially credential reads, new process execution, outbound publishing, or destructive changes. Preserve a digest and source identifier when raw content cannot be retained. For Computer History, classify direct interaction-event context as EAA-018 and generated persistent memory as EAA-004; OpenAI documents the injection risk, but a finding still requires an attempted or completed action.
 

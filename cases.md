@@ -435,11 +435,11 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
-| 1 | EAA-009 | executed | medium | Zenity reports a controlled skill detonation in which agent-readable setup documents led to retrieval and execution of a remote payload. | S1 |
+| 1 | EAA-009 | present | high | Zenity recovered trojanized skill revisions distributed through skills.sh, with setup instructions pointing to a remote credential-harvesting stage. | S1 |
 | 2 | EAA-004 | executed | medium | The installed skill's durable instructions and progressively disclosed setup document were loaded and followed by the agent during the controlled task. | S1 |
 | 3 | EAA-015 | impact-confirmed | medium | Zenity reports credential collection and transmission to attacker-controlled infrastructure during controlled detonation. | S1 |
 
-**Activation notes:** An operator had to install or otherwise load a malicious skill revision and invoke a matching setup task in an agent with host-command and network access. The malicious skills used Paperclip and Browser Use themes as lures; the report does not identify the endpoint-agent product used for detonation, so product and version scope are intentionally unset. Zenity reports that the weaponized family was active from 2026-07-11 until removal on 2026-08-02. Its aggregate 1.7 million-plus skills.sh install figure is a registry counter, not a count of unique or compromised endpoints. Public detonation reporting does not identify the agent or provide a complete agent transcript; the execution and impact assertions therefore use medium confidence.
+**Activation notes:** An operator had to install or otherwise load a malicious skill revision and invoke a matching setup task in an agent with host-command and network access. The malicious skills used Paperclip and Browser Use themes as lures; the report does not identify the endpoint-agent product used for detonation, so product and version scope are intentionally unset. Zenity reports that the weaponized family was active from 2026-07-11 until removal on 2026-08-02. Its aggregate 1.7 million-plus skills.sh install figure is a registry counter, not a count of unique or compromised endpoints. Public detonation reporting does not identify the agent or provide a complete agent transcript; the execution and impact assertions therefore use medium confidence. The detonation establishes skill activation and payload execution, but does not document the acquisition step; EAA-009 records the distributed artifacts only.
 
 **Sources:**
 
@@ -457,7 +457,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | 2 | EAA-006 | executed | high | Kiro wrote an attacker-selected MCP server entry to the user-level `~/.kiro/settings/mcp.json` file and automatically reloaded it without a separate approval. | S1 | S2 |
 | 3 | EAA-015 | impact-confirmed | high | The reloaded MCP command ran Node.js and delivered the test host's username, hostname, and platform to a localhost callback. | S1 | S2 |
 
-**Activation notes:** The user approved a web fetch containing hidden instructions; Kiro then wrote and reloaded user-level MCP configuration without separate effective approval. Intezer/Kodem tested Kiro 0.9.2 on macOS and 0.10.16 on Ubuntu, and verified the fix in 0.11.130. AWS's June 2 advisory scopes CVE-2026-10591 to versions below 0.11 but describes an execution-sensitive file-write path using VS Code tasks; it supplies version evidence, not independent reproduction of the July 20 MCP demonstration. The callback was localhost, and no victim exploitation is established.
+**Activation notes:** The user approved a web fetch containing hidden instructions; Kiro then wrote and reloaded user-level MCP configuration without separate effective approval. Intezer/Kodem tested Kiro 0.9.2 on macOS and 0.10.16 on Ubuntu, and verified the fix in 0.11.130. The research lists Auto model selection and a separate Qwen 3 Coder run with Autopilot enabled. AWS's June 2 advisory scopes CVE-2026-10591 to versions below 0.11 but describes an execution-sensitive file-write path using VS Code tasks; it supplies version evidence, not independent reproduction of the July 20 MCP demonstration. The callback was localhost, and no victim exploitation is established.
 
 **Sources:**
 
@@ -474,7 +474,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-019 | executed | medium | Manifold reports host command execution through agent-initiated Git inspection across seven products. Five product paths have detailed demonstrations; Codex and Cursor are reported as affected and patched without equivalent public mechanism detail. | S1 |
 
-**Activation notes:** The target had to open a working tree whose `.git` metadata remained intact, and the affected agent had to perform its automatic Git context gathering. Normal clone, fetch, and pull operations do not transfer another repository's local `.git/config`; delivery paths such as an archive, shared or synchronized folder, removable media, or a locally modified repository can preserve it. As of the September 1 publication, Manifold reported these affected, fixed, or tested versions: Claude Code 2.1.193 fixed in 2.1.196 for the `core.fsmonitor` path, with a separate `ultrareview` path still affected in 2.1.252; goose 1.41.0 fixed in 1.44.0; Hermes Agent 0.18.2 still affected in 0.21.0; Qwen Code 0.19.6 still affected in 0.22.3; Grok Build 0.2.93 still affected in 1.0.13; and OpenAI Codex and Cursor affected and patched without exact public version ranges. These are controlled findings, not a public victim incident.
+**Activation notes:** The target had to open a working tree whose `.git` metadata remained intact, and the affected agent had to perform its automatic Git context gathering. Normal clone, fetch, and pull operations do not transfer another repository's local `.git/config`; delivery paths such as an archive, shared or synchronized folder, removable media, or a locally modified repository can preserve it. As of the September 1 publication, Manifold reported these affected, fixed, or tested versions: Claude Code 2.1.193 fixed in 2.1.196 for the `core.fsmonitor` path, with a separate `ultrareview` path tested in 2.1.210 and still affected in 2.1.252; goose 1.41.0 fixed in 1.44.0; Hermes Agent 0.18.2 still affected in 0.21.0; Qwen Code 0.19.6 still affected in 0.22.3; Grok Build 0.2.93 still affected in 1.0.13; and OpenAI Codex and Cursor affected and patched without exact public version ranges. These are controlled findings, not a public victim incident.
 
 **Sources:**
 
@@ -489,9 +489,9 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
 | 1 | EAA-020 | executed | medium | Researchers report that controlled coding-agent trials followed unchanged agent-facing documentation and installed packages registered at its previously unclaimed destinations. | S1 |
-| 2 | EAA-020 | present | high | The separately observed `clerk-next-fix-auth-protection` npm package occupied a bare package name referenced by Clerk's agent-facing guidance and published install hooks that collected host metadata. | S1, S2 |
+| 2 | EAA-020 | present | medium | The separately observed `clerk-next-fix-auth-protection` npm package occupied a bare package name referenced by Clerk's agent-facing guidance and published install hooks that collected host metadata. | S1, S2 |
 
-**Activation notes:** The controlled trials establish the reported installation path. Separately reported third-party callbacks lack public logs attributing them to a particular endpoint agent; they are not counted as confirmed agent impact. The Clerk reference requires an additional condition: its bare executable name can resolve to the malicious standalone npm package when @clerk/eslint-plugin is absent locally. OSV identifies versions 7.7.7 and 8.8.8 as malicious, but neither source proves victim-side agent installation; that procedure remains present.
+**Activation notes:** The controlled trials establish the reported installation path. Separately reported third-party callbacks lack public logs attributing them to a particular endpoint agent; they are not counted as confirmed agent impact. The Clerk reference requires an additional condition: its bare executable name can resolve to the malicious standalone npm package when @clerk/eslint-plugin is absent locally. OSV identifies versions 7.7.7 and 8.8.8 as malicious, but neither source proves victim-side agent installation; that procedure remains present. The agent-documentation linkage is reported by the researcher; OSV independently corroborates the package behavior, not that linkage or agent execution.
 
 **Sources:**
 
@@ -506,10 +506,10 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
-| 1 | EAA-010 | impact-confirmed | high | GhostSplice combined MCP metadata with successive tool results to induce calls carrying seeded secrets. A separate VS Code variant added a server-initiated sampling request. | S1, S2 |
+| 1 | EAA-018 | impact-confirmed | high | Instruction-bearing MCP tool results supplied file-to-parameter mappings; controlled runs sent seeded secrets as arguments to the malicious server. | S1, S2 |
 | 2 | EAA-015 | impact-confirmed | high | In the controlled scenarios, OpenAI Codex CLI, Cursor, and Visual Studio Code with GitHub Copilot read synthetic secrets from local files and passed them to the malicious MCP server. | S1, S2 |
 
-**Activation notes:** A connected malicious MCP server and access to seeded project files were prerequisites. The main three-part flow used a tool definition and two tool results; sampling was a separate VS Code/GitHub Copilot variant requiring client support and sampling permission. The pinned repository contains per-client logs and synthetic fixtures. Model and harness combinations produced different outcomes, and graphical-editor aggregate results were not finalized. July 23 is the reported initial repository publication date, not the experiment date. These controlled results do not establish victim compromise or universal current-version susceptibility.
+**Activation notes:** A connected malicious MCP server and access to seeded project files were prerequisites. The main flow combined a tool schema with file inventory and transfer instructions returned by tools; the malicious directive in returned content is EAA-018. A separate VS Code/GitHub Copilot variant added sampling and required client support and sampling permission. The pinned repository contains per-client logs and synthetic fixtures, including Codex CLI runs with GPT-5.4 and GPT-5.5; client build versions are not pinned. Outcomes varied by model and harness, and graphical-editor aggregate results were not finalized. July 23 is the repository publication date, not the experiment date. These are controlled results, not victim compromise.
 
 **Sources:**
 
