@@ -360,7 +360,7 @@ Examples:
 
 - Trail of Bits demonstrated that instructions in MCP tool descriptions can influence an agent before the user invokes the malicious tool.
 - Invariant Labs published reproducible examples of direct tool poisoning, cross-server tool shadowing, and a sleeper server that presents a malicious interface on a later load.
-- ASSET Group's GhostSplice research demonstrated that a malicious MCP server can split an instruction across tool descriptions, tool results, and optionally sampling responses so that no single channel contains the complete request. Controlled runs caused Codex CLI, Cursor, and Visual Studio Code with GitHub Copilot to send seeded credentials to the malicious tool.
+- ASSET Group's GhostSplice research demonstrated that a malicious MCP server can split an instruction across tool definitions and successive tool results, with a separate VS Code sampling-request variant so that no single channel contains the complete request. Controlled runs caused Codex CLI, Cursor, and Visual Studio Code with GitHub Copilot to send seeded credentials to the malicious tool.
 - Claude Code supports MCP `list_changed` notifications and automatically refreshes advertised tools, prompts, and resources. The documentation proves live mutation is supported; it does not by itself demonstrate malicious use of that live path.
 
 Hunt ideas:
@@ -370,7 +370,7 @@ Hunt ideas:
 - MCP tool metadata precedes an agent action without a matching user request or expected tool selection.
 - Correlate metadata, result, and sampling fragments across a full MCP session; inspecting each message independently can miss a reconstructed instruction.
 
-Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments), [Trail of Bits MCP line-jumping](https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice), [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
+Sources: [MCP injection experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments), [Trail of Bits MCP line-jumping](https://blog.trailofbits.com/2025/04/21/jumping-the-line-how-mcp-servers-can-attack-you-before-you-ever-use-them/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75), [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning)
 
 ---
 
@@ -549,7 +549,7 @@ Hunt ideas:
 
 Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Zenity skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/)
 
-Additional sources: [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice)
+Additional sources: [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75)
 
 ---
 
@@ -589,8 +589,6 @@ Hunt ideas:
 - Recon is followed by agent launch, config write, or state collection.
 
 Sources: [Snyk Nx analysis](https://snyk.io/blog/weaponizing-ai-coding-agents-for-malware-in-the-nx-malicious-package/), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [StepSecurity Hades](https://www.stepsecurity.io/blog/the-hades-campaign-pypi-packages), [Socket Jscrambler analysis](https://socket.dev/blog/jscrambler-supply-chain-attack), [Jscrambler advisory](https://jscrambler.com/blog/security-advisory-malicious-npm-package), [GitGuardian ChainDrop deobfuscation](https://blog.gitguardian.com/keyv-mini-shai-hulud/), [Socket SANDWORM_MODE analysis](https://socket.dev/blog/sandworm-mode-npm-worm-ai-toolchain-poisoning), [SpecterOps Blacklight v0.2.0](https://github.com/SpecterOps/Blacklight/releases/tag/v0.2.0), [SpecterOps Blacklight research](https://specterops.io/blog/2026/08/12/blacklight-ai-agent-endpoint-artifacts/)
-
-Additional source: [Microsoft ChainDrop analysis](https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/)
 
 ---
 
@@ -742,8 +740,8 @@ Boundaries:
 
 Examples:
 
-- Alon Hertz's controlled research registered selected unclaimed package references found in public `llms.txt` files and observed inert beacon callbacks after Claude Code, OpenAI Codex, and Hermes Agent followed the published guidance in repeated tests. The public evidence does not identify affected organizations or demonstrate harmful payload behavior.
-- A separately observed Clerk documentation reference was claimed on npm as `clerk-next-fix-auth-protection` versions 7.7.7 and 8.8.8 with an install-time data-collection payload. The malicious artifact was live, but public reporting does not prove an endpoint agent installed it; that procedure is therefore `present`, not executed.
+- Alon Hertz reports controlled agent trials following unchanged guidance to newly registered packages. Separate third-party callback claims do not publicly establish which endpoint agent caused each installation.
+- A separately observed Clerk documentation reference was claimed on npm as `clerk-next-fix-auth-protection` versions 7.7.7 and 8.8.8 with an install-time data-collection payload. Registry resolution required the legitimate `@clerk/eslint-plugin` package to be absent locally. Public reporting does not prove an endpoint agent installed the malicious package; that procedure is therefore `present`, not executed.
 
 Hunt ideas:
 
@@ -751,4 +749,6 @@ Hunt ideas:
 - Correlate agent reads of `llms.txt`, setup guides, or generated documentation with first-time package installation, install scripts, or network access to newly registered destinations.
 - Preserve both the referring document revision and the resolved artifact. Reviewing only the unchanged document can miss the takeover.
 
-Sources: [Alon Hertz reference-takeover research](https://medium.com/@alonhertz1/data-became-code-we-ran-code-inside-fortune-500s-using-files-they-published-for-ai-agents-0cd67ffbbffc), [Ars Technica analysis](https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/), [OSV MAL-2026-11069](https://osv.dev/vulnerability/MAL-2026-11069)
+Sources: [Alon Hertz reference-takeover research](https://medium.com/@alonhertz1/data-became-code-we-ran-code-inside-fortune-500s-using-files-they-published-for-ai-agents-0cd67ffbbffc), [OSV MAL-2026-11069](https://osv.dev/vulnerability/MAL-2026-11069)
+
+Supplemental coverage: [Ars Technica analysis](https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/). Procedure outcomes above are grounded in the original research and OSV record.

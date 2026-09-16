@@ -74,7 +74,10 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Intezer and Kodem Kiro MCP configuration research — https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/
 - Manifold GitSpawn research — https://www.manifold.security/blog/ai-coding-agents-git-hijack
 - Alon Hertz `llms.txt` dangling-reference research — https://medium.com/@alonhertz1/data-became-code-we-ran-code-inside-fortune-500s-using-files-they-published-for-ai-agents-0cd67ffbbffc
-- Ars Technica `llms.txt` agent-install reporting — https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/
 - OSV MAL-2026-11069 malicious-package record — https://osv.dev/vulnerability/MAL-2026-11069
 - ASSET GhostSplice research — https://asset-group.github.io/disclosures/ghostsplice/
-- ASSET GhostSplice proof-of-concept repository — https://github.com/asset-group/ghostsplice
+- ASSET GhostSplice proof-of-concept repository — https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75
+
+## Supplemental coverage
+
+- Ars Technica analysis of agent-consumed dangling references — https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/

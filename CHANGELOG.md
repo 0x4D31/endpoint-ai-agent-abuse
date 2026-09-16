@@ -10,6 +10,7 @@ Recent campaign and execution-path update.
 - Added EAA-019 and the GitSpawn case for host command execution through agent-initiated Git context gathering over command-bearing local Git metadata preserved with a working tree.
 - Added EAA-020 and the `llms.txt` dangling-reference research case for attacker takeover of package or domain references without modifying the instructions an agent consumes.
 - Added GhostSplice as a controlled MCP poisoning and inherited-authority case, with hunting guidance for cross-channel data flow rather than isolated tool-description scanning.
+- Source review corrected repository-write prerequisites, Kiro research scope, skill-detonation confidence, reference-takeover outcomes, and GhostSplice sampling boundaries; pinned the GhostSplice evidence revision.
 - Preserved scope exclusions for misaligned or attacker-operated agents, and made no schema-version change.
 
 ## 0.3.2

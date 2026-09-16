@@ -6,7 +6,7 @@
   "version": "0.4.0",
   "license": "CC0-1.0",
   "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
-  "last_reviewed": "2026-09-03",
+  "last_reviewed": "2026-09-16",
   "surfaces": [
     {
       "id": "launcher",
@@ -460,28 +460,32 @@
       "title": "Microsoft ChainDrop supply-chain compromise analysis",
       "url": "https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/",
       "types": ["incident-report"],
-      "published": "2026-08-04"
+      "published": "2026-08-04",
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-059",
       "title": "GitGuardian ChainDrop deobfuscation",
       "url": "https://blog.gitguardian.com/keyv-mini-shai-hulud/",
       "types": ["incident-report"],
-      "published": "2026-08-07"
+      "published": "2026-08-07",
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-060",
       "title": "Zenity trojanized skill-supply-chain research",
       "url": "https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain",
       "types": ["reproducible-research", "incident-report"],
-      "published": "2026-08-06"
+      "published": "2026-08-06",
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-061",
       "title": "Intezer and Kodem Kiro web-to-MCP research",
       "url": "https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/",
       "types": ["reproducible-research"],
-      "published": "2026-07-20"
+      "published": "2026-07-20",
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-062",
@@ -489,21 +493,23 @@
       "url": "https://aws.amazon.com/security/security-bulletins/2026-037-aws/",
       "types": ["primary-artifact"],
       "published": "2026-06-02",
-      "verified_on": "2026-09-03"
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-063",
       "title": "Manifold Security GitSpawn research",
       "url": "https://www.manifold.security/blog/ai-coding-agents-git-hijack",
       "types": ["reproducible-research"],
-      "published": "2026-09-01"
+      "published": "2026-09-01",
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-064",
       "title": "Alon Hertz agent-consumed reference-takeover research",
       "url": "https://medium.com/@alonhertz1/data-became-code-we-ran-code-inside-fortune-500s-using-files-they-published-for-ai-agents-0cd67ffbbffc",
       "types": ["reproducible-research"],
-      "published": "2026-08-26"
+      "published": "2026-08-26",
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-065",
@@ -511,7 +517,7 @@
       "url": "https://osv.dev/vulnerability/MAL-2026-11069",
       "types": ["primary-artifact"],
       "published": "2026-07-24",
-      "verified_on": "2026-09-03"
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-066",
@@ -525,14 +531,14 @@
       "title": "ASSET Group GhostSplice research",
       "url": "https://asset-group.github.io/disclosures/ghostsplice/",
       "types": ["reproducible-research"],
-      "verified_on": "2026-09-03"
+      "verified_on": "2026-09-16"
     },
     {
       "id": "SRC-068",
       "title": "GhostSplice proof-of-concept repository",
-      "url": "https://github.com/asset-group/ghostsplice",
+      "url": "https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75",
       "types": ["primary-artifact"],
-      "verified_on": "2026-09-03"
+      "verified_on": "2026-09-16"
     }
   ],
   "techniques": [
@@ -636,7 +642,7 @@
         {"source_id": "SRC-029", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-029", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-060", "support": "execution-confirmed", "confidence": "high"}
+        {"source_id": "SRC-060", "support": "execution-confirmed", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -778,8 +784,8 @@
         {"source_id": "SRC-019", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-016", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-052", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-060", "support": "mechanism-demonstrated", "confidence": "high"},
-        {"source_id": "SRC-060", "support": "execution-confirmed", "confidence": "high"}
+        {"source_id": "SRC-060", "support": "mechanism-demonstrated", "confidence": "medium"},
+        {"source_id": "SRC-060", "support": "execution-confirmed", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -917,7 +923,7 @@
         {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-050", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-051", "support": "impact-confirmed", "confidence": "high"},
-        {"source_id": "SRC-060", "support": "impact-confirmed", "confidence": "high"},
+        {"source_id": "SRC-060", "support": "impact-confirmed", "confidence": "medium"},
         {"source_id": "SRC-061", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-062", "support": "version-range-documented", "confidence": "high"},
         {"source_id": "SRC-067", "support": "impact-confirmed", "confidence": "high"},
@@ -953,7 +959,6 @@
         {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-056", "support": "mechanism-demonstrated", "confidence": "high"},
         {"source_id": "SRC-057", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-058", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-059", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
@@ -1020,7 +1025,7 @@
       "maturity": "demonstrated",
       "evidence": [
         {"source_id": "SRC-063", "support": "mechanism-demonstrated", "confidence": "high"},
-        {"source_id": "SRC-063", "support": "execution-confirmed", "confidence": "high"},
+        {"source_id": "SRC-063", "support": "execution-confirmed", "confidence": "medium"},
         {"source_id": "SRC-063", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
@@ -1039,11 +1044,11 @@
       "maturity": "demonstrated",
       "evidence": [
         {"source_id": "SRC-064", "support": "mechanism-demonstrated", "confidence": "high"},
-        {"source_id": "SRC-064", "support": "impact-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-064", "support": "execution-confirmed", "confidence": "medium"},
         {"source_id": "SRC-064", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-065", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-065", "support": "version-range-documented", "confidence": "high"},
-        {"source_id": "SRC-066", "support": "impact-confirmed", "confidence": "medium"}
+        {"source_id": "SRC-066", "support": "mechanism-demonstrated", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-015"},
@@ -1977,7 +1982,7 @@
       "date_start": "2026-08-04",
       "date_end": "2026-08-05",
       "date_basis": "activity",
-      "activation_notes": "ChainDrop spread through malicious npm releases beginning with `keyv@6.0.0` on 2026-08-04. Package installation had to execute the malicious lifecycle code. The analyzed payload supported Linux, Windows, and macOS and expanded the predecessor campaign's hardcoded secret-location set from 189 to 469 entries. Public reporting confirms the agent-related routines in the malicious artifact, but does not identify a victim whose agent files were found or collected, or show the Claude Code or VS Code startup configuration being written and later executed. Those procedures therefore remain `present`.",
+      "activation_notes": "ChainDrop spread through malicious npm releases beginning with `keyv@6.0.0` on 2026-08-04. Package installation had to execute the malicious lifecycle code. The analyzed payload supported Linux, Windows, and macOS and expanded the predecessor campaign's hardcoded secret-location set from 189 to 469 entries. Public reporting confirms the agent-related routines in the malicious artifact, but does not identify a victim whose agent files were found or collected, or confirm the repository-injection routine completed and a later checkout activated the planted configuration. The startup-file path uses GitHub repository writes, not an assumed local workspace write. Those procedures therefore remain `present`.",
       "source_refs": ["SRC-058", "SRC-059"],
       "procedures": [
         {
@@ -1986,7 +1991,7 @@
           "outcome": "present",
           "confidence": "high",
           "claim": "The recovered ChainDrop payload contained cross-platform discovery logic for hundreds of secret locations, including configuration associated with Cursor, OpenClaw, OpenAI Codex, OpenCode, Gemini, and Hermes.",
-          "source_refs": ["SRC-058", "SRC-059"],
+          "source_refs": ["SRC-059"],
           "activation_conditions": ["The malicious npm package's lifecycle code executed and reached the recovered collection stage."],
           "scope": {
             "products": ["Cursor", "OpenClaw", "OpenAI Codex", "OpenCode", "Gemini", "Hermes"],
@@ -2013,11 +2018,11 @@
           "technique_id": "EAA-003",
           "outcome": "present",
           "confidence": "high",
-          "claim": "Microsoft recovered routines targeting Claude Code and VS Code startup configuration, including `.claude/settings.json`, `.claude/setup.mjs`, `.vscode/tasks.json`, and `.vscode/setup.mjs`.",
+          "claim": "Microsoft recovered code that uses stolen GitHub credentials to inject Claude Code startup files into repository branches; the same routine also targets VS Code task configuration.",
           "source_refs": ["SRC-058"],
-          "activation_conditions": ["The payload reached the agent-specific startup-configuration routine and had write access to a targeted workspace."],
+          "activation_conditions": ["The payload obtained a GitHub credential with write access to an eligible repository branch.", "Later activation requires the altered files to reach a local checkout and the agent to load the configuration under its applicable trust and hook controls."],
           "scope": {
-            "products": ["Claude Code", "Visual Studio Code"],
+            "products": ["Claude Code"],
             "versions": [],
             "operating_systems": ["Linux", "Windows", "macOS"]
           }
@@ -2032,15 +2037,15 @@
       "date_start": "2026-07-11",
       "date_end": "2026-08-02",
       "date_basis": "activity",
-      "activation_notes": "An operator had to install or otherwise load a malicious skill revision and invoke a matching setup task in an agent with host-command and network access. The malicious skills used Paperclip and Browser Use themes as lures; the report does not identify the endpoint-agent product used for detonation, so product and version scope are intentionally unset. Zenity reports that the weaponized family was active from 2026-07-11 until removal on 2026-08-02. Its aggregate 1.7 million-plus skills.sh install figure is a registry counter, not a count of unique or compromised endpoints.",
+      "activation_notes": "An operator had to install or otherwise load a malicious skill revision and invoke a matching setup task in an agent with host-command and network access. The malicious skills used Paperclip and Browser Use themes as lures; the report does not identify the endpoint-agent product used for detonation, so product and version scope are intentionally unset. Zenity reports that the weaponized family was active from 2026-07-11 until removal on 2026-08-02. Its aggregate 1.7 million-plus skills.sh install figure is a registry counter, not a count of unique or compromised endpoints. Public detonation reporting does not identify the agent or provide a complete agent transcript; the execution and impact assertions therefore use medium confidence.",
       "source_refs": ["SRC-060"],
       "procedures": [
         {
           "step": 1,
           "technique_id": "EAA-009",
           "outcome": "executed",
-          "confidence": "high",
-          "claim": "Zenity's controlled detonation installed a trojanized skills.sh package whose agent-readable documents directed retrieval and execution of a live remote stage.",
+          "confidence": "medium",
+          "claim": "Zenity reports a controlled skill detonation in which agent-readable setup documents led to retrieval and execution of a remote payload.",
           "source_refs": ["SRC-060"],
           "activation_conditions": ["A malicious skill revision was installed or loaded into an endpoint agent.", "The agent processed the skill's setup workflow with network and host-command access."]
         },
@@ -2048,7 +2053,7 @@
           "step": 2,
           "technique_id": "EAA-004",
           "outcome": "executed",
-          "confidence": "high",
+          "confidence": "medium",
           "claim": "The installed skill's durable instructions and progressively disclosed setup document were loaded and followed by the agent during the controlled task.",
           "source_refs": ["SRC-060"],
           "activation_conditions": ["The task matched the trojanized skill and caused the agent to read its secondary setup document."]
@@ -2057,10 +2062,10 @@
           "step": 3,
           "technique_id": "EAA-015",
           "outcome": "impact-confirmed",
-          "confidence": "high",
-          "claim": "In controlled detonation, the agent-run payload collected test credentials and system data and posted them to attacker-controlled infrastructure.",
+          "confidence": "medium",
+          "claim": "Zenity reports credential collection and transmission to attacker-controlled infrastructure during controlled detonation.",
           "source_refs": ["SRC-060"],
-          "activation_conditions": ["The agent had host access to the seeded data and outbound network access to the controlled endpoint."]
+          "activation_conditions": ["The agent-run payload could read local data and reach the live attacker-controlled endpoint."]
         }
       ]
     },
@@ -2069,9 +2074,9 @@
       "name": "Kiro hidden-web-content MCP rewrite",
       "type": "research",
       "contexts": ["controlled-research", "vendor-advisory", "patched-vulnerability"],
-      "date_start": "2026-06-02",
+      "date_start": "2026-07-20",
       "date_basis": "published",
-      "activation_notes": "A user had to ask Kiro IDE to process attacker-controlled web content with the web-fetch capability available. The hidden content then instructed the agent to write a user-level MCP configuration, and Kiro's automatic MCP reload supplied the execution step. AWS assigns CVE-2026-10591 to Kiro IDE versions earlier than 0.11 and identifies 0.11 as fixed; Intezer and Kodem verified the behavior in controlled testing and a patched 0.11.130 build. No in-the-wild exploitation is claimed.",
+      "activation_notes": "The user approved a web fetch containing hidden instructions; Kiro then wrote and reloaded user-level MCP configuration without separate effective approval. Intezer/Kodem tested Kiro 0.9.2 on macOS and 0.10.16 on Ubuntu, and verified the fix in 0.11.130. AWS's June 2 advisory scopes CVE-2026-10591 to versions below 0.11 but describes an execution-sensitive file-write path using VS Code tasks; it supplies version evidence, not independent reproduction of the July 20 MCP demonstration. The callback was localhost, and no victim exploitation is established.",
       "source_refs": ["SRC-061", "SRC-062"],
       "procedures": [
         {
@@ -2084,8 +2089,8 @@
           "activation_conditions": ["The user asked Kiro to process attacker-controlled web content.", "The retrieved hidden instructions entered the active agent context."],
           "scope": {
             "products": ["Kiro IDE"],
-            "versions": ["earlier than 0.11"],
-            "operating_systems": [],
+            "versions": ["Kiro IDE <0.11 affected; 0.11 fixed (AWS)", "Kiro IDE 0.9.2 and 0.10.16 tested; 0.11.130 fix verified (Intezer/Kodem)"],
+            "operating_systems": ["macOS", "Ubuntu"],
             "version_source_refs": ["SRC-062"]
           }
         },
@@ -2099,8 +2104,8 @@
           "activation_conditions": ["The agent could write the user-level Kiro settings file.", "Kiro automatically reloaded the changed MCP configuration."],
           "scope": {
             "products": ["Kiro IDE"],
-            "versions": ["earlier than 0.11"],
-            "operating_systems": [],
+            "versions": ["Kiro IDE <0.11 affected; 0.11 fixed (AWS)", "Kiro IDE 0.9.2 and 0.10.16 tested; 0.11.130 fix verified (Intezer/Kodem)"],
+            "operating_systems": ["macOS", "Ubuntu"],
             "version_source_refs": ["SRC-062"]
           }
         },
@@ -2109,13 +2114,13 @@
           "technique_id": "EAA-015",
           "outcome": "impact-confirmed",
           "confidence": "high",
-          "claim": "The reloaded MCP command executed a Node.js process that sent the test host's username, hostname, and platform to a researcher-controlled callback.",
+          "claim": "The reloaded MCP command ran Node.js and delivered the test host's username, hostname, and platform to a localhost callback.",
           "source_refs": ["SRC-061"],
-          "activation_conditions": ["The endpoint had Node.js available and could reach the researcher-controlled callback."],
+          "activation_conditions": ["Node.js was available and the localhost callback listener was running."],
           "scope": {
             "products": ["Kiro IDE"],
-            "versions": ["earlier than 0.11"],
-            "operating_systems": [],
+            "versions": ["Kiro IDE <0.11 affected; 0.11 fixed (AWS)", "Kiro IDE 0.9.2 and 0.10.16 tested; 0.11.130 fix verified (Intezer/Kodem)"],
+            "operating_systems": ["macOS", "Ubuntu"],
             "version_source_refs": ["SRC-062"]
           }
         }
@@ -2128,20 +2133,20 @@
       "contexts": ["controlled-research", "patched-vulnerability"],
       "date_start": "2026-09-01",
       "date_basis": "published",
-      "activation_notes": "The target had to open a working tree whose `.git` metadata remained intact, and the affected agent had to perform its automatic Git context gathering. Normal clone, fetch, and pull operations do not transfer another repository's local `.git/config`; delivery paths such as an archive, shared or synchronized folder, removable media, or a locally modified repository can preserve it. Manifold reported affected and fixed or tested versions per product: Claude Code 2.1.193 fixed in 2.1.196 for the `core.fsmonitor` path, with a separate `ultrareview` path still affected in 2.1.252; goose 1.41.0 fixed in 1.44.0; Hermes Agent 0.18.2 still affected in 0.21.0; Qwen Code 0.19.6 still affected in 0.22.3; Grok Build 0.2.93 still affected in 1.0.13; and OpenAI Codex and Cursor affected and patched without exact public version ranges. These are controlled findings, not a public victim incident.",
+      "activation_notes": "The target had to open a working tree whose `.git` metadata remained intact, and the affected agent had to perform its automatic Git context gathering. Normal clone, fetch, and pull operations do not transfer another repository's local `.git/config`; delivery paths such as an archive, shared or synchronized folder, removable media, or a locally modified repository can preserve it. As of the September 1 publication, Manifold reported these affected, fixed, or tested versions: Claude Code 2.1.193 fixed in 2.1.196 for the `core.fsmonitor` path, with a separate `ultrareview` path still affected in 2.1.252; goose 1.41.0 fixed in 1.44.0; Hermes Agent 0.18.2 still affected in 0.21.0; Qwen Code 0.19.6 still affected in 0.22.3; Grok Build 0.2.93 still affected in 1.0.13; and OpenAI Codex and Cursor affected and patched without exact public version ranges. These are controlled findings, not a public victim incident.",
       "source_refs": ["SRC-063"],
       "procedures": [
         {
           "step": 1,
           "technique_id": "EAA-019",
           "outcome": "executed",
-          "confidence": "high",
-          "claim": "Manifold Security demonstrated that automatic repository inspection in seven coding-agent products could pass command-bearing local Git metadata to a helper and execute an attacker-selected host command before ordinary trust, approval, or sandbox controls applied.",
+          "confidence": "medium",
+          "claim": "Manifold reports host command execution through agent-initiated Git inspection across seven products. Five product paths have detailed demonstrations; Codex and Cursor are reported as affected and patched without equivalent public mechanism detail.",
           "source_refs": ["SRC-063"],
           "activation_conditions": ["The delivered working tree retained attacker-controlled local Git metadata.", "The affected agent ran automatic Git context gathering against that working tree."],
           "scope": {
             "products": ["Claude Code", "OpenAI Codex", "Cursor", "goose", "Hermes Agent", "Qwen Code", "Grok Build"],
-            "versions": ["Claude Code 2.1.193; core.fsmonitor path fixed in 2.1.196", "Claude Code ultrareview path affected through tested 2.1.252", "goose 1.41.0; fixed in 1.44.0", "Hermes Agent 0.18.2; affected through tested 0.21.0", "Qwen Code 0.19.6; affected through tested 0.22.3", "Grok Build 0.2.93; affected through tested 1.0.13", "OpenAI Codex and Cursor affected and patched; exact ranges not published"],
+            "versions": ["Claude Code 2.1.193; core.fsmonitor path fixed in 2.1.196", "Claude Code ultrareview path affected through tested 2.1.252", "goose 1.41.0; fixed in 1.44.0", "Hermes Agent 0.18.2; affected through tested 0.21.0", "Qwen Code 0.19.6; affected through tested 0.22.3", "Grok Build 0.2.93; affected through tested 1.0.13"],
             "operating_systems": []
           }
         }
@@ -2154,19 +2159,19 @@
       "contexts": ["controlled-research", "malicious-artifact"],
       "date_start": "2026-08-26",
       "date_basis": "published",
-      "activation_notes": "For the controlled sequence, an agent had to discover affected guidance, resolve its unclaimed package reference after the researchers registered it, and install the inert beacon package while completing an ordinary task. The public write-up reports rapid callbacks and repeated model-agent trials but does not publish organization-level logs, so the impact confidence is `medium` and no third-party victim count is asserted. Separately, `clerk-next-fix-auth-protection` versions 7.7.7 and 8.8.8 were live malicious artifacts; public evidence does not show an endpoint agent installing them, so that procedure is `present`, not executed.",
-      "source_refs": ["SRC-064", "SRC-065", "SRC-066"],
+      "activation_notes": "The controlled trials establish the reported installation path. Separately reported third-party callbacks lack public logs attributing them to a particular endpoint agent; they are not counted as confirmed agent impact. The Clerk reference requires an additional condition: its bare executable name can resolve to the malicious standalone npm package when @clerk/eslint-plugin is absent locally. OSV identifies versions 7.7.7 and 8.8.8 as malicious, but neither source proves victim-side agent installation; that procedure remains present.",
+      "source_refs": ["SRC-064", "SRC-065"],
       "procedures": [
         {
           "step": 1,
           "technique_id": "EAA-020",
-          "outcome": "impact-confirmed",
+          "outcome": "executed",
           "confidence": "medium",
-          "claim": "In controlled tests, researchers claimed selected unowned package references in public `llms.txt` guidance and received inert execution beacons after Claude Code, OpenAI Codex, and Hermes Agent followed the unchanged references.",
-          "source_refs": ["SRC-064", "SRC-066"],
+          "claim": "Researchers report that controlled coding-agent trials followed unchanged agent-facing documentation and installed packages registered at its previously unclaimed destinations.",
+          "source_refs": ["SRC-064"],
           "activation_conditions": ["The agent discovered and followed guidance containing an unclaimed package reference.", "The controlled package name had been registered before the agent resolved and installed it."],
           "scope": {
-            "products": ["Claude Code", "OpenAI Codex", "Hermes Agent"],
+            "products": [],
             "versions": [],
             "operating_systems": []
           }
@@ -2178,7 +2183,7 @@
           "confidence": "high",
           "claim": "The separately observed `clerk-next-fix-auth-protection` npm package occupied a bare package name referenced by Clerk's agent-facing guidance and published install hooks that collected host metadata.",
           "source_refs": ["SRC-064", "SRC-065"],
-          "activation_conditions": ["An agent or user followed the unchanged Clerk guidance while a malicious package version controlled the referenced npm name."]
+          "activation_conditions": ["An endpoint agent followed the bare npm command before the legitimate scoped package @clerk/eslint-plugin was installed locally, allowing npx to resolve the separately registered public package."]
         }
       ]
     },
@@ -2188,8 +2193,8 @@
       "type": "research",
       "contexts": ["controlled-research"],
       "date_start": "2026-07-23",
-      "date_basis": "activity",
-      "activation_notes": "A malicious MCP server had to be connected to the tested agent and expose the spliced metadata and result sequence. An ordinary scan task then caused the agent to combine the fragments and use its file and MCP-tool access. The researchers tested synthetic credentials in controlled environments; the results do not establish compromise of unrelated endpoints. The public proof-of-concept repository's first commit is dated 2026-07-23. Published outcomes varied by product, model, and splice pattern, so the case records the demonstrated products without generalizing the reported success rates to other versions or configurations.",
+      "date_basis": "published",
+      "activation_notes": "A connected malicious MCP server and access to seeded project files were prerequisites. The main three-part flow used a tool definition and two tool results; sampling was a separate VS Code/GitHub Copilot variant requiring client support and sampling permission. The pinned repository contains per-client logs and synthetic fixtures. Model and harness combinations produced different outcomes, and graphical-editor aggregate results were not finalized. July 23 is the reported initial repository publication date, not the experiment date. These controlled results do not establish victim compromise or universal current-version susceptibility.",
       "source_refs": ["SRC-067", "SRC-068"],
       "procedures": [
         {
@@ -2197,7 +2202,7 @@
           "technique_id": "EAA-010",
           "outcome": "impact-confirmed",
           "confidence": "high",
-          "claim": "GhostSplice split an adversarial request across MCP tool descriptions, tool results, and optionally sampling responses; controlled runs caused agents to invoke the malicious tool with seeded credentials.",
+          "claim": "GhostSplice combined MCP metadata with successive tool results to induce calls carrying seeded secrets. A separate VS Code variant added a server-initiated sampling request.",
           "source_refs": ["SRC-067", "SRC-068"],
           "activation_conditions": ["A malicious MCP server was connected to the agent.", "The agent received the required sequence of metadata and result fragments."],
           "scope": {
