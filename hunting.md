@@ -44,7 +44,7 @@ unexpected writer -> agent control-plane file -> trust/load condition -> agent s
 
 Track project, user, and managed scopes separately. Include hooks, instruction/memory files, rules, plugins, skills, marketplaces, and trust-state files. For Computer History, monitor generated memories under `$CODEX_HOME/memories/extensions/skysight/` (usually `~/.codex/memories/extensions/skysight/`); OpenAI documents these as modifiable local Markdown that future ChatGPT or Codex sessions may use.
 
-For registry-delivered skills, retain the registry identity, resolved repository and commit, installed bytes, install time, and later updates separately. A high aggregate install counter is exposure context, not a victim count or evidence that a malicious revision loaded.
+Separate a manually invoked update or same-name replacement from account-driven cloud synchronization. For registry-delivered skills, retain the registry identity, resolved repository and commit, installed bytes, install time, and later updates separately. A high aggregate install counter is exposure context, not a victim count or evidence that a malicious revision loaded.
 
 **Limitations:** editors, sync clients, installers, and agent self-maintenance legitimately change these files. A write does not prove that the relevant version loaded it or that workspace trust was granted. Content-only sensors may miss atomic rename or replace operations.
 
@@ -80,7 +80,7 @@ Prefer capturing normalized domains and secret-safe hashes over ingesting raw cr
 
 ## H6 — Capability or tool-definition drift
 
-**Techniques:** EAA-006, EAA-010, EAA-011
+**Techniques:** EAA-006, EAA-010, EAA-011, EAA-021
 
 **Required telemetry:** MCP/tool configuration snapshots, effective environment expansion, server command or URL, server identity, tool-list and description snapshots, protocol `list_changed` events when exposed, and tool-call outcomes.
 
@@ -88,7 +88,7 @@ Prefer capturing normalized domains and secret-safe hashes over ingesting raw cr
 new or changed capability -> agent reload/event -> sensitive tool or network action
 ```
 
-Differentiate a tool that changed during a live session from one that presented differently on a later connection. Record description-only changes as well as schema and command changes.
+Track executable implementation revisions independently of advertised definitions. Differentiate a tool that changed during a live session from one that presented differently on a later connection. Record description-only changes as well as schema and command changes.
 
 Correlate across channels rather than scanning each item alone. Preserve the tool description visible at connection time, later tool results or sampling messages, and arguments passed into subsequent calls; a split instruction may become harmful only when data from one channel fills parameters defined in another.
 
@@ -201,6 +201,8 @@ untrusted issue, document, log, app/site interaction event, or tool result
   -> unrelated local or delegated action
 ```
 
+For computer-use workflows, preserve the displayed page, clipboard origin where available, and terminal events. For CI agents, distinguish the parent process environment from scrubbed subprocess environments; a Bash sandbox does not establish the boundary of every built-in tool.
+
 Prioritize actions that match instructions in retrieved content but are not explained by the user's request, especially credential reads, new process execution, outbound publishing, or destructive changes. Preserve a digest and source identifier when raw content cannot be retained. For Computer History, classify direct interaction-event context as EAA-018 and generated persistent memory as EAA-004; OpenAI documents the injection risk, but a finding still requires an attempted or completed action.
 
 **Limitations:** setup documentation and issue-driven automation legitimately influence agent actions. Content may be unavailable, truncated, or redacted, and model or harness behavior can change by version. Instruction-like text alone is not malicious execution; require temporal and semantic correlation with an attempted or completed effect.
@@ -236,3 +238,13 @@ agent reads operational guidance
 Flag install or setup actions where an agent follows a reference from `llms.txt`, API documentation, a setup guide, or another retrieved source and the destination was only recently registered, has no verified relationship to the documented vendor, or changed owners after the source was published. Preserve both the instruction and the exact resolved artifact: the attacker may control only the destination, not the text.
 
 **Limitations:** new packages, renamed SDKs, mirrors, and documentation mistakes are common. Registration age or missing provenance is a risk signal, not proof of maliciousness. Require the resolved artifact, execution behavior, or a corroborating callback before claiming impact.
+
+## H16 — Tool implementation performs an unrequested action
+
+**Techniques:** EAA-021, EAA-015
+
+**Required telemetry:** user request, agent tool name and arguments, actual server/package revision and update provenance, server process/network activity, effective API request metadata where available, and downstream service audit events.
+
+Compare what the agent asked for with what the service performed. An added mail recipient, altered upload destination, or extra administrative operation can expose malicious tool logic even when the prompt, tool definition, and agent call are benign. Preserve the handler revision and the service receipt so a package backdoor can be distinguished from an unrelated account action.
+
+**Limitations:** encrypted traffic and incomplete service logs may hide request fields. Approved archiving, forwarding, policy enforcement, and middleware can intentionally modify requests. An anomalous recipient or package hash is a lead; it does not alone prove malicious execution or delivery.

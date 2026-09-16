@@ -236,13 +236,23 @@ class CatalogValidationTests(unittest.TestCase):
     def test_missing_technique_case_mapping_is_rejected(self) -> None:
         original_read_text = validate.Path.read_text
         technique_path = validate.ROOT / "techniques" / "index.md"
+        expected_cases = [
+            case["id"]
+            for case in self.catalog["cases"]
+            if any(
+                procedure["technique_id"] == "EAA-001"
+                for procedure in case["procedures"]
+            )
+        ]
+        incomplete_cases = [case for case in expected_cases if case != "EAA-C-002"]
+        self.assertNotEqual(incomplete_cases, expected_cases)
 
         def read_text(path: validate.Path, *args: object, **kwargs: object) -> str:
             text = original_read_text(path, *args, **kwargs)
             if path == technique_path:
                 return text.replace(
-                    "**Case mappings:** EAA-C-001, EAA-C-002",
-                    "**Case mappings:** EAA-C-001",
+                    "**Case mappings:** " + ", ".join(expected_cases),
+                    "**Case mappings:** " + ", ".join(incomplete_cases),
                     1,
                 )
             return text
@@ -252,8 +262,8 @@ class CatalogValidationTests(unittest.TestCase):
 
         self.assertTrue(
             any(
-                "EAA-001 case mappings ['EAA-C-001'] do not match catalog "
-                "['EAA-C-001', 'EAA-C-002']" in error
+                f"EAA-001 case mappings {incomplete_cases!r} do not match catalog "
+                f"{expected_cases!r}" in error
                 for error in errors
             )
         )

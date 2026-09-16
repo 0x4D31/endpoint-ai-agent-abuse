@@ -515,3 +515,142 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 - `S1` — [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/)
 - `S2` — [GhostSplice proof-of-concept repository](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75)
+
+## EAA-C-029 — Amazon Q VS Code extension destructive-agent payload
+
+**Type:** incident
+
+**Date:** published 2025-07-23
+
+| Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
+|---|---|---|---|---|---|---|
+| 1 | EAA-001 | present | high | The malicious extension commit contains a Q CLI launcher with attacker-selected destructive instructions; AWS confirms distribution in extension 1.84.0. | S1, S2 |  |
+| 2 | EAA-002 | present | high | The source commit supplies trust-all and non-interactive flags to the intended Q invocation. | S2 | S1 |
+
+**Activation notes:** The malicious extension revision would have needed to execute its launcher and find the local Q CLI. AWS states that a syntax error prevented the shipped code from executing or changing customer environments. Version 1.84.0 carried the code; 1.85.0 removed it. The intended deletion prompt and permissive flags are artifact evidence only, not proof of an agent launch, attempted deletion, or cloud impact.
+
+**Sources:**
+
+- `S1` — [AWS Amazon Q VS Code extension compromise advisory](https://aws.amazon.com/security/security-bulletins/AWS-2025-015/)
+- `S2` — [Malicious Amazon Q extension source commit](https://github.com/aws/aws-toolkit-vscode/commit/1294b38b7fade342cfcbaf7cf80e2e5096ea1f9c)
+
+## EAA-C-030 — Postmark MCP implementation backdoor
+
+**Type:** malicious artifact
+
+**Date:** published 2025-09-25
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-021 | present | high | Published postmark-mcp server code adds an unrequested BCC recipient inside the email tool implementation, without requiring malicious instructions to the model. | S1, S2 |
+
+**Activation notes:** The malicious npm server had to be installed, configured with usable Postmark credentials, and invoked to send mail. Snyk reproduces code labelled 1.0.18; the embedded package manifest says 1.0.14, so it is not an independently authenticated package-version record. OSV separately identifies the malicious range beginning at 1.0.16. These sources establish the backdoor, but publish no victim-specific agent invocation or delivery receipt. The legitimate Postmark service and official repository are not established as compromised.
+
+**Sources:**
+
+- `S1` — [Snyk postmark-mcp analysis and reproduced server code](https://snyk.io/blog/malicious-mcp-server-on-npm-postmark-mcp-harvests-emails/)
+- `S2` — [OSV MAL-2025-47604 postmark-mcp record](https://osv.dev/vulnerability/MAL-2025-47604)
+
+## EAA-C-031 — Claude Code GitHub Action process-environment disclosure
+
+**Type:** research
+
+**Date:** published 2026-06-05
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-018 | executed | high | In Microsoft's controlled workflow, injected GitHub content caused Claude Code to read the agent process environment. | S1 |
+| 2 | EAA-015 | impact-confirmed | high | The Read result contained the unsanitized ANTHROPIC_API_KEY from the runner process, establishing credential collection. | S1 |
+
+**Activation notes:** The lab workflow accepted untrusted GitHub content and exposed an API key to the agent process. Its Read tool accessed process environment data outside the scrubbed Bash subprocess boundary. Microsoft reports mitigation in Claude Code 2.1.128. This is controlled CI-runner evidence, not a confirmed production incident. Collection is established; proposed WebFetch, shell, MCP, and logging exfiltration routes depend on workflow configuration and are not all claimed as executed.
+
+**Sources:**
+
+- `S1` — [Microsoft Claude Code GitHub Action secret-exposure research](https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/)
+
+## EAA-C-032 — OpenClaw control gateway takeover
+
+**Type:** research
+
+**Date:** published 2026-02-01
+
+| Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
+|---|---|---|---|---|---|---|
+| 1 | EAA-015 | executed | high | depthfirst reused a stolen OpenClaw gateway session to change execution approvals and select the gateway host as the command destination. | S1 | S2 |
+| 2 | EAA-015 | impact-confirmed | high | The controlled chain invoked the gateway's command facility and created a marker file on the host. | S1 | S2 |
+
+**Activation notes:** The user had previously authenticated to the Control UI and visited crafted web content. Gateway URL handling leaked the stored token; a browser connection reached the local gateway. The researcher used the token's administrative authority to disable approvals, select host execution, and run a marker command. This is policy reconfiguration, not evidence of a container-runtime escape. The vendor advisory lists <=2026.1.28 affected and 2026.1.29 fixed; the research post states the narrower <=2026.1.24-1 range. Neither establishes real victim exploitation.
+
+**Sources:**
+
+- `S1` — [depthfirst OpenClaw gateway takeover research](https://depthfirst.com/research/1-click-rce-to-steal-your-moltbot-data-and-keys)
+- `S2` — [OpenClaw gatewayUrl token-exfiltration advisory](https://github.com/openclaw/openclaw/security/advisories/GHSA-g8p2-7wf7-98mq)
+
+## EAA-C-033 — AI ClickFix through a computer-use interface
+
+**Type:** research
+
+**Date:** published 2025-05-24
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-018 | executed | high | The demonstration redirected Claude Computer Use from webpage interaction into pasting a terminal command that fetched and ran a script. | S1 |
+
+**Activation notes:** Claude Computer Use was directed to a researcher-controlled page, clicked a button that populated the clipboard, and followed the displayed terminal instructions. The report names model claude-3-7-sonnet-20250219 and xfce4-terminal; agent build and OS versions are unspecified. This is controlled command execution, not evidence of applicability to every computer-use product, credential theft, or destructive impact.
+
+**Sources:**
+
+- `S1` — [Embrace The Red AI ClickFix demonstration](https://embracethered.com/blog/posts/2025/ai-clickfix-ttp-claude/)
+
+## EAA-C-034 — Poisoned take-home assessment and MCP exfiltration
+
+**Type:** incident
+
+**Date:** published 2026-06-19
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-004 | executed | medium | Mitiga reports that Cursor loaded poisoned project rules and followed the embedded setup workflow. | S1 |
+| 2 | EAA-018 | present | medium | The incident report identifies hidden instruction-bearing README comments alongside persistent rule files; their independent causal contribution is not established. | S1 |
+| 3 | EAA-006 | executed | medium | The agent loaded the repository-supplied MCP integration and invoked its environment-check tool. | S1 |
+| 4 | EAA-010 | executed | medium | Mitiga attributes the environment-check call to a poisoned tool description that presented credential submission as setup validation. | S1 |
+| 5 | EAA-015 | impact-confirmed | medium | The reported sequence read cloud credentials and transmitted collected data through the MCP environment-check call. | S1 |
+
+**Activation notes:** Mitiga reports Cursor with terminal access, MCP tools, and auto-run already enabled. Its redacted timeline shows rule, README, and MCP context loaded before collection and transmission. Victim identity, versions, and complete artifacts are unavailable, so claims use medium confidence. README and rule effects were not isolated; the README mapping records presence only. Auto-run is a prerequisite, not an attacker-made EAA-002 change. Cloud escalation paths discussed by the report are not additional confirmed outcomes.
+
+**Sources:**
+
+- `S1` — [Mitiga poisoned coding-assessment incident report](https://www.mitiga.io/blog/poisoned-coding-test-ai-agent-attack)
+
+## EAA-C-035 — Skill marketplace replacement and delayed update
+
+**Type:** research
+
+**Date:** published 2026-05-05
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-009 | executed | medium | Orca reports that skill installation and update flows fetched attacker-controlled revisions, including nested installation that replaced an existing same-name skill. | S1 |
+| 2 | EAA-004 | executed | medium | The changed skill instructions were followed and generated benign execution callbacks in the reported research. | S1 |
+
+**Activation notes:** Orca reports installation, nested replacement, and later update flows with benign execution callbacks. The publication does not identify the marketplace or pin agent and installer versions; confidence is medium. A user or agent had to install a skill or run the update command, then activate the changed instructions. This supports EAA-009 and EAA-004; a repository update is not evidence of EAA-013's account-enabled cloud-skill synchronization path. Popularity counters and callback counts do not establish malicious victim compromise.
+
+**Sources:**
+
+- `S1` — [Orca skill marketplace installation and update research](https://orca.security/resources/blog/ai-agent-skill-supply-chain-security/)
+
+## EAA-C-036 — Agentjacking through Sentry error context
+
+**Type:** research
+
+**Date:** published 2026-06-17
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-018 | executed | medium | Tenet reports that fabricated diagnostic instructions in Sentry error data induced coding agents to execute a researcher-controlled npm validation package. | S1 |
+
+**Activation notes:** Researchers submitted error data through a public Sentry ingest credential; an agent then retrieved it through the legitimate Sentry integration while triaging an issue. The server definition need not be changed. The report names several agents and environments but does not give pinned product versions or complete per-host traces, so execution confidence is medium. It describes test callbacks and exposure probes, not demonstrated theft of live credential values. Organizational reach and exposed keys are not counted as confirmed compromise.
+
+**Sources:**
+
+- `S1` — [Tenet Agentjacking through Sentry error data](https://tenetsecurity.ai/blog/agentjacking-coding-agents-with-fake-sentry-errors/)
