@@ -791,7 +791,7 @@ Boundaries:
 
 Example:
 
-- The published Postmark MCP implementation appends an unrequested BCC recipient inside its email handler. The catalog records the artifact and its activation requirements, without inferring victim delivery from package popularity.
+- The published Postmark MCP implementation appends an unrequested BCC recipient inside its `sendEmail` handler. The catalog records the artifact and its activation requirements, without inferring victim delivery from package popularity.
 
 Hunt ideas:
 

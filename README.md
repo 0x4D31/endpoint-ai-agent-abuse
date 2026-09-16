@@ -9,7 +9,7 @@ This is not a general AI security taxonomy or a claim that every technique appli
 ## Start here
 
 - [`techniques/index.md`](techniques/index.md) — main catalog
-- [`atlas.md`](atlas.md) — scoped comparison with MITRE ATLAS and case-selection decisions
+- [`atlas.md`](atlas.md) — selected mechanism comparisons with MITRE ATLAS and case-selection decisions
 - [`scope.md`](scope.md) — inclusion boundary and adjacent-case decisions
 - [`surfaces.md`](surfaces.md) — where a technique acts
 - [`tactics.md`](tactics.md) — the adversary objective

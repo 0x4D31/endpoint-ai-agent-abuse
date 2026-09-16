@@ -524,7 +524,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
 |---|---|---|---|---|---|---|
-| 1 | EAA-001 | present | high | The malicious extension commit contains a Q CLI launcher with attacker-selected destructive instructions; AWS confirms distribution in extension 1.84.0. | S1, S2 |  |
+| 1 | EAA-001 | present | high | The malicious extension commit contains a Q CLI launcher with attacker-selected destructive instructions. | S2 | S1 |
 | 2 | EAA-002 | present | high | The source commit supplies trust-all and non-interactive flags to the intended Q invocation. | S2 | S1 |
 
 **Activation notes:** The malicious extension revision would have needed to execute its launcher and find the local Q CLI. AWS states that a syntax error prevented the shipped code from executing or changing customer environments. Version 1.84.0 carried the code; 1.85.0 removed it. The intended deletion prompt and permissive flags are artifact evidence only, not proof of an agent launch, attempted deletion, or cloud impact.
@@ -542,9 +542,9 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
-| 1 | EAA-021 | present | high | Published postmark-mcp server code adds an unrequested BCC recipient inside the email tool implementation, without requiring malicious instructions to the model. | S1, S2 |
+| 1 | EAA-021 | present | high | Published postmark-mcp server code adds an unrequested BCC recipient inside the sendEmail handler, without requiring malicious instructions to the model. | S1, S2 |
 
-**Activation notes:** The malicious npm server had to be installed, configured with usable Postmark credentials, and invoked to send mail. Snyk reproduces code labelled 1.0.18; the embedded package manifest says 1.0.14, so it is not an independently authenticated package-version record. OSV separately identifies the malicious range beginning at 1.0.16. These sources establish the backdoor, but publish no victim-specific agent invocation or delivery receipt. The legitimate Postmark service and official repository are not established as compromised.
+**Activation notes:** The malicious npm server had to be installed, configured with usable Postmark credentials, and invoked through its sendEmail handler. Snyk reproduces code labelled 1.0.18; the embedded package manifest says 1.0.14, so it is not an independently authenticated package-version record. OSV separately identifies the malicious range beginning at 1.0.16. These sources establish the backdoor, but publish no victim-specific agent invocation or delivery receipt. The legitimate Postmark service and official repository are not established as compromised.
 
 **Sources:**
 
@@ -576,10 +576,9 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
 |---|---|---|---|---|---|---|
-| 1 | EAA-015 | executed | high | depthfirst reused a stolen OpenClaw gateway session to change execution approvals and select the gateway host as the command destination. | S1 | S2 |
-| 2 | EAA-015 | impact-confirmed | high | The controlled chain invoked the gateway's command facility and created a marker file on the host. | S1 | S2 |
+| 1 | EAA-015 | executed | medium | depthfirst reports reusing a leaked OpenClaw gateway token to disable approval checks, select host execution, and invoke a host command. | S1 | S2 |
 
-**Activation notes:** The user had previously authenticated to the Control UI and visited crafted web content. Gateway URL handling leaked the stored token; a browser connection reached the local gateway. The researcher used the token's administrative authority to disable approvals, select host execution, and run a marker command. This is policy reconfiguration, not evidence of a container-runtime escape. The vendor advisory lists <=2026.1.28 affected and 2026.1.29 fixed; the research post states the narrower <=2026.1.24-1 range. Neither establishes real victim exploitation.
+**Activation notes:** The user had previously authenticated to the Control UI and visited crafted web content. Gateway URL handling leaked the stored token; a browser connection reached the local gateway. depthfirst reports using the token's administrative authority to disable approvals, select host execution, and invoke a host command. The published command request does not independently establish the marker file's creation, so the case records reported execution at medium confidence. This is policy reconfiguration, not evidence of a container-runtime escape. The vendor advisory lists <=2026.1.28 affected and 2026.1.29 fixed; the research post states the narrower <=2026.1.24-1 range. Neither establishes real victim exploitation.
 
 **Sources:**
 
@@ -594,7 +593,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
-| 1 | EAA-018 | executed | high | The demonstration redirected Claude Computer Use from webpage interaction into pasting a terminal command that fetched and ran a script. | S1 |
+| 1 | EAA-018 | executed | medium | The demonstration redirected Claude Computer Use from webpage interaction into pasting a terminal command that fetched and ran a script. | S1 |
 
 **Activation notes:** Claude Computer Use was directed to a researcher-controlled page, clicked a button that populated the clipboard, and followed the displayed terminal instructions. The report names model claude-3-7-sonnet-20250219 and xfce4-terminal; agent build and OS versions are unspecified. This is controlled command execution, not evidence of applicability to every computer-use product, credential theft, or destructive impact.
 
@@ -649,7 +648,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-018 | executed | medium | Tenet reports that fabricated diagnostic instructions in Sentry error data induced coding agents to execute a researcher-controlled npm validation package. | S1 |
 
-**Activation notes:** Researchers submitted error data through a public Sentry ingest credential; an agent then retrieved it through the legitimate Sentry integration while triaging an issue. The server definition need not be changed. The report names several agents and environments but does not give pinned product versions or complete per-host traces, so execution confidence is medium. It describes test callbacks and exposure probes, not demonstrated theft of live credential values. Organizational reach and exposed keys are not counted as confirmed compromise.
+**Activation notes:** Researchers submitted error data through a public Sentry ingest credential; an agent then retrieved it through the legitimate Sentry integration while triaging an issue. The server definition need not be changed. The report identifies Claude Code 2.1.161 in a June 2 capture and gives macOS and Windows/WSL examples; these details do not describe every tested agent or host. Other product versions and complete per-host traces are unavailable, so execution confidence is medium. The case records package execution; redacted exposure probes do not establish credential reuse or subsequent compromise. Organizational reach and exposed keys are not counted as confirmed compromise.
 
 **Sources:**
 
