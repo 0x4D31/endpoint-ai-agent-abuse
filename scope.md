@@ -1,8 +1,8 @@
 # Scope
 
-EAA tracks adversarial abuse of an AI agent, or its agent-specific ecosystem, in a victim-controlled execution environment. The agent must act, or be positioned to act, with authority available to the victim user or organization.
+EAA tracks attacks that misuse an AI agent, its configuration, or its integrations in a victim’s environment. The attacker targets access that the agent has on behalf of the victim user or organization.
 
-“Endpoint” includes developer workstations and other bounded environments where an agent runs with local or delegated authority, such as development containers and CI or agent runners. It does not require a physical laptop, but it does require a victim-side agent runtime or agent-specific surface.
+The catalog covers developer workstations, development containers, CI jobs, and other agent runners. The affected agent or component must belong to or operate for the victim; an attacker’s own agent is outside this scope.
 
 ## Inclusion test
 
@@ -14,14 +14,14 @@ A technique or case belongs in EAA when all of the following are true:
 
 Publication or discovery alone may support a `present` outcome only when the inspected artifact itself implements an EAA technique. It does not establish planting, activation, execution, or impact on a victim.
 
-## Included boundaries
+## Included examples
 
 - An installer, extension, repository, or other external process invokes a victim-side agent or writes its configuration.
 - Adversarial content reaches an endpoint agent through a repository, issue, tool result, log, or other input and induces a local or delegated action.
 - An attacker commandeers or copies an existing endpoint-agent environment and uses authority available in that environment.
 - A hosted runner is in scope when an agent running for the victim organization is the confused deputy and the procedure affects its execution or delegated authority.
 
-## Adjacent but excluded
+## Excluded examples
 
 - An attacker uses an agent on attacker-controlled infrastructure against a conventional target.
 - Malware is distributed through an AI-related package but does not manipulate an agent-specific surface or authority.
@@ -29,7 +29,7 @@ Publication or discovery alone may support a `present` outcome only when the ins
 - A prompt-injection result changes only model output and produces no endpoint or delegated action.
 - A scan reports suspicious instructions or marketplace prevalence without establishing an agent-specific procedure in an inspectable artifact.
 
-## Boundary decisions
+## Cases that need care
 
 | Scenario | Decision | Reason |
 |---|---|---|
@@ -38,4 +38,4 @@ Publication or discovery alone may support a `present` outcome only when the ins
 | Malicious repository is surfaced or recommended, but no agent-specific local procedure is established | Hold | Discovery alone does not establish endpoint-agent abuse. |
 | Large-scale scan of public skills or instructions | Source or corpus lead | Prevalence evidence can inform research, but is not automatically a case. |
 
-When a boundary remains uncertain, record it in [`candidates.md`](candidates.md) rather than stretching an existing technique or outcome.
+When a case’s fit remains uncertain, record it in [`candidates.md`](candidates.md) rather than stretching an existing technique or outcome.

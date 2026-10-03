@@ -1,32 +1,32 @@
 # Endpoint AI Agent Abuse (EAA)
 
-A curated, evidence-scoped catalog of techniques for abusing endpoint-resident AI agents.
+A catalog of ways attackers can abuse AI agents on workstations, in development containers, and in CI runners.
 
-EAA tracks how attackers can misuse local agents—especially coding and developer agents—as execution, persistence, collection, exfiltration, defense-evasion, and inherited-authority surfaces. The focus is the endpoint behavior around agents: launchers and flags, environment and provider routing, instructions, memory, hooks, plugins, skills, MCP, transcripts, telemetry, and access inherited from the local user.
+EAA describes how attackers launch agents, alter their instructions and configuration, collect their data, and use their access to files, tools, and services. Each technique identifies the attacker action and its prerequisites. Cases record what the public evidence shows happened.
 
-This is not a general AI security taxonomy or a claim that every technique applies identically to every product. Product applicability is asserted only where an official document, primary artifact, incident, or reproducible study supports it. Trust gates, defaults, operating systems, and product versions are part of the claim.
+The catalog focuses on agents that run for a victim user or organization. Product versions, operating systems, trust decisions, and approval settings determine whether a technique applies. See the [scope](scope.md) and [evidence model](evidence.md) for the inclusion criteria.
 
 ## Start here
 
 - [`techniques/index.md`](techniques/index.md) — main catalog
-- [`scope.md`](scope.md) — inclusion boundary and adjacent-case decisions
+- [`scope.md`](scope.md) — what belongs in the catalog
 - [`surfaces.md`](surfaces.md) — where a technique acts
-- [`tactics.md`](tactics.md) — the adversary objective
-- [`cases.md`](cases.md) — procedure-level incident, artifact, and research mappings
-- [`hunting.md`](hunting.md) — detection and forensic hypotheses with telemetry and limitations
-- [`candidates.md`](candidates.md) — plausible ideas below the promotion threshold
-- [`evidence.md`](evidence.md) — maturity, source, outcome, and confidence rules
+- [`tactics.md`](tactics.md) — why the attacker acts
+- [`cases.md`](cases.md) — incidents, malicious artifacts, and research, mapped to techniques
+- [`hunting.md`](hunting.md) — detection ideas, required telemetry, and limitations
+- [`candidates.md`](candidates.md) — ideas that need more evidence
+- [`evidence.md`](evidence.md) — how evidence, maturity, outcomes, and confidence are recorded
 - [`data/catalog.json`](data/catalog.json) — machine-readable catalog
 - [`data/catalog.schema.json`](data/catalog.schema.json) — catalog schema
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — entry and source requirements
 
 ## Evidence model
 
-Technique maturity and evidence source are independent:
+Technique maturity describes how much has been established:
 
-- `feasible` — an authoritative source establishes the surface and an agent-specific abuse path, but no public implementation is known;
+- `feasible` — the required product behavior and abuse path are documented, but no public implementation is known;
 - `demonstrated` — public research or a malicious artifact implements the technique;
-- `observed` — an incident-context case establishes that the scoped attacker action was planted, executed, or produced confirmed impact. For a planting technique, this does not imply later activation.
+- `observed` — an incident or campaign report confirms that the attacker performed the action described by the technique. Planting a hook, for example, does not prove that it later ran.
 
 Cases separately record whether a procedure was present, planted, attempted, executed, or produced confirmed impact. An `observed` technique does not mean that every cited artifact executed successfully or that every reported downstream effect was confirmed. See [`evidence.md`](evidence.md) for the full rules.
 
@@ -63,7 +63,7 @@ Run the dependency-free validator before submitting changes:
 python3 scripts/validate.py
 ```
 
-It validates the structured catalog and cross-checks IDs, metadata, relationships, canonical case mappings, cases, surfaces, tactics, candidates, versions, and local links. A passing result confirms structural consistency, not the truth of an external source; claim-level source review is still required.
+The validator checks the JSON catalog, its Markdown tables, references, versions, and local links. Sources and technical claims still need to be reviewed separately.
 
 ## Versioning
 

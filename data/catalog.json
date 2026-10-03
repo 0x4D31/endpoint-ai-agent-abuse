@@ -5,8 +5,8 @@
   "short_name": "EAA",
   "version": "0.4.0",
   "license": "CC0-1.0",
-  "description": "A curated catalog of techniques for abusing endpoint-resident AI agents.",
-  "last_reviewed": "2026-09-16",
+  "description": "A catalog of ways attackers can abuse AI agents on workstations, in development containers, and in CI runners.",
+  "last_reviewed": "2026-10-03",
   "surfaces": [
     {
       "id": "launcher",
@@ -619,7 +619,7 @@
         {"type": "related-to", "target": "EAA-009"},
         {"type": "related-to", "target": "EAA-014"}
       ],
-      "last_reviewed": "2026-09-03"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-004",
@@ -658,7 +658,7 @@
     {
       "id": "EAA-005",
       "name": "Transcript and agent-state collection",
-      "summary": "An attacker reads or copies transcripts, histories, caches, session stores, or parts or complete copies of agent profiles.",
+      "summary": "An attacker reads or copies transcripts, histories, caches, session stores, or partial or complete agent profiles.",
       "primary_surface": "state-telemetry",
       "secondary_surfaces": ["identity-authority"],
       "tactics": ["Credential Access", "Collection"],
@@ -683,7 +683,7 @@
         {"type": "related-to", "target": "EAA-012"},
         {"type": "related-to", "target": "EAA-017"}
       ],
-      "last_reviewed": "2026-09-03"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-006",
@@ -720,7 +720,7 @@
         {"type": "related-to", "target": "EAA-015"},
         {"type": "related-to", "target": "EAA-016"}
       ],
-      "last_reviewed": "2026-09-03"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-007",
@@ -794,7 +794,7 @@
         {"type": "related-to", "target": "EAA-008"},
         {"type": "related-to", "target": "EAA-013"}
       ],
-      "last_reviewed": "2026-09-16"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-010",
@@ -915,7 +915,6 @@
         {"source_id": "SRC-024", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-025", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-010", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-010", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-045", "support": "version-range-documented", "confidence": "high"},
         {"source_id": "SRC-046", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-049", "support": "impact-confirmed", "confidence": "high"},
@@ -936,7 +935,7 @@
         {"type": "related-to", "target": "EAA-019"},
         {"type": "related-to", "target": "EAA-020"}
       ],
-      "last_reviewed": "2026-09-03"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-016",
@@ -964,7 +963,7 @@
         {"type": "related-to", "target": "EAA-006"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-09-03"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-017",
@@ -1013,7 +1012,7 @@
         {"type": "related-to", "target": "EAA-019"},
         {"type": "related-to", "target": "EAA-020"}
       ],
-      "last_reviewed": "2026-09-16"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-019",
@@ -1037,7 +1036,7 @@
     {
       "id": "EAA-020",
       "name": "Agent-consumed reference takeover",
-      "summary": "An attacker claims or retakes a mutable package, domain, repository, or other locator already named in operational guidance that an endpoint agent consumes.",
+      "summary": "An attacker takes control of a package name, domain, repository, or download location referenced in documentation an endpoint agent follows. The documentation remains unchanged, but the reference now resolves to attacker-controlled content that the agent may install or execute.",
       "primary_surface": "task-context",
       "secondary_surfaces": [],
       "tactics": ["Execution"],
@@ -1054,7 +1053,7 @@
         {"type": "related-to", "target": "EAA-015"},
         {"type": "related-to", "target": "EAA-018"}
       ],
-      "last_reviewed": "2026-09-16"
+      "last_reviewed": "2026-10-03"
     }
   ],
   "cases": [
@@ -1341,7 +1340,7 @@
       "date_start": "2026-02-02",
       "date_end": "2026-02-22",
       "date_basis": "activity",
-      "activation_notes": "The operator already controlled the hosts and the copied agent environment. The evidence is unusually strong because investigators recovered more than 1,000 native sessions and correlated them with host artifacts. This proves that the affected transcript was modified; it does not make every missing transcript event evidence of tampering.",
+      "activation_notes": "The attacker first used the developer’s existing Claude instance on the compromised Hetzner host, then copied and reused it elsewhere. This takeover and reuse of a victim’s agent environment is the EAA-015 procedure. The report also describes attacker-operated Codex sessions, which do not independently establish that procedure. Recovered sessions and host artifacts confirm the copied state and the specific transcript modification in this case.",
       "source_refs": ["SRC-010"],
       "procedures": [
         {
@@ -1356,11 +1355,16 @@
         {
           "step": 2,
           "technique_id": "EAA-015",
-          "outcome": "impact-confirmed",
+          "outcome": "executed",
           "confidence": "high",
-          "claim": "Recovered sessions showed the operator using local Claude and Codex agents with available shell, filesystem, and network access for intrusions and exfiltration against real organizations.",
+          "claim": "Recovered sessions show the attacker using a developer’s existing Claude instance on the compromised host, then continuing to use it after copying the installation and session history to other hosts.",
           "source_refs": ["SRC-010"],
-          "activation_conditions": ["The operator controlled the hosts and agent sessions.", "The agents had shell, filesystem, or network authority available."]
+          "activation_conditions": ["The attacker controlled the developer’s host and could use the existing Claude session and its available tools."],
+          "scope": {
+            "products": ["Claude Code"],
+            "versions": [],
+            "operating_systems": []
+          }
         },
         {
           "step": 3,
@@ -1870,7 +1874,7 @@
       "contexts": ["vendor-advisory", "patched-vulnerability"],
       "date_start": "2026-02-06",
       "date_basis": "published",
-      "activation_notes": "The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later host-privileged hook execution additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.",
+      "activation_notes": "The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later execution outside the sandbox additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.",
       "source_refs": ["SRC-048"],
       "procedures": [
         {
@@ -1878,7 +1882,7 @@
           "technique_id": "EAA-003",
           "outcome": "planted",
           "confidence": "high",
-          "claim": "In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to execute with host privileges after restart.",
+          "claim": "In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to run outside the sandbox after restart.",
           "source_refs": ["SRC-048"],
           "activation_conditions": [
             "`.claude/settings.json` did not exist when the sandbox started.",
@@ -2037,7 +2041,7 @@
       "date_start": "2026-07-11",
       "date_end": "2026-08-02",
       "date_basis": "activity",
-      "activation_notes": "An operator had to install or otherwise load a malicious skill revision and invoke a matching setup task in an agent with host-command and network access. The malicious skills used Paperclip and Browser Use themes as lures; the report does not identify the endpoint-agent product used for detonation, so product and version scope are intentionally unset. Zenity reports that the weaponized family was active from 2026-07-11 until removal on 2026-08-02. Its aggregate 1.7 million-plus skills.sh install figure is a registry counter, not a count of unique or compromised endpoints. Public detonation reporting does not identify the agent or provide a complete agent transcript; the execution and impact assertions therefore use medium confidence. The detonation establishes skill activation and payload execution, but does not document the acquisition step; EAA-009 records the distributed artifacts only.",
+      "activation_notes": "A malicious skill had to be loaded and invoked for a matching setup task, with host-command and network access available. Paperclip and Browser Use were lures; the report does not identify the tested agent or version, or provide a complete transcript. Execution and impact therefore have medium confidence. Zenity dates the malicious skill family from July 11 to its removal on August 2, 2026. The reported 1.7 million-plus skills.sh installs are an aggregate registry counter, not unique or compromised endpoints. The controlled test documents activation, but not skill acquisition; EAA-009 remains present.",
       "source_refs": ["SRC-060"],
       "procedures": [
         {
@@ -2054,7 +2058,7 @@
           "technique_id": "EAA-004",
           "outcome": "executed",
           "confidence": "medium",
-          "claim": "The installed skill's durable instructions and progressively disclosed setup document were loaded and followed by the agent during the controlled task.",
+          "claim": "During controlled testing, the agent followed the installed skill’s instructions to open a secondary setup document and run its commands.",
           "source_refs": ["SRC-060"],
           "activation_conditions": ["The task matched the trojanized skill and caused the agent to read its secondary setup document."]
         },
@@ -2071,7 +2075,7 @@
     },
     {
       "id": "EAA-C-025",
-      "name": "Kiro hidden-web-content MCP rewrite",
+      "name": "Kiro MCP configuration rewrite through web content",
       "type": "research",
       "contexts": ["controlled-research", "vendor-advisory", "patched-vulnerability"],
       "date_start": "2026-07-20",
