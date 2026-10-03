@@ -10,7 +10,7 @@ For each analytic, record the product/version, enabled controls, required fields
 
 **Required telemetry:** process start and ancestry, full command line, executable path/signer/hash, user/session, TTY or interactive-session context, container/CI context, and an inventory of expected agent launchers.
 
-Where agent-native fields are available, preserve them as correlation keys. Claude Code documents `session.id`, `prompt.id`, and `tool_use_id`; when tracing is active, Bash and PowerShell subprocesses inherit W3C `TRACEPARENT`. With a custom `ANTHROPIC_BASE_URL`, `CLAUDE_CODE_PROPAGATE_TRACEPARENT=1` enables that propagation path. These identifiers strengthen a temporal/process join but are not cryptographic proof of intent, and tracing plus content-bearing fields are not enabled by default. See the [Claude Code monitoring documentation](https://code.claude.com/docs/en/monitoring-usage).
+Where agent-native fields are available, preserve them as correlation keys. Claude Code documents `session.id`, `prompt.id`, and `tool_use_id`; when tracing is active, Bash and PowerShell subprocesses inherit W3C `TRACEPARENT`. With a custom `ANTHROPIC_BASE_URL`, `CLAUDE_CODE_PROPAGATE_TRACEPARENT=1` enables that propagation path. These identifiers help correlate agent records with process activity but are not cryptographic proof of intent, and tracing plus content-bearing fields are not enabled by default. See the [Claude Code monitoring documentation](https://code.claude.com/docs/en/monitoring-usage).
 
 Look for package managers, installers, IDE extension hosts, repository setup scripts, CI jobs, or document handlers launching a local agent, then require a downstream effect.
 
@@ -60,7 +60,7 @@ bulk or cross-product agent-state read -> archive/filter -> network or remote-st
 
 Include reads by the agent itself: an operator can ask an agent to find and process its own histories, so a `claude`, `codex`, or similar reader should not be automatically allowlisted. Also consider a non-agent process that probes several vendors' MCP or agent-configuration paths in one run, particularly when the reads are followed by filtering or egress. Computer History memory files may be readable by same-user software and may contain sensitive information; its temporary raw event files are separately isolated in the ChatGPT App Group and should not be assumed to have the same access boundary.
 
-Blacklight provides a controlled fixture for separating cross-product metadata enumeration, operator-selected transfer, and offline session parsing. Test detections for each stage independently: a path reference, filesystem metadata probe, or ranked candidate does not establish that file content was read. Its defender guidance also illustrates sensor limits: Windows event 4663 requires Audit File System plus a matching SACL; standard macOS FSEvents records changes rather than reads, while an Endpoint Security `open` event does not prove bytes were consumed; and Linux file-access telemetry can be high-volume.
+Blacklight can help test detections for metadata enumeration, selected-file transfer, and offline session parsing. Test detections for each stage independently: a path reference, filesystem metadata probe, or ranked candidate does not establish that file content was read. Its defender guidance also illustrates sensor limits: Windows event 4663 requires Audit File System plus a matching SACL; standard macOS FSEvents records changes rather than reads, while an Endpoint Security `open` event does not prove bytes were consumed; and Linux file-access telemetry can be high-volume.
 
 **Limitations:** file-read telemetry is expensive and often unavailable. Backup, indexing, migration, support, and forensic tools legitimately read state in bulk. Some credentials are stored in OS credential stores rather than the agent directory.
 
@@ -74,7 +74,7 @@ Blacklight provides a controlled fixture for separating cross-product metadata e
 base URL / custom header / alternate config directory -> agent start -> first-seen destination or control plane
 ```
 
-Prefer capturing normalized domains and secret-safe hashes over ingesting raw credential-bearing environment variables.
+Record destination domains and redacted configuration values. Avoid collecting credentials from environment variables.
 
 **Limitations:** enterprise gateways, development proxies, test profiles, and portable installations are legitimate. Effective configuration can come from several precedence layers, and endpoint telemetry may not expose encrypted traffic content or OS credential-store use.
 
@@ -118,7 +118,7 @@ agent session -> authenticated local tool/session -> GitHub/SaaS/cloud/package a
 
 Prioritize destructive, administrative, bulk-read, token-management, and public-publishing actions, especially when the preceding user request or repository provenance does not explain them.
 
-**Limitations:** downstream services frequently attribute the action only to the human account. Shared tokens and provider egress obscure origin, and semantic intent may not be recoverable. Treat attribution as confidence-weighted unless independent endpoint and service evidence agree.
+**Limitations:** downstream services frequently attribute the action only to the human account. Shared tokens and provider egress obscure origin, and semantic intent may not be recoverable. Record the evidence supporting attribution and any gaps between endpoint and service records.
 
 ## H9 — Agent environment reconnaissance
 
@@ -205,7 +205,7 @@ Correlate across channels rather than scanning each item alone. Preserve the too
 
 Prioritize actions that match instructions in retrieved content but are not explained by the user's request, especially credential reads, new process execution, outbound publishing, or destructive changes. Preserve a digest and source identifier when raw content cannot be retained. For Computer History, classify direct interaction-event context as EAA-018 and generated persistent memory as EAA-004; OpenAI documents the injection risk, but a finding still requires an attempted or completed action.
 
-**Limitations:** setup documentation and issue-driven automation legitimately influence agent actions. Content may be unavailable, truncated, or redacted, and model or harness behavior can change by version. Instruction-like text alone is not malicious execution; require temporal and semantic correlation with an attempted or completed effect.
+**Limitations:** setup documentation and issue-driven automation legitimately influence agent actions. Content may be unavailable, truncated, or redacted, and model or harness behavior can change by version. Instruction-like text alone is not malicious execution; require temporal and semantic correlation with an attempted or completed action.
 
 ## H14 — Repository metadata triggers an agent preflight helper
 
@@ -216,12 +216,12 @@ Prioritize actions that match instructions in retrieved content but are not expl
 ```text
 repository arrives with .git metadata intact
   -> agent runs background git context command
-  -> repository-selected helper executes before approval
+  -> Git runs the configured helper outside the agent’s normal tool checks
 ```
 
 Prioritize workspaces received as archives, shared folders, synchronized directories, or removable media. A normal clone, fetch, or pull does not transfer another repository's local `.git/config`. Look for agent-spawned Git commands without a safe override followed by a child process named by `core.fsmonitor` or another command-bearing Git setting.
 
-**Limitations:** legitimate filesystem monitors, diff drivers, credential helpers, and hooks can execute during normal Git use. The vulnerable settings and product mitigations are version-sensitive. Inspect suspicious metadata as data from outside the repository and do not run routine Git commands in it during triage.
+**Limitations:** some Git commands intentionally invoke configured helpers. Match the setting to the observed Git subcommand and product version. Inspect suspicious metadata as data from outside the repository and do not run routine Git commands in it during triage.
 
 ## H15 — Agent-consumed reference resolves to a new owner
 
@@ -237,7 +237,7 @@ agent reads operational guidance
 
 Flag install or setup actions where an agent follows a reference from `llms.txt`, API documentation, a setup guide, or another retrieved source and the destination was only recently registered, has no verified relationship to the documented vendor, or changed owners after the source was published. Preserve both the instruction and the exact resolved artifact: the attacker may control only the destination, not the text.
 
-**Limitations:** new packages, renamed SDKs, mirrors, and documentation mistakes are common. Registration age or missing provenance is a risk signal, not proof of maliciousness. Require the resolved artifact, execution behavior, or a corroborating callback before claiming impact.
+**Limitations:** new packages, renamed SDKs, mirrors, and documentation mistakes are common. Registration age or missing provenance is a risk signal, not proof of maliciousness. Inspect the resolved artifact to establish what was downloaded. Use execution and callback evidence to determine whether it ran and what effect followed.
 
 ## H16 — Tool implementation performs an unrequested action
 

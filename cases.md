@@ -149,14 +149,14 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
 | 1 | EAA-005 | impact-confirmed | high | Investigators recovered a copied Claude installation with the original developer's session history and artifacts, plus archives of other stolen Claude instances. | S1 |
-| 2 | EAA-015 | impact-confirmed | high | Recovered sessions showed the operator using local Claude and Codex agents with available shell, filesystem, and network access for intrusions and exfiltration against real organizations. | S1 |
+| 2 | EAA-015 | executed | high | Recovered sessions show the attacker using a developer’s existing Claude instance on the compromised host, then continuing to use it after copying the installation and session history to other hosts. | S1 |
 | 3 | EAA-017 | impact-confirmed | high | Recovered logs show Claude locating a live JSONL transcript, truncating it before a named target, overwriting the live file, and verifying that the target was removed. | S1 |
 
-**Activation notes:** The operator already controlled the hosts and the copied agent environment. The evidence is unusually strong because investigators recovered more than 1,000 native sessions and correlated them with host artifacts. This proves that the affected transcript was modified; it does not make every missing transcript event evidence of tampering.
+**Activation notes:** The attacker first used the developer’s existing Claude instance on the compromised Hetzner host, then copied and reused it elsewhere. This takeover and reuse of a victim’s agent environment is the EAA-015 procedure. The report also describes attacker-operated Codex sessions, which do not independently establish that procedure. Recovered sessions and host artifacts confirm the copied state and the specific transcript modification in this case.
 
 **Sources:**
 
-- `S1` — [OALABS forensic report](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html)
+- `S1` — [OALABS compromised Claude and Codex forensic investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html)
 
 ## EAA-C-009 — MCP injection and rug-pull research
 
@@ -365,13 +365,13 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
-| 1 | EAA-003 | planted | high | In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to execute with host privileges after restart. | S1 |
+| 1 | EAA-003 | planted | high | In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to run outside the sandbox after restart. | S1 |
 
-**Activation notes:** The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later host-privileged hook execution additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.
+**Activation notes:** The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later execution outside the sandbox additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.
 
 **Sources:**
 
-- `S1` — [Anthropic advisory GHSA-ff64-7w26-62rf](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)
+- `S1` — [Claude Code persistent-configuration injection advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)
 
 ## EAA-C-021 — ContextCrush Context7 custom-rule injection
 
@@ -436,16 +436,16 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
 | 1 | EAA-009 | present | high | Zenity recovered trojanized skill revisions distributed through skills.sh, with setup instructions pointing to a remote credential-harvesting stage. | S1 |
-| 2 | EAA-004 | executed | medium | The installed skill's durable instructions and progressively disclosed setup document were loaded and followed by the agent during the controlled task. | S1 |
+| 2 | EAA-004 | executed | medium | During controlled testing, the agent followed the installed skill’s instructions to open a secondary setup document and run its commands. | S1 |
 | 3 | EAA-015 | impact-confirmed | medium | Zenity reports credential collection and transmission to attacker-controlled infrastructure during controlled detonation. | S1 |
 
-**Activation notes:** An operator had to install or otherwise load a malicious skill revision and invoke a matching setup task in an agent with host-command and network access. The malicious skills used Paperclip and Browser Use themes as lures; the report does not identify the endpoint-agent product used for detonation, so product and version scope are intentionally unset. Zenity reports that the weaponized family was active from 2026-07-11 until removal on 2026-08-02. Its aggregate 1.7 million-plus skills.sh install figure is a registry counter, not a count of unique or compromised endpoints. Public detonation reporting does not identify the agent or provide a complete agent transcript; the execution and impact assertions therefore use medium confidence. The detonation establishes skill activation and payload execution, but does not document the acquisition step; EAA-009 records the distributed artifacts only.
+**Activation notes:** A malicious skill had to be loaded and invoked for a matching setup task, with host-command and network access available. Paperclip and Browser Use were lures; the report does not identify the tested agent or version, or provide a complete transcript. Execution and impact therefore have medium confidence. Zenity dates the malicious skill family from July 11 to its removal on August 2, 2026. The reported 1.7 million-plus skills.sh installs are an aggregate registry counter, not unique or compromised endpoints. The controlled test documents activation, but not skill acquisition; EAA-009 remains present.
 
 **Sources:**
 
 - `S1` — [Zenity trojanized skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain)
 
-## EAA-C-025 — Kiro hidden-web-content MCP rewrite
+## EAA-C-025 — Kiro MCP configuration rewrite through web content
 
 **Type:** research
 

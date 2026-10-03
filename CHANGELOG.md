@@ -14,17 +14,12 @@ Agent-tool implementation and case evidence update.
 
 ## 0.4.0
 
-Recent campaign and execution-path update.
-
-- Added ChainDrop as a procedure case for expanded agent-environment discovery, agent-state collection, and Claude Code hook-planting routines present in the recovered payload.
-- Added the Paperclip/Browser Use skill-supply-chain campaign as artifact evidence for trojanized registry skills and controlled evidence for persistent skill instructions and credential collection through agent authority; the 1.7 million figure remains explicitly aggregate installs rather than unique victims.
-- Added the patched Kiro web-content-to-MCP configuration chain for indirect instruction injection, tool-configuration execution, and confirmed callback impact.
-- Added EAA-019 and the GitSpawn case for host command execution through agent-initiated Git context gathering over command-bearing local Git metadata preserved with a working tree.
-- Added EAA-020 and the `llms.txt` dangling-reference research case for attacker takeover of package or domain references without modifying the instructions an agent consumes.
-- Added GhostSplice as a controlled tool-result injection and inherited-authority case, with hunting guidance for cross-channel data flow rather than isolated tool-description scanning.
-- Source review corrected repository-write prerequisites, Kiro research scope, skill-detonation confidence, reference-takeover outcomes, and GhostSplice sampling boundaries; pinned the GhostSplice evidence revision.
-- Final source review separated skill acquisition from activation, mapped GhostSplice runtime instructions to EAA-018, and limited GitSpawn applicability to reported test versions.
-- Preserved scope exclusions for misaligned or attacker-operated agents, and made no schema-version change.
+- Added six cases: ChainDrop, trojanized skills.sh packages, Kiro MCP configuration rewriting, GitSpawn, dangling-reference takeover, and GhostSplice.
+- Added EAA-019 for command execution through repository metadata interpreted by an agent’s automatic helpers.
+- Added EAA-020 for takeover of package or domain references in unchanged agent-facing documentation.
+- Added hunting guidance for Git helper execution, reference ownership changes, and instructions split across MCP messages.
+- Recorded tested versions, activation conditions, and evidence limits for each case. Pinned the GhostSplice source revision.
+- Clarified the introduction, evidence rules, and technique descriptions; corrected the distinction between skill installation and activation.
 
 ## 0.3.2
 

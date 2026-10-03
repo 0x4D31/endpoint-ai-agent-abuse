@@ -2,7 +2,7 @@
 
 This is the main catalog. Each technique records a primary surface, tactics, maturity, evidence-source categories, a short abuse path, examples, hunting notes, and sources. Structured evidence assigns confidence to individual source-to-claim assertions rather than to the technique as a whole.
 
-Maturity describes the strongest public anchor for the mechanism as scoped. It does not imply that every cited artifact executed successfully or produced confirmed impact. In particular, a planted project configuration is not proof that a product loaded it: workspace trust, local approval, product version, execution mode, and configuration scope can all be activation gates.
+Maturity reflects the strongest public evidence for the behavior defined by the technique. It does not imply that every cited artifact executed successfully or produced confirmed impact. In particular, a planted project configuration is not proof that a product loaded it: workspace trust, local approval, product version, execution mode, and configuration scope can all be activation gates.
 
 Surfaces are defined in [`../surfaces.md`](../surfaces.md). Evidence labels are defined in [`../evidence.md`](../evidence.md).
 
@@ -102,7 +102,6 @@ Examples:
 - Miasma planted project-scoped Claude and Gemini startup hooks. The malicious files establish planting; activation must be evaluated against the affected product version and workspace trust state.
 - Current Gemini CLI documentation includes `SessionStart` and other lifecycle hook events. That establishes the product surface as verified on 2026-07-09; it does not establish that a Miasma-planted file activated on a victim or matched every historical Gemini CLI version.
 - Current Codex documentation also defines `SessionStart` and other lifecycle hooks in user and project configuration. Project-local hooks load only for a trusted `.codex` layer, and non-managed command hooks require review and hash-bound trust; this documents a gated surface, not malicious use.
-- This technique's `observed` maturity means that hook configuration was planted in real compromises. It does not claim that every planted hook fired.
 
 Hunt ideas:
 
@@ -163,7 +162,7 @@ Sources: [Claude Code memory docs](https://code.claude.com/docs/en/memory), [Ope
 - **Case mappings:** EAA-C-008, EAA-C-017, EAA-C-023
 - **Related:** EAA-004, EAA-012, EAA-017
 
-An attacker reads or copies local transcripts, tool histories, plans, logs, caches, session stores, or parts or complete copies of agent profiles to recover credentials, tokens, secrets, internal context, repository details, identity material, or operational history. Credential Access applies only when authentication material is actually among the collected state.
+An attacker reads or copies local transcripts, tool histories, plans, logs, caches, session stores, or partial or complete agent profiles to recover credentials, tokens, secrets, internal context, repository details, identity material, or operational history. Credential Access applies only when authentication material is actually among the collected state.
 
 ```text
 attacker or attacker-directed agent
@@ -218,7 +217,7 @@ Examples:
 
 - Check Point demonstrated that older Claude Code versions could use repository-controlled settings to approve and start a project MCP server before the trust decision. The bypass was patched before public disclosure.
 - Mitiga demonstrated same-user code rewriting an existing MCP endpoint and using a lifecycle hook to reassert the change. The proof of concept required prior local execution and a compatible OAuth-backed MCP server.
-- Intezer and Kodem demonstrated hidden web content inducing Kiro to write a user-level MCP configuration that the IDE automatically reloaded, executing an attacker-selected local command without a separate approval. AWS fixed the issue in Kiro IDE 0.11.
+- Intezer and Kodem demonstrated hidden web content inducing Kiro to write a user-level MCP configuration that the IDE automatically reloaded, executing an attacker-selected local command without a separate approval. The researchers verified the fix in Kiro 0.11.130.
 - Gemini CLI documents an MCP server `trust: true` setting that bypasses all tool-call confirmations for that server. It is an explicit high-risk configuration primitive, not evidence of a product vulnerability or malicious use.
 - Poisoning the content of an already connected server's tool definitions is tracked separately in EAA-010.
 - Mitiga reports a repository-supplied MCP integration being loaded and used for credential transmission. This supports observed maturity at medium confidence, scoped to that redacted incident report.
@@ -316,13 +315,13 @@ An attacker causes an agent's extension mechanism to fetch and load an attacker-
 ```text
 remote plugin URL, marketplace item, or skill repository selected
   -> product-supported sideload or installer fetches the content
-  -> plugin or standalone skill is loaded for one or later sessions
+  -> plugin or standalone skill is loaded for the current session or subsequent sessions
   -> new command/hook/MCP/skill becomes available
 ```
 
 Examples:
 
-- Zenity identified an active campaign of trojanized skills.sh packages and, in controlled detonation, observed an installed skill route an agent through a secondary setup document to a live remote payload. The campaign provides the missing behavioral evidence for standalone skill installation; aggregate registry install counters are not unique or verified victims.
+- Zenity identified an active campaign of trojanized skills.sh packages and, in controlled detonation, observed an installed skill route an agent through a secondary setup document to a live remote payload. The report does not document how the skill was installed. Registry install counters do not establish unique or verified victims.
 - Claude Code fetches `--plugin-url` archives at startup and loads them for that session only.
 - Marketplace registration, plugin installation, enablement, and update are separate state changes. Adding a marketplace alone does not establish that a plugin was installed or loaded.
 - Claude Code plugins can distribute skills, so a plugin installation can deliver skill content without a separate skill installer.
@@ -330,8 +329,6 @@ Examples:
 - EAA-009 covers acquisition or installation. Attacker modification of an already enabled cloud-hosted skill that later syncs is EAA-013.
 - Managed policy can constrain plugin and marketplace sources. Claude Code 2.1.193 and later documents managed-only `disableSideloadFlags`, which rejects `--plugin-dir`, `--plugin-url`, `--agents`, and `--mcp-config`; applicable policy and product version are activation conditions.
 - Orca reports nested same-name skill replacement and later malicious updates. Retain both the installed source revision and each replacement event; a prior benign installation or audit does not authenticate later bytes.
-
-The Zenity case establishes distributed malicious skill artifacts and subsequent controlled activation, but does not document the skill-acquisition step. Its EAA-009 outcome is therefore `present`.
 
 Hunt ideas:
 
@@ -532,7 +529,7 @@ Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits
 - **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018, EAA-C-021, EAA-C-022, EAA-C-024, EAA-C-025, EAA-C-028, EAA-C-031, EAA-C-032, EAA-C-034
 - **Related:** EAA-001, EAA-002, EAA-006, EAA-016, EAA-018, EAA-019, EAA-020, EAA-021
 
-An attacker uses the agent's existing access to local shell, filesystem, authenticated CLIs, browser or session state, MCP servers, or SaaS/cloud tools. These authority sources have different audit and revocation semantics and should be identified separately at procedure level.
+An attacker uses the agent's existing access to local shell, filesystem, authenticated CLIs, browser or session state, MCP servers, or SaaS/cloud tools. These authority sources have different logging and revocation mechanisms and should be identified separately at procedure level.
 
 ```text
 agent session
@@ -543,7 +540,7 @@ agent session
 Examples:
 
 - The Trivy extension attempted to use local agents and authenticated GitHub tooling as part of its collection/exfiltration path.
-- OALABS recovered sessions showing an attacker using local Claude and Codex agents with their available shell, filesystem, and network access to conduct real intrusions and data exfiltration.
+- OALABS recovered sessions showing an attacker using a developer’s existing Claude instance, then copying and reusing that installation on other hosts. The original owner’s session history and project artifacts remained in the copied environment.
 - Wiz demonstrated an Amazon Q MCP command inheriting a developer environment and successfully using its active AWS session in controlled testing.
 - Zenity's controlled detonation, Kiro's web-to-MCP chain, and GhostSplice each ended in code, file, or network activity performed with the agent's existing endpoint authority. Those cases map the delivery mechanism separately from the authority used at impact.
 - New cases distinguish process-environment collection by a CI agent, authenticated gateway administration, and reported incident exfiltration. In OpenClaw, changing execution policy to select the host is not evidence of a container-runtime escape or malicious model-provider routing.
@@ -569,7 +566,7 @@ Sources: [OALABS compromised Claude/Codex investigation](https://research.openan
 - **Case mappings:** EAA-C-001, EAA-C-002, EAA-C-006, EAA-C-017, EAA-C-019, EAA-C-023
 - **Related:** EAA-001, EAA-006, EAA-015
 
-An attacker enumerates installed agent binaries or agent-related configuration, tools, authority, state, or capabilities to locate collectable agent assets or choose a later abuse path. Procedures should distinguish binary discovery from configuration, capability, authority, and state discovery.
+An attacker enumerates installed agent binaries or agent-related configuration, tools, authority, state, or capabilities to find agent data to collect or choose a later abuse path. Procedures should distinguish binary discovery from configuration, capability, authority, and state discovery.
 
 ```text
 malware/package/extension
@@ -660,7 +657,7 @@ Boundaries:
 
 - Instructions delivered transiently inside retrieved content or a tool result are EAA-018 even when the upstream service labels them `rules` or `AI instructions`. Instructions loaded from the endpoint agent's persistent rules, memory, or instruction files remain EAA-004.
 - MCP configuration remains EAA-006, and adversarial MCP tool metadata remains EAA-010.
-- Public placement, retrieval, context entry, or changed model output alone is insufficient; a case needs evidence that the agent at least attempted an unrelated local or delegated action.
+- An inspected artifact can support `present` when it contains attacker-controlled instructions intended to redirect the agent toward an unauthorized local or delegated action. Retrieval or changed model output alone does not establish an attempted or completed action.
 - Follow-on use of credentials, authenticated tools, or delegated services is mapped separately to EAA-015.
 
 Examples:
@@ -710,7 +707,7 @@ Boundaries:
 
 Examples:
 
-- Manifold documents helper execution in Claude Code, goose, Hermes Agent, Qwen Code, and Grok Build. It additionally reports Codex and Cursor as affected and patched, but does not publish equivalent mechanism detail for those two products. The case retains that distinction.
+- Manifold documents helper execution in Claude Code, goose, Hermes Agent, Qwen Code, and Grok Build. It additionally reports Codex and Cursor as affected and patched, but does not publish equivalent mechanism detail for those two products.
 
 Hunt ideas:
 
@@ -732,7 +729,7 @@ Sources: [Manifold Security GitSpawn research](https://www.manifold.security/blo
 - **Case mappings:** EAA-C-027
 - **Related:** EAA-015, EAA-018
 
-An attacker claims or retakes a mutable package, domain, repository, or other locator already named in operational guidance that an endpoint agent consumes. The trusted-looking source text need not change: the agent resolves the stale reference to attacker-controlled content and may install or execute it while completing the task.
+An attacker takes control of a package name, domain, repository, or download location referenced in documentation an endpoint agent follows. The documentation remains unchanged, but the reference now resolves to attacker-controlled content that the agent may install or execute.
 
 ```text
 agent-consumed guidance contains an unowned or mutable reference
@@ -754,7 +751,7 @@ Examples:
 
 Hunt ideas:
 
-- Resolve package, domain, repository, and download references in agent-facing guidance to immutable provenance where possible; alert when ownership, publication time, or signing identity changes after the referring document was published.
+- Pin package versions, repository commits, and artifact hashes where possible. Investigate changes in the ownership or signing identity of referenced resources.
 - Correlate agent reads of `llms.txt`, setup guides, or generated documentation with first-time package installation, install scripts, or network access to newly registered destinations.
 - Preserve both the referring document revision and the resolved artifact. Reviewing only the unchanged document can miss the takeover.
 

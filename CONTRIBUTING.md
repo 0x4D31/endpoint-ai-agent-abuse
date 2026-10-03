@@ -1,12 +1,12 @@
 # Contributing
 
-EAA favors narrow, falsifiable entries over broad risk statements. Contributions should make it possible for another researcher to verify the mechanism and for a defender to understand what evidence would remain.
+Each entry should describe a specific attacker action that another researcher can verify. Explain how it works, when it can occur, and what evidence a defender could collect.
 
 Read [`scope.md`](scope.md) and [`evidence.md`](evidence.md) before proposing a technique or case.
 
 ## Technique changes
 
-A technique should describe one attacker action at a stable level of abstraction. Keep these concepts separate:
+A technique should describe one attacker action that can be recognized across implementations. Keep these concepts separate:
 
 - **Tactic:** why the adversary acts, such as Discovery, Persistence, Collection, or Defense Evasion.
 - **Technique:** how the objective is achieved, such as writing a lifecycle hook.
@@ -68,7 +68,7 @@ Add structured `scope` whenever a source establishes any material applicability 
 
 Do not place values such as `unknown`, `all`, or `not publicly specified` in scope arrays. State important unknowns in the claim or activation notes instead. Record carrier package versions and artifact hashes in the claim or source description when they materially identify the evidence.
 
-Confidence is claim-scoped. Assign it to each evidence item in `data/catalog.json` and to each case step; do not assign one confidence value to an entire technique, report, or campaign. A source can support artifact presence at high confidence while supporting activation only at medium or low confidence. A case step cannot claim greater confidence than the strongest exact source/support assertion it cites.
+Assign confidence to each evidence item in `data/catalog.json` and to each case step; do not assign one confidence value to an entire technique, report, or campaign. A source can support artifact presence at high confidence while supporting activation only at medium or low confidence. A case step cannot have greater confidence than the strongest matching evidence record it cites.
 
 ## Source quality
 
@@ -82,6 +82,13 @@ Classify the source that the URL actually resolves to, independently of the clai
 
 For mutable documentation, record when it was verified. For malicious artifacts, include versions, hashes, or immutable commits when the public source provides them. Before each release, re-check mutable documentation, CVE/advisory affected ranges, and date-stamped negative claims; refresh `verified_on` annotations where applicable.
 
+## Writing style
+
+- State who does what, through which agent feature, and with what result.
+- Name the product, setting, or file when it makes the mechanism clearer.
+- Keep claims separate from prerequisites and unknowns. Put qualifications beside the claim they limit.
+- Use plain verbs and short sentences. Avoid promotional language, vague labels, and descriptions of the editing process.
+- Keep technical terms consistent across the JSON catalog and Markdown. Preserve source-supported details when shortening prose.
 
 ## Catalog versioning
 
