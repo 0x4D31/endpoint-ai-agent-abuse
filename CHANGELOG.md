@@ -2,14 +2,12 @@
 
 ## 0.5.0
 
-Agent-tool implementation and case evidence update.
-
-- Added a version-pinned comparison of selected mechanisms with MITRE ATLAS and primary-source case-selection decisions.
-- Added EAA-021 for hidden side effects in executable agent-tool implementations, grounded in the Postmark MCP artifact.
-- Added eight cases: Amazon Q extension payload, Postmark MCP, Claude Code GitHub Action, OpenClaw gateway takeover, AI ClickFix, Mitiga poisoned assessment, Orca skill updates, and Sentry Agentjacking.
-- Promoted EAA-006 and EAA-010 to observed using the medium-confidence Mitiga incident assertions; preserved per-procedure qualifications.
-- Clarified skill update versus cloud synchronization, rendered task context, runtime policy changes, and tool arguments versus actual service effects. EAA-013 remains feasible.
-- Recorded Amazon Q and Postmark artifact presence separately from execution, limited OpenClaw to reported execution, and captured the reported Sentry test version.
+- Added EAA-021 for hidden behavior in an agent tool’s executable code, based on the Postmark MCP backdoor.
+- Added nine cases: Amazon Q extension payload, Postmark MCP, Claude Code GitHub Action, OpenClaw gateway takeover, AI ClickFix, Mitiga poisoned assessment, Orca skill updates, Sentry Agentjacking, and Muse dictation redirection.
+- Promoted EAA-006 and EAA-010 to observed based on Mitiga’s incident report, with medium confidence. EAA-013 remains feasible; marketplace updates do not establish cloud-skill synchronization.
+- Added the Muse PoC under EAA-007 and EAA-015, with both procedures recorded as `present`. Recorded Wardle’s separate ChatGPT CVE-2026-100754 disclosure and OpenAI’s macOS fix under EAA-015.
+- Added hunting guidance for tool side effects, CI process-environment access, dictation routing, and local requests that use an agent’s authority.
+- Added selected comparisons with the pinned MITRE ATLAS 2026.09 dataset. Case outcomes remain grounded in primary sources.
 - Retained schema 1.0.0.
 
 ## 0.4.0

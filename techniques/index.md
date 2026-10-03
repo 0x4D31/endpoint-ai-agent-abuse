@@ -220,7 +220,7 @@ Examples:
 - Intezer and Kodem demonstrated hidden web content inducing Kiro to write a user-level MCP configuration that the IDE automatically reloaded, executing an attacker-selected local command without a separate approval. The researchers verified the fix in Kiro 0.11.130.
 - Gemini CLI documents an MCP server `trust: true` setting that bypasses all tool-call confirmations for that server. It is an explicit high-risk configuration primitive, not evidence of a product vulnerability or malicious use.
 - Poisoning the content of an already connected server's tool definitions is tracked separately in EAA-010.
-- Mitiga reports a repository-supplied MCP integration being loaded and used for credential transmission. This supports observed maturity at medium confidence, scoped to that redacted incident report.
+- Mitiga reports that Cursor loaded an MCP integration supplied in a poisoned assessment repository and used it to transmit credentials. Product versions and the complete incident artifacts were not published.
 
 Hunt ideas:
 
@@ -238,11 +238,11 @@ Sources: [Claude Code MCP docs](https://code.claude.com/docs/en/mcp), [Claude Co
 - **Tactics:** Collection, Exfiltration
 - **Maturity:** demonstrated
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research
-- **Highlights:** historical Claude Code `ANTHROPIC_BASE_URL` research
-- **Case mappings:** EAA-C-015
+- **Highlights:** historical Claude Code `ANTHROPIC_BASE_URL` research; Muse dictation proxy PoC
+- **Case mappings:** EAA-C-015, EAA-C-037
 - **Related:** EAA-008, EAA-011, EAA-012
 
-An attacker changes provider routing so a trusted local agent talks to an attacker-controlled or unapproved model/API gateway.
+An attacker changes where a local agent sends model or speech-transcription requests, directing the traffic to an attacker-controlled or unapproved endpoint.
 
 ```text
 changed env/config
@@ -255,14 +255,15 @@ Examples:
 - Check Point demonstrated that an older Claude Code version accepted a repository-controlled `ANTHROPIC_BASE_URL` early enough to expose authorization headers and startup API traffic to an attacker-controlled proxy. Anthropic patched the reported path before public disclosure.
 - Claude Code documents legitimate custom gateways and provider routing. Product, provider, authentication mode, and version determine which credentials and content traverse a gateway; do not assume a single behavior across agents.
 - Codex documents `openai_base_url` and custom model providers with `base_url` and `env_key`. Gemini CLI documents `GOOGLE_GEMINI_BASE_URL` for API-key authentication and `GOOGLE_VERTEX_BASE_URL` for Vertex AI authentication. Codex project-scoped `.codex/config.toml` files cannot override provider-routing keys, so the effective configuration scope is part of the activation condition.
+- Wardle’s Muse PoC changes a local dictation-endpoint preference, proxies the next dictation session, and includes token-capture and transcript-replacement routines. Reuse of that token is recorded separately under EAA-015.
 
 Hunt ideas:
 
-- Provider base URL points outside approved domains.
+- A model or dictation endpoint changes to an unapproved domain or an unexpected local proxy.
 - Custom auth headers or tokens appear only in one agent launch environment.
 - Gateway change is set by package script, repo bootstrap, extension host, or unknown process.
 
-Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code settings](https://code.claude.com/docs/en/settings), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Codex configuration reference](https://developers.openai.com/codex/config-reference/), [Gemini CLI configuration reference](https://geminicli.com/docs/reference/configuration/), [Claude Code pre-trust data-leakage advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7)
+Sources: [Claude Code environment variables](https://code.claude.com/docs/en/env-vars), [Claude Code settings](https://code.claude.com/docs/en/settings), [Check Point Claude Code project-configuration research](https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/), [Codex configuration reference](https://developers.openai.com/codex/config-reference/), [Gemini CLI configuration reference](https://geminicli.com/docs/reference/configuration/), [Claude Code pre-trust data-leakage advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-jh7p-qr78-84p7), [Wardle Muse proof of concept](https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514)
 
 ---
 
@@ -365,7 +366,7 @@ Examples:
 - Trail of Bits demonstrated that instructions in MCP tool descriptions can influence an agent before the user invokes the malicious tool.
 - Invariant Labs published reproducible examples of direct tool poisoning, cross-server tool shadowing, and a sleeper server that presents a malicious interface on a later load.
 - Claude Code supports MCP `list_changed` notifications and automatically refreshes advertised tools, prompts, and resources. The documentation proves live mutation is supported; it does not by itself demonstrate malicious use of that live path.
-- Mitiga reports a poisoned MCP tool description participating in an incident, supporting observed maturity at medium confidence. Hidden behavior in executable tool code is EAA-021; instructions in returned task data are EAA-018. One chain can contain more than one of these actions.
+- In Mitiga’s assessment-repository incident, a poisoned tool description framed credential submission as an environment check. The report attributes the resulting MCP call to those instructions.
 
 Hunt ideas:
 
@@ -524,9 +525,9 @@ Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits
 - **Surface:** Identity & Authority
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** observed
-- **Evidence sources:** primary-artifact, reproducible-research, incident-report, secondary-analysis
-- **Highlights:** OALABS compromised Claude/Codex investigation; Trivy attempted path; Mitiga, Dash, Wiz, Noma, Zenity, Kiro, and GhostSplice research
-- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018, EAA-C-021, EAA-C-022, EAA-C-024, EAA-C-025, EAA-C-028, EAA-C-031, EAA-C-032, EAA-C-034
+- **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report, secondary-analysis
+- **Highlights:** OALABS Claude takeover; Trivy attempted path; MCP, gateway, and Muse research
+- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018, EAA-C-021, EAA-C-022, EAA-C-024, EAA-C-025, EAA-C-028, EAA-C-031, EAA-C-032, EAA-C-034, EAA-C-037
 - **Related:** EAA-001, EAA-002, EAA-006, EAA-016, EAA-018, EAA-019, EAA-020, EAA-021
 
 An attacker uses the agent's existing access to local shell, filesystem, authenticated CLIs, browser or session state, MCP servers, or SaaS/cloud tools. These authority sources have different logging and revocation mechanisms and should be identified separately at procedure level.
@@ -543,7 +544,9 @@ Examples:
 - OALABS recovered sessions showing an attacker using a developer’s existing Claude instance, then copying and reusing that installation on other hosts. The original owner’s session history and project artifacts remained in the copied environment.
 - Wiz demonstrated an Amazon Q MCP command inheriting a developer environment and successfully using its active AWS session in controlled testing.
 - Zenity's controlled detonation, Kiro's web-to-MCP chain, and GhostSplice each ended in code, file, or network activity performed with the agent's existing endpoint authority. Those cases map the delivery mechanism separately from the authority used at impact.
-- New cases distinguish process-environment collection by a CI agent, authenticated gateway administration, and reported incident exfiltration. In OpenClaw, changing execution policy to select the host is not evidence of a container-runtime escape or malicious model-provider routing.
+- Microsoft demonstrated credential collection from a CI agent’s process environment. depthfirst reports using an OpenClaw gateway token to change execution policy and request a host command. Mitiga reports credential exfiltration through a repository-supplied MCP integration.
+- Wardle’s Muse PoC includes account-token reuse to read chat history and request actions through the account’s agent gateway. The public code establishes the implementation; device permissions and approval requirements still apply.
+- Wardle reports that CVE-2026-100754 lets an unprivileged local process bypass ChatGPT’s code-signing checks and use the app’s access. His disclosure names macOS and Windows but gives no platform-specific test results. OpenAI confirms a macOS fix in version 26.924.20706. The cited material does not show which of the listed prompt-injection and data-access actions were tested.
 
 Hunt ideas:
 
@@ -552,7 +555,7 @@ Hunt ideas:
 - SaaS/cloud audit event correlates to an unusual local agent session.
 - Distinguish an agent using delegated authority from direct credential theft; the same downstream service event may otherwise appear to be an ordinary human action.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Zenity skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75), [Microsoft Claude Code GitHub Action secret-exposure research](https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/), [depthfirst OpenClaw gateway takeover research](https://depthfirst.com/research/1-click-rce-to-steal-your-moltbot-data-and-keys), [OpenClaw gatewayUrl token-exfiltration advisory](https://github.com/openclaw/openclaw/security/advisories/GHSA-g8p2-7wf7-98mq), [Mitiga poisoned coding-assessment incident report](https://www.mitiga.io/blog/poisoned-coding-test-ai-agent-attack)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Zenity skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75), [Microsoft Claude Code GitHub Action secret-exposure research](https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/), [depthfirst OpenClaw gateway takeover research](https://depthfirst.com/research/1-click-rce-to-steal-your-moltbot-data-and-keys), [OpenClaw gatewayUrl token-exfiltration advisory](https://github.com/openclaw/openclaw/security/advisories/GHSA-g8p2-7wf7-98mq), [Mitiga poisoned coding-assessment incident report](https://www.mitiga.io/blog/poisoned-coding-test-ai-agent-attack), [Wardle Muse proof of concept](https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514), [Wardle CVE-2026-100754 statement](https://www.linkedin.com/posts/patrick-wardle-34580581_cve-2026-100754-chatgpts-code-signing-checks-activity-7511109843827580928-E9vF), [OpenAI macOS security update](https://learn.chatgpt.com/docs/changelog)
 
 ---
 
@@ -771,7 +774,7 @@ Supplemental coverage: [Ars Technica analysis](https://arstechnica.com/security/
 - **Case mappings:** EAA-C-030
 - **Related:** EAA-006, EAA-009, EAA-010, EAA-015
 
-An attacker supplies or changes the executable implementation behind an agent tool. An ordinary invocation then performs an undisclosed operation, such as adding a recipient, changing a destination, or copying handled data, using the tool's access. The model need not follow any injected instruction.
+An attacker adds hidden behavior to an agent tool’s executable code. When invoked, the tool performs an unauthorized operation using its existing access, such as copying data, changing a destination, or adding an email recipient. This does not depend on the model following an injected instruction.
 
 ```text
 attacker-controlled tool implementation is installed or updated

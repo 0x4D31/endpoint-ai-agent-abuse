@@ -49,6 +49,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - OpenAI Codex hooks — https://developers.openai.com/codex/hooks
 - OpenAI skills documentation — https://learn.chatgpt.com/docs/build-skills
 - OpenAI ChatGPT Computer History documentation — https://learn.chatgpt.com/docs/customization/computer-history
+- OpenAI macOS security update for CVE-2026-100754 — https://learn.chatgpt.com/docs/changelog
 - Gemini CLI hooks — https://geminicli.com/docs/hooks/
 - Gemini CLI MCP servers — https://geminicli.com/docs/tools/mcp-server/
 - Gemini CLI configuration reference — https://geminicli.com/docs/reference/configuration/
@@ -77,6 +78,8 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - OSV MAL-2026-11069 malicious-package record — https://osv.dev/vulnerability/MAL-2026-11069
 - ASSET GhostSplice research — https://asset-group.github.io/disclosures/ghostsplice/
 - ASSET GhostSplice proof-of-concept repository — https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75
+- Patrick Wardle not-a-mused proof of concept (commit 1e5615be) — https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514
+- Patrick Wardle statement on CVE-2026-100754 — https://www.linkedin.com/posts/patrick-wardle-34580581_cve-2026-100754-chatgpts-code-signing-checks-activity-7511109843827580928-E9vF
 
 ## Supplemental coverage
 

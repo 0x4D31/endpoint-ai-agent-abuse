@@ -578,7 +578,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|---|
 | 1 | EAA-015 | executed | medium | depthfirst reports reusing a leaked OpenClaw gateway token to disable approval checks, select host execution, and invoke a host command. | S1 | S2 |
 
-**Activation notes:** The user had previously authenticated to the Control UI and visited crafted web content. Gateway URL handling leaked the stored token; a browser connection reached the local gateway. depthfirst reports using the token's administrative authority to disable approvals, select host execution, and invoke a host command. The published command request does not independently establish the marker file's creation, so the case records reported execution at medium confidence. This is policy reconfiguration, not evidence of a container-runtime escape. The vendor advisory lists <=2026.1.28 affected and 2026.1.29 fixed; the research post states the narrower <=2026.1.24-1 range. Neither establishes real victim exploitation.
+**Activation notes:** The user had authenticated to the Control UI before visiting the crafted page. Gateway URL handling exposed the stored token, and the browser could reach the local gateway. The stolen token allowed approval and execution-policy changes. depthfirst reports host command execution, but publishes the command request without a host-side result; confidence is medium. The chain changed execution policy rather than exploiting the container runtime. The vendor lists versions through 2026.1.28 as affected and 2026.1.29 as fixed; the researcher reports the narrower range through 2026.1.24-1.
 
 **Sources:**
 
@@ -595,7 +595,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-018 | executed | medium | The demonstration redirected Claude Computer Use from webpage interaction into pasting a terminal command that fetched and ran a script. | S1 |
 
-**Activation notes:** Claude Computer Use was directed to a researcher-controlled page, clicked a button that populated the clipboard, and followed the displayed terminal instructions. The report names model claude-3-7-sonnet-20250219 and xfce4-terminal; agent build and OS versions are unspecified. This is controlled command execution, not evidence of applicability to every computer-use product, credential theft, or destructive impact.
+**Activation notes:** The agent visited a researcher-controlled page, clicked a button that copied a command to the clipboard, and followed instructions to paste and run it in a terminal. The demonstration used `claude-3-7-sonnet-20250219` and `xfce4-terminal`; the agent build and OS version were not reported.
 
 **Sources:**
 
@@ -630,7 +630,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
 | 1 | EAA-009 | executed | medium | Orca reports that skill installation and update flows fetched attacker-controlled revisions, including nested installation that replaced an existing same-name skill. | S1 |
-| 2 | EAA-004 | executed | medium | The changed skill instructions were followed and generated benign execution callbacks in the reported research. | S1 |
+| 2 | EAA-004 | executed | medium | Agents followed the changed skill instructions and sent test callbacks in Orca’s research. | S1 |
 
 **Activation notes:** Orca reports installation, nested replacement, and later update flows with benign execution callbacks. The publication does not identify the marketplace or pin agent and installer versions; confidence is medium. A user or agent had to install a skill or run the update command, then activate the changed instructions. This supports EAA-009 and EAA-004; a repository update is not evidence of EAA-013's account-enabled cloud-skill synchronization path. Popularity counters and callback counts do not establish malicious victim compromise.
 
@@ -648,8 +648,25 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-018 | executed | medium | Tenet reports that fabricated diagnostic instructions in Sentry error data induced coding agents to execute a researcher-controlled npm validation package. | S1 |
 
-**Activation notes:** Researchers submitted error data through a public Sentry ingest credential; an agent then retrieved it through the legitimate Sentry integration while triaging an issue. The server definition need not be changed. The report identifies Claude Code 2.1.161 in a June 2 capture and gives macOS and Windows/WSL examples; these details do not describe every tested agent or host. Other product versions and complete per-host traces are unavailable, so execution confidence is medium. The case records package execution; redacted exposure probes do not establish credential reuse or subsequent compromise. Organizational reach and exposed keys are not counted as confirmed compromise.
+**Activation notes:** Researchers submitted crafted error events using a public Sentry DSN. Coding agents retrieved those events through the Sentry integration while investigating issues. The report identifies Claude Code 2.1.161 in a June 2 capture and includes macOS and Windows/WSL examples. Other client versions and complete host traces were not published. This case records package execution; the redacted probes do not establish subsequent credential use or account compromise.
 
 **Sources:**
 
 - `S1` — [Tenet Agentjacking through Sentry error data](https://tenetsecurity.ai/blog/agentjacking-coding-agents-with-fake-sentry-errors/)
+
+## EAA-C-037 — Muse dictation endpoint redirection and account-token reuse
+
+**Type:** research
+
+**Date:** published 2026-09-21
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-007 | present | high | The PoC changes `endo_voyager_dictation_endpoint` to a local WebSocket proxy that captures Muse’s account token and can replace returned dictation text. | S1 |
+| 2 | EAA-015 | present | high | The PoC includes routines to reuse the captured token to read account chat history and submit agent requests, including device commands. | S1 |
+
+**Activation notes:** The attacker must already be able to run code as the local user. The PoC changes a Muse preference and restarts the app; the next dictation session passes through the proxy. Token reuse requires a valid account token and access to the account’s gateway. The PoC’s gateway client supports standard VMs, not confidential VMs requiring recovery credentials. Device actions depend on the device’s permissions and any required Muse approval. Both procedures describe code in commit `1e5615be645c64791600c947d8d5988205fd1514`; the cited artifact does not establish successful execution. The repository does not specify tested app versions, affected ranges, or a fixed build. This Muse finding is separate from ChatGPT CVE-2026-100754.
+
+**Sources:**
+
+- `S1` — [Patrick Wardle not-a-mused proof of concept (commit 1e5615be)](https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514)

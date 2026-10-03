@@ -74,7 +74,7 @@ Blacklight can help test detections for metadata enumeration, selected-file tran
 base URL / custom header / alternate config directory -> agent start -> first-seen destination or control plane
 ```
 
-Record destination domains and redacted configuration values. Avoid collecting credentials from environment variables.
+Record destination domains and redacted configuration values. Include dictation endpoints and local proxies when the product exposes them. Avoid collecting credentials from environment variables.
 
 **Limitations:** enterprise gateways, development proxies, test profiles, and portable installations are legitimate. Effective configuration can come from several precedence layers, and endpoint telemetry may not expose encrypted traffic content or OS credential-store use.
 
@@ -116,7 +116,7 @@ Alert separately on a new collector, newly enabled sensitive-content options, an
 agent session -> authenticated local tool/session -> GitHub/SaaS/cloud/package action
 ```
 
-Prioritize destructive, administrative, bulk-read, token-management, and public-publishing actions, especially when the preceding user request or repository provenance does not explain them.
+Prioritize destructive, administrative, bulk-read, token-management, and public-publishing actions, especially when the preceding user request or repository provenance does not explain them. For requests from another local process, retain caller identity and request details when available; a valid code signature alone does not establish that the user authorized the action.
 
 **Limitations:** downstream services frequently attribute the action only to the human account. Shared tokens and provider egress obscure origin, and semantic intent may not be recoverable. Record the evidence supporting attribution and any gaps between endpoint and service records.
 

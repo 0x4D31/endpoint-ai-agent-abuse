@@ -627,6 +627,35 @@
       "types": ["reproducible-research"],
       "published": "2026-06-17",
       "verified_on": "2026-09-16"
+    },
+    {
+      "id": "SRC-080",
+      "title": "Patrick Wardle not-a-mused proof of concept (commit 1e5615be)",
+      "url": "https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514",
+      "types": [
+        "primary-artifact"
+      ],
+      "published": "2026-09-21",
+      "verified_on": "2026-10-03"
+    },
+    {
+      "id": "SRC-081",
+      "title": "Patrick Wardle statement on CVE-2026-100754",
+      "url": "https://www.linkedin.com/posts/patrick-wardle-34580581_cve-2026-100754-chatgpts-code-signing-checks-activity-7511109843827580928-E9vF",
+      "types": [
+        "primary-artifact"
+      ],
+      "verified_on": "2026-10-03"
+    },
+    {
+      "id": "SRC-082",
+      "title": "OpenAI macOS security update for CVE-2026-100754",
+      "url": "https://learn.chatgpt.com/docs/changelog",
+      "types": [
+        "official-documentation"
+      ],
+      "published": "2026-09-25",
+      "verified_on": "2026-10-03"
     }
   ],
   "techniques": [
@@ -821,7 +850,7 @@
     {
       "id": "EAA-007",
       "name": "Hostile model/API gateway routing",
-      "summary": "An attacker redirects an agent to an attacker-controlled or unapproved model or API gateway.",
+      "summary": "An attacker changes where a local agent sends model or speech-transcription requests, directing the traffic to an attacker-controlled or unapproved endpoint.",
       "primary_surface": "runtime-environment",
       "secondary_surfaces": [],
       "tactics": ["Collection", "Exfiltration"],
@@ -833,14 +862,15 @@
         {"source_id": "SRC-023", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-034", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-037", "support": "surface-documented", "confidence": "high"},
-        {"source_id": "SRC-042", "support": "version-range-documented", "confidence": "high"}
+        {"source_id": "SRC-042", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-080", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-008"},
         {"type": "related-to", "target": "EAA-011"},
         {"type": "related-to", "target": "EAA-012"}
       ],
-      "last_reviewed": "2026-07-09"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-008",
@@ -917,7 +947,7 @@
         {"type": "related-to", "target": "EAA-018"},
         {"type": "related-to", "target": "EAA-021"}
       ],
-      "last_reviewed": "2026-09-16"
+      "last_reviewed": "2026-10-03"
     },
     {
       "id": "EAA-011",
@@ -1028,7 +1058,10 @@
         {"source_id": "SRC-073", "support": "impact-confirmed", "confidence": "high"},
         {"source_id": "SRC-074", "support": "execution-confirmed", "confidence": "medium"},
         {"source_id": "SRC-075", "support": "version-range-documented", "confidence": "high"},
-        {"source_id": "SRC-077", "support": "impact-confirmed", "confidence": "medium"}
+        {"source_id": "SRC-077", "support": "impact-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-080", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-081", "support": "surface-documented", "confidence": "medium"},
+        {"source_id": "SRC-082", "support": "version-range-documented", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
@@ -1167,7 +1200,7 @@
     {
       "id": "EAA-021",
       "name": "Agent tool implementation poisoning",
-      "summary": "An attacker modifies or supplies executable code behind an agent tool so a normal invocation performs an undisclosed action with the tool's access.",
+      "summary": "An attacker adds hidden behavior to an agent tool’s executable code. When invoked, the tool performs an unauthorized operation using its existing access, such as copying data, changing a destination, or adding an email recipient. This does not depend on the model following an injected instruction.",
       "primary_surface": "tools-integrations",
       "secondary_surfaces": [],
       "tactics": ["Execution", "Collection", "Exfiltration"],
@@ -1183,7 +1216,7 @@
         {"type": "related-to", "target": "EAA-010"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-09-16"
+      "last_reviewed": "2026-10-03"
     }
   ],
   "cases": [
@@ -2493,7 +2526,7 @@
       "contexts": ["controlled-research", "vendor-advisory", "patched-vulnerability"],
       "date_start": "2026-02-01",
       "date_basis": "published",
-      "activation_notes": "The user had previously authenticated to the Control UI and visited crafted web content. Gateway URL handling leaked the stored token; a browser connection reached the local gateway. depthfirst reports using the token's administrative authority to disable approvals, select host execution, and invoke a host command. The published command request does not independently establish the marker file's creation, so the case records reported execution at medium confidence. This is policy reconfiguration, not evidence of a container-runtime escape. The vendor advisory lists <=2026.1.28 affected and 2026.1.29 fixed; the research post states the narrower <=2026.1.24-1 range. Neither establishes real victim exploitation.",
+      "activation_notes": "The user had authenticated to the Control UI before visiting the crafted page. Gateway URL handling exposed the stored token, and the browser could reach the local gateway. The stolen token allowed approval and execution-policy changes. depthfirst reports host command execution, but publishes the command request without a host-side result; confidence is medium. The chain changed execution policy rather than exploiting the container runtime. The vendor lists versions through 2026.1.28 as affected and 2026.1.29 as fixed; the researcher reports the narrower range through 2026.1.24-1.",
       "source_refs": ["SRC-074", "SRC-075"],
       "procedures": [
         {
@@ -2523,7 +2556,7 @@
       "contexts": ["controlled-research"],
       "date_start": "2025-05-24",
       "date_basis": "published",
-      "activation_notes": "Claude Computer Use was directed to a researcher-controlled page, clicked a button that populated the clipboard, and followed the displayed terminal instructions. The report names model claude-3-7-sonnet-20250219 and xfce4-terminal; agent build and OS versions are unspecified. This is controlled command execution, not evidence of applicability to every computer-use product, credential theft, or destructive impact.",
+      "activation_notes": "The agent visited a researcher-controlled page, clicked a button that copied a command to the clipboard, and followed instructions to paste and run it in a terminal. The demonstration used `claude-3-7-sonnet-20250219` and `xfce4-terminal`; the agent build and OS version were not reported.",
       "source_refs": ["SRC-076"],
       "procedures": [
         {
@@ -2662,7 +2695,7 @@
           "technique_id": "EAA-004",
           "outcome": "executed",
           "confidence": "medium",
-          "claim": "The changed skill instructions were followed and generated benign execution callbacks in the reported research.",
+          "claim": "Agents followed the changed skill instructions and sent test callbacks in Orca’s research.",
           "source_refs": ["SRC-078"],
           "activation_conditions": [
             "The installed or updated skill is activated with command and network access."
@@ -2677,7 +2710,7 @@
       "contexts": ["controlled-research"],
       "date_start": "2026-06-17",
       "date_basis": "published",
-      "activation_notes": "Researchers submitted error data through a public Sentry ingest credential; an agent then retrieved it through the legitimate Sentry integration while triaging an issue. The server definition need not be changed. The report identifies Claude Code 2.1.161 in a June 2 capture and gives macOS and Windows/WSL examples; these details do not describe every tested agent or host. Other product versions and complete per-host traces are unavailable, so execution confidence is medium. The case records package execution; redacted exposure probes do not establish credential reuse or subsequent compromise. Organizational reach and exposed keys are not counted as confirmed compromise.",
+      "activation_notes": "Researchers submitted crafted error events using a public Sentry DSN. Coding agents retrieved those events through the Sentry integration while investigating issues. The report identifies Claude Code 2.1.161 in a June 2 capture and includes macOS and Windows/WSL examples. Other client versions and complete host traces were not published. This case records package execution; the redacted probes do not establish subsequent credential use or account compromise.",
       "source_refs": ["SRC-079"],
       "procedures": [
         {
@@ -2694,6 +2727,68 @@
             "products": ["Cursor", "Claude Code", "OpenAI Codex"],
             "versions": ["Claude Code 2.1.161 (reported capture, 2026-06-02)"],
             "operating_systems": ["macOS", "Windows (WSL Ubuntu 20.04)"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-037",
+      "name": "Muse dictation endpoint redirection and account-token reuse",
+      "type": "research",
+      "contexts": [
+        "controlled-research"
+      ],
+      "date_start": "2026-09-21",
+      "date_basis": "published",
+      "activation_notes": "The attacker must already be able to run code as the local user. The PoC changes a Muse preference and restarts the app; the next dictation session passes through the proxy. Token reuse requires a valid account token and access to the account’s gateway. The PoC’s gateway client supports standard VMs, not confidential VMs requiring recovery credentials. Device actions depend on the device’s permissions and any required Muse approval. Both procedures describe code in commit `1e5615be645c64791600c947d8d5988205fd1514`; the cited artifact does not establish successful execution. The repository does not specify tested app versions, affected ranges, or a fixed build. This Muse finding is separate from ChatGPT CVE-2026-100754.",
+      "source_refs": [
+        "SRC-080"
+      ],
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-007",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The PoC changes `endo_voyager_dictation_endpoint` to a local WebSocket proxy that captures Muse’s account token and can replace returned dictation text.",
+          "source_refs": [
+            "SRC-080"
+          ],
+          "activation_conditions": [
+            "The attacker can change Muse’s local-user preferences.",
+            "Muse loads the changed endpoint and the user starts a dictation session."
+          ],
+          "scope": {
+            "products": [
+              "Muse"
+            ],
+            "versions": [],
+            "operating_systems": [
+              "macOS"
+            ]
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-015",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The PoC includes routines to reuse the captured token to read account chat history and submit agent requests, including device commands.",
+          "source_refs": [
+            "SRC-080"
+          ],
+          "activation_conditions": [
+            "The captured token remains valid and the account gateway is reachable.",
+            "The standard VM and any requested device operation are available under the account’s permissions and approval settings."
+          ],
+          "scope": {
+            "products": [
+              "Muse"
+            ],
+            "versions": [],
+            "operating_systems": [
+              "macOS"
+            ]
           }
         }
       ]
