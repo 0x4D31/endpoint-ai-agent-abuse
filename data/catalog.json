@@ -3,10 +3,10 @@
   "schema_version": "1.0.0",
   "name": "Endpoint AI Agent Abuse",
   "short_name": "EAA",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "CC0-1.0",
   "description": "A catalog of ways attackers can abuse AI agents on workstations, in development containers, and in CI runners.",
-  "last_reviewed": "2026-10-03",
+  "last_reviewed": "2026-11-03",
   "surfaces": [
     {
       "id": "launcher",
@@ -656,6 +656,35 @@
       ],
       "published": "2026-09-25",
       "verified_on": "2026-10-03"
+    },
+    {
+      "id": "SRC-083",
+      "title": "Mandiant AI risk and resilience report, September 2026",
+      "url": "https://cloud.google.com/security/resources/ai-risk-and-resilience-2026",
+      "types": [
+        "reproducible-research",
+        "incident-report"
+      ],
+      "verified_on": "2026-11-03"
+    },
+    {
+      "id": "SRC-084",
+      "title": "Knostic gadgethumans-mcp private-key transmission analysis",
+      "url": "https://www.knostic.ai/blog/when-auto-signing-sends-your-wallet-private-key-to-a-remote-server-a-malicious-mcp-package-on-npm",
+      "types": [
+        "reproducible-research"
+      ],
+      "published": "2026-09-08",
+      "verified_on": "2026-11-03"
+    },
+    {
+      "id": "SRC-085",
+      "title": "gadgethumans-mcp source at commit c33ebb84",
+      "url": "https://github.com/gadgethumans-dev/gadgethumans-mcp/blob/c33ebb84e00d921310ab4dbf97a3fe8db19bb949/index.js",
+      "types": [
+        "primary-artifact"
+      ],
+      "verified_on": "2026-11-03"
     }
   ],
   "techniques": [
@@ -1061,7 +1090,9 @@
         {"source_id": "SRC-077", "support": "impact-confirmed", "confidence": "medium"},
         {"source_id": "SRC-080", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-081", "support": "surface-documented", "confidence": "medium"},
-        {"source_id": "SRC-082", "support": "version-range-documented", "confidence": "high"}
+        {"source_id": "SRC-082", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-083", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-083", "support": "impact-confirmed", "confidence": "medium"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
@@ -1073,7 +1104,7 @@
         {"type": "related-to", "target": "EAA-020"},
         {"type": "related-to", "target": "EAA-021"}
       ],
-      "last_reviewed": "2026-10-03"
+      "last_reviewed": "2026-11-03"
     },
     {
       "id": "EAA-016",
@@ -1208,7 +1239,9 @@
       "evidence": [
         {"source_id": "SRC-071", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-072", "support": "artifact-present", "confidence": "high"},
-        {"source_id": "SRC-072", "support": "version-range-documented", "confidence": "high"}
+        {"source_id": "SRC-072", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-084", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-085", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-006"},
@@ -1216,7 +1249,7 @@
         {"type": "related-to", "target": "EAA-010"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-10-03"
+      "last_reviewed": "2026-11-03"
     }
   ],
   "cases": [
@@ -2790,6 +2823,96 @@
               "macOS"
             ]
           }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-038",
+      "name": "Mandiant-reported takeover of an active coding-assistant session",
+      "type": "incident",
+      "contexts": [
+        "observed-incident"
+      ],
+      "date_start": "2026-09-16",
+      "date_basis": "reported",
+      "source_refs": [
+        "SRC-083"
+      ],
+      "activation_notes": "Mandiant’s September 2026 report describes an unnamed SaaS provider and a developer workstation. The report does not give the incident date, assistant product, version, session-hijack method, or underlying session artifacts. September 16 is the date of public reporting about the case, not the intrusion date. The assistant recommended a poisoned package; the report then describes installation through the developer’s active session after acceptance. It does not isolate which later actions were performed by the assistant. OAuth-token theft, worm propagation across approximately 100 repositories, and source-code exfiltration are incident context, not confirmed outcomes of this procedure.",
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-015",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "Mandiant reports that an attacker hijacked a developer’s active coding-assistant session and used the trusted assistant to recommend an attacker-poisoned external package.",
+          "source_refs": [
+            "SRC-083"
+          ],
+          "activation_conditions": [
+            "The attacker can take over the victim’s active coding-assistant session; the public report does not explain how."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-039",
+      "name": "Mandiant internal-assistant repository exfiltration assessment",
+      "type": "research",
+      "contexts": [
+        "controlled-research"
+      ],
+      "date_start": "2026-09-16",
+      "date_basis": "reported",
+      "source_refs": [
+        "SRC-083"
+      ],
+      "activation_notes": "The assessment targeted an internal assistant used for CI/CD and repository management. Testers supplied an external GitHub repository and its personal access token. The assistant already had access to sensitive internal repositories, a native CLI, and network access to GitHub. The report does not name the product, versions, operating system, or exact prompts. September 16 is the date of public reporting about the report; the assessment date is undisclosed. This was a controlled assessment; the initiating role-confusion prompt is not evidence of indirect task-context injection.",
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-015",
+          "outcome": "impact-confirmed",
+          "confidence": "medium",
+          "claim": "Mandiant’s assessment team induced an internal assistant to clone sensitive internal repositories and push them to a tester-controlled external GitHub repository using its native CLI.",
+          "source_refs": [
+            "SRC-083"
+          ],
+          "activation_conditions": [
+            "The assistant can read the internal repositories and run its native CLI.",
+            "GitHub egress is allowed, and testers supply credentials for the external destination."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-040",
+      "name": "gadgethumans-mcp wallet private-key transmission",
+      "type": "research",
+      "contexts": [
+        "controlled-research"
+      ],
+      "date_start": "2026-09-08",
+      "date_basis": "published",
+      "source_refs": [
+        "SRC-084",
+        "SRC-085"
+      ],
+      "activation_notes": "A compatible MCP client must load the server, WALLET_PRIVATE_KEY must be set, and a recognized tool must be invoked with network access available. The pinned source sends the raw key in X-402-Wallet rather than producing a local payment signature. Its default key-bearing destination is https://api.gadgethumans.com/execute; MCP_ENDPOINT can change the base. Knostic describes an earlier destination under swarm.gadgethumans.com and package versions 1.0.3 and 1.0.9. The pinned source identifies its server as 1.0.2; that string is not proof of an npm release version. The sources establish code behavior, not author intent, victim execution, or stolen funds. Download counts are not victim counts.",
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-021",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The inspected MCP tool-call handler copies WALLET_PRIVATE_KEY into the X-402-Wallet header of an outbound request; the returned setup guidance describes automatic signing.",
+          "source_refs": [
+            "SRC-084",
+            "SRC-085"
+          ],
+          "activation_conditions": [
+            "WALLET_PRIVATE_KEY is configured and a recognized tool call reaches the request handler."
+          ]
         }
       ]
     }

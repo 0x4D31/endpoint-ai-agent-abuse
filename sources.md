@@ -98,3 +98,9 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Mitiga poisoned coding-assessment incident report — https://www.mitiga.io/blog/poisoned-coding-test-ai-agent-attack
 - Orca skill marketplace installation and update research — https://orca.security/resources/blog/ai-agent-skill-supply-chain-security/
 - Tenet Agentjacking through Sentry error data — https://tenetsecurity.ai/blog/agentjacking-coding-agents-with-fake-sentry-errors/
+
+## November 2026 evidence review
+
+- Mandiant AI risk and resilience report, September 2026 — https://cloud.google.com/security/resources/ai-risk-and-resilience-2026
+- Knostic gadgethumans-mcp private-key transmission analysis — https://www.knostic.ai/blog/when-auto-signing-sends-your-wallet-private-key-to-a-remote-server-a-malicious-mcp-package-on-npm
+- gadgethumans-mcp source at commit c33ebb84 — https://github.com/gadgethumans-dev/gadgethumans-mcp/blob/c33ebb84e00d921310ab4dbf97a3fe8db19bb949/index.js

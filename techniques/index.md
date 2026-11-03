@@ -527,7 +527,7 @@ Sources: [StepSecurity Miasma](https://www.stepsecurity.io/blog/miasma-worm-hits
 - **Maturity:** observed
 - **Evidence sources:** official-documentation, primary-artifact, reproducible-research, incident-report, secondary-analysis
 - **Highlights:** OALABS Claude takeover; Trivy attempted path; MCP, gateway, and Muse research
-- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018, EAA-C-021, EAA-C-022, EAA-C-024, EAA-C-025, EAA-C-028, EAA-C-031, EAA-C-032, EAA-C-034, EAA-C-037
+- **Case mappings:** EAA-C-002, EAA-C-008, EAA-C-011, EAA-C-012, EAA-C-018, EAA-C-021, EAA-C-022, EAA-C-024, EAA-C-025, EAA-C-028, EAA-C-031, EAA-C-032, EAA-C-034, EAA-C-037, EAA-C-038, EAA-C-039
 - **Related:** EAA-001, EAA-002, EAA-006, EAA-016, EAA-018, EAA-019, EAA-020, EAA-021
 
 An attacker uses the agent's existing access to local shell, filesystem, authenticated CLIs, browser or session state, MCP servers, or SaaS/cloud tools. These authority sources have different logging and revocation mechanisms and should be identified separately at procedure level.
@@ -548,6 +548,8 @@ Examples:
 - Wardle’s Muse PoC includes account-token reuse to read chat history and request actions through the account’s agent gateway. The public code establishes the implementation; device permissions and approval requirements still apply.
 - Wardle reports that CVE-2026-100754 lets an unprivileged local process bypass ChatGPT’s code-signing checks and use the app’s access. His disclosure names macOS and Windows but gives no platform-specific test results. OpenAI confirms a macOS fix in version 26.924.20706. The cited material does not show which of the listed prompt-injection and data-access actions were tested.
 
+- Mandiant reports takeover of a developer’s active coding-assistant session. In a separate controlled assessment, its testers induced an internal assistant to copy internal repositories to an external GitHub repository. The case entries keep those contexts and outcomes separate.
+
 Hunt ideas:
 
 - Agent process or descendant invokes `gh`, cloud CLIs, package managers, browser automation, or Slack/GitHub MCP.
@@ -555,7 +557,7 @@ Hunt ideas:
 - SaaS/cloud audit event correlates to an unusual local agent session.
 - Distinguish an agent using delegated authority from direct credential theft; the same downstream service event may otherwise appear to be an ordinary human action.
 
-Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Zenity skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75), [Microsoft Claude Code GitHub Action secret-exposure research](https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/), [depthfirst OpenClaw gateway takeover research](https://depthfirst.com/research/1-click-rce-to-steal-your-moltbot-data-and-keys), [OpenClaw gatewayUrl token-exfiltration advisory](https://github.com/openclaw/openclaw/security/advisories/GHSA-g8p2-7wf7-98mq), [Mitiga poisoned coding-assessment incident report](https://www.mitiga.io/blog/poisoned-coding-test-ai-agent-attack), [Wardle Muse proof of concept](https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514), [Wardle CVE-2026-100754 statement](https://www.linkedin.com/posts/patrick-wardle-34580581_cve-2026-100754-chatgpts-code-signing-checks-activity-7511109843827580928-E9vF), [OpenAI macOS security update](https://learn.chatgpt.com/docs/changelog)
+Sources: [OALABS compromised Claude/Codex investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html), [Socket Trivy write-up](https://socket.dev/blog/unauthorized-ai-agent-execution-code-published-to-openvsx-in-aqua-trivy-vs-code-extension), [Mitiga MCP authority research](https://www.mitiga.io/blog/claude-code-mcp-token-theft-mitm), [Dash Remote Control research](https://dash.security/blog/living-off-coding-agents-claude-as-a-c2-server), [AWS Amazon Q advisory](https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7), [Wiz Amazon Q research](https://www.wiz.io/blog/amazon-q-vulnerability), [Noma ContextCrush research](https://noma.security/blog/contextcrush-context7-the-mcp-server-vulnerability/), [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/), [GitLost public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153), [Zenity skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain), [Intezer and Kodem Kiro research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/), [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/), [AWS Kiro IDE advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/), [GhostSplice proof of concept](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75), [Microsoft Claude Code GitHub Action secret-exposure research](https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/), [depthfirst OpenClaw gateway takeover research](https://depthfirst.com/research/1-click-rce-to-steal-your-moltbot-data-and-keys), [OpenClaw gatewayUrl token-exfiltration advisory](https://github.com/openclaw/openclaw/security/advisories/GHSA-g8p2-7wf7-98mq), [Mitiga poisoned coding-assessment incident report](https://www.mitiga.io/blog/poisoned-coding-test-ai-agent-attack), [Wardle Muse proof of concept](https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514), [Wardle CVE-2026-100754 statement](https://www.linkedin.com/posts/patrick-wardle-34580581_cve-2026-100754-chatgpts-code-signing-checks-activity-7511109843827580928-E9vF), [OpenAI macOS security update](https://learn.chatgpt.com/docs/changelog), [Mandiant September 2026 report](https://cloud.google.com/security/resources/ai-risk-and-resilience-2026)
 
 ---
 
@@ -769,9 +771,9 @@ Supplemental coverage: [Ars Technica analysis](https://arstechnica.com/security/
 - **Surface:** Tools & Integrations
 - **Tactics:** Execution, Collection, Exfiltration
 - **Maturity:** demonstrated
-- **Evidence sources:** primary-artifact, incident-report
+- **Evidence sources:** primary-artifact, incident-report, reproducible-research
 - **Highlights:** Postmark MCP email backdoor
-- **Case mappings:** EAA-C-030
+- **Case mappings:** EAA-C-030, EAA-C-040
 - **Related:** EAA-006, EAA-009, EAA-010, EAA-015
 
 An attacker adds hidden behavior to an agent tool’s executable code. When invoked, the tool performs an unauthorized operation using its existing access, such as copying data, changing a destination, or adding an email recipient. This does not depend on the model following an injected instruction.
@@ -793,10 +795,12 @@ Example:
 
 - The published Postmark MCP implementation appends an unrequested BCC recipient inside its `sendEmail` handler. The catalog records the artifact and its activation requirements, without inferring victim delivery from package popularity.
 
+- The inspected gadgethumans-mcp handler sends a configured wallet private key in an HTTP header during a tool call, despite setup guidance describing automatic signing. The case records implementation presence, not victim execution or financial loss.
+
 Hunt ideas:
 
 - Compare requested tool arguments with the effective request and downstream service audit: recipients, destinations, scope, and resource changes.
 - Retain the actual running server/package revision, including updates; an unchanged tool description does not establish unchanged behavior.
 - Correlate unrequested service actions with server process activity and credential use. Approved compliance archiving, routing, and middleware are common benign explanations.
 
-Sources: [Snyk server analysis](https://snyk.io/blog/malicious-mcp-server-on-npm-postmark-mcp-harvests-emails/), [OSV package record](https://osv.dev/vulnerability/MAL-2025-47604)
+Sources: [Snyk server analysis](https://snyk.io/blog/malicious-mcp-server-on-npm-postmark-mcp-harvests-emails/), [OSV package record](https://osv.dev/vulnerability/MAL-2025-47604), [Knostic private-key transmission analysis](https://www.knostic.ai/blog/when-auto-signing-sends-your-wallet-private-key-to-a-remote-server-a-malicious-mcp-package-on-npm), [Pinned MCP handler](https://github.com/gadgethumans-dev/gadgethumans-mcp/blob/c33ebb84e00d921310ab4dbf97a3fe8db19bb949/index.js)

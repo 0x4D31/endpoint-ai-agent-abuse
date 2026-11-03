@@ -670,3 +670,52 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 **Sources:**
 
 - `S1` — [Patrick Wardle not-a-mused proof of concept (commit 1e5615be)](https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514)
+
+## EAA-C-038 — Mandiant-reported takeover of an active coding-assistant session
+
+**Type:** incident
+
+**Date:** reported 2026-09-16
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-015 | executed | medium | Mandiant reports that an attacker hijacked a developer’s active coding-assistant session and used the trusted assistant to recommend an attacker-poisoned external package. | S1 |
+
+**Activation notes:** Mandiant’s September 2026 report describes an unnamed SaaS provider and a developer workstation. The report does not give the incident date, assistant product, version, session-hijack method, or underlying session artifacts. September 16 is the date of public reporting about the case, not the intrusion date. The assistant recommended a poisoned package; the report then describes installation through the developer’s active session after acceptance. It does not isolate which later actions were performed by the assistant. OAuth-token theft, worm propagation across approximately 100 repositories, and source-code exfiltration are incident context, not confirmed outcomes of this procedure.
+
+**Sources:**
+
+- `S1` — [Mandiant AI risk and resilience report, September 2026](https://cloud.google.com/security/resources/ai-risk-and-resilience-2026)
+
+## EAA-C-039 — Mandiant internal-assistant repository exfiltration assessment
+
+**Type:** research
+
+**Date:** reported 2026-09-16
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-015 | impact-confirmed | medium | Mandiant’s assessment team induced an internal assistant to clone sensitive internal repositories and push them to a tester-controlled external GitHub repository using its native CLI. | S1 |
+
+**Activation notes:** The assessment targeted an internal assistant used for CI/CD and repository management. Testers supplied an external GitHub repository and its personal access token. The assistant already had access to sensitive internal repositories, a native CLI, and network access to GitHub. The report does not name the product, versions, operating system, or exact prompts. September 16 is the date of public reporting about the report; the assessment date is undisclosed. This was a controlled assessment; the initiating role-confusion prompt is not evidence of indirect task-context injection.
+
+**Sources:**
+
+- `S1` — [Mandiant AI risk and resilience report, September 2026](https://cloud.google.com/security/resources/ai-risk-and-resilience-2026)
+
+## EAA-C-040 — gadgethumans-mcp wallet private-key transmission
+
+**Type:** research
+
+**Date:** published 2026-09-08
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-021 | present | high | The inspected MCP tool-call handler copies WALLET_PRIVATE_KEY into the X-402-Wallet header of an outbound request; the returned setup guidance describes automatic signing. | S1, S2 |
+
+**Activation notes:** A compatible MCP client must load the server, WALLET_PRIVATE_KEY must be set, and a recognized tool must be invoked with network access available. The pinned source sends the raw key in X-402-Wallet rather than producing a local payment signature. Its default key-bearing destination is https://api.gadgethumans.com/execute; MCP_ENDPOINT can change the base. Knostic describes an earlier destination under swarm.gadgethumans.com and package versions 1.0.3 and 1.0.9. The pinned source identifies its server as 1.0.2; that string is not proof of an npm release version. The sources establish code behavior, not author intent, victim execution, or stolen funds. Download counts are not victim counts.
+
+**Sources:**
+
+- `S1` — [Knostic gadgethumans-mcp private-key transmission analysis](https://www.knostic.ai/blog/when-auto-signing-sends-your-wallet-private-key-to-a-remote-server-a-malicious-mcp-package-on-npm)
+- `S2` — [gadgethumans-mcp source at commit c33ebb84](https://github.com/gadgethumans-dev/gadgethumans-mcp/blob/c33ebb84e00d921310ab4dbf97a3fe8db19bb949/index.js)
