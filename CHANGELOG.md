@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0
+
+- Added six cases: ChainDrop, trojanized skills.sh packages, Kiro MCP configuration rewriting, GitSpawn, dangling-reference takeover, and GhostSplice.
+- Added EAA-019 for command execution through repository metadata interpreted by an agent’s automatic helpers.
+- Added EAA-020 for takeover of package or domain references in unchanged agent-facing documentation.
+- Added hunting guidance for Git helper execution, reference ownership changes, and instructions split across MCP messages.
+- Recorded tested versions, activation conditions, and evidence limits for each case. Pinned the GhostSplice source revision.
+- Clarified the introduction, evidence rules, and technique descriptions; corrected the distinction between skill installation and activation.
+
 ## 0.3.2
 
 Blacklight implementation and hunting update.

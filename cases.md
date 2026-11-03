@@ -149,14 +149,14 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
 | 1 | EAA-005 | impact-confirmed | high | Investigators recovered a copied Claude installation with the original developer's session history and artifacts, plus archives of other stolen Claude instances. | S1 |
-| 2 | EAA-015 | impact-confirmed | high | Recovered sessions showed the operator using local Claude and Codex agents with available shell, filesystem, and network access for intrusions and exfiltration against real organizations. | S1 |
+| 2 | EAA-015 | executed | high | Recovered sessions show the attacker using a developer’s existing Claude instance on the compromised host, then continuing to use it after copying the installation and session history to other hosts. | S1 |
 | 3 | EAA-017 | impact-confirmed | high | Recovered logs show Claude locating a live JSONL transcript, truncating it before a named target, overwriting the live file, and verifying that the target was removed. | S1 |
 
-**Activation notes:** The operator already controlled the hosts and the copied agent environment. The evidence is unusually strong because investigators recovered more than 1,000 native sessions and correlated them with host artifacts. This proves that the affected transcript was modified; it does not make every missing transcript event evidence of tampering.
+**Activation notes:** The attacker first used the developer’s existing Claude instance on the compromised Hetzner host, then copied and reused it elsewhere. This takeover and reuse of a victim’s agent environment is the EAA-015 procedure. The report also describes attacker-operated Codex sessions, which do not independently establish that procedure. Recovered sessions and host artifacts confirm the copied state and the specific transcript modification in this case.
 
 **Sources:**
 
-- `S1` — [OALABS forensic report](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html)
+- `S1` — [OALABS compromised Claude and Codex forensic investigation](https://research.openanalysis.net/claude/codex/hacking/ai%20hacking/llm/redteam/policy%20violation/2026/06/16/compromised-claude-hacking.html)
 
 ## EAA-C-009 — MCP injection and rug-pull research
 
@@ -365,13 +365,13 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 | Step | Technique | Outcome | Confidence | Claim | Sources |
 |---|---|---|---|---|---|
-| 1 | EAA-003 | planted | high | In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to execute with host privileges after restart. | S1 |
+| 1 | EAA-003 | planted | high | In affected versions, code inside Claude Code's bubblewrap sandbox could create a missing user `settings.json` and plant a persistent `SessionStart` hook intended to run outside the sandbox after restart. | S1 |
 
-**Activation notes:** The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later host-privileged hook execution additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.
+**Activation notes:** The planting path required `.claude/settings.json` to be absent when Claude Code started and malicious code to run inside the sandbox while the parent `.claude` directory remained writable. Later execution outside the sandbox additionally required Claude Code to restart after the file and hook were planted. The advisory affects Claude Code versions earlier than 2.1.2 and identifies 2.1.2 as patched. It does not identify exploitation in a public campaign.
 
 **Sources:**
 
-- `S1` — [Anthropic advisory GHSA-ff64-7w26-62rf](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)
+- `S1` — [Claude Code persistent-configuration injection advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf)
 
 ## EAA-C-021 — ContextCrush Context7 custom-rule injection
 
@@ -407,3 +407,111 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 - `S1` — [Noma GitLost research](https://noma.security/blog/gitlost-how-we-tricked-githubs-ai-agent-into-leaking-private-repos/)
 - `S2` — [Public proof-of-concept issue](https://github.com/sasinomalabs/poc/issues/153)
+
+## EAA-C-023 — ChainDrop npm supply-chain compromise
+
+**Type:** incident
+
+**Date:** 2026-08-04 to 2026-08-05
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-016 | present | high | The recovered ChainDrop payload contained cross-platform discovery logic for hundreds of secret locations, including configuration associated with Cursor, OpenClaw, OpenAI Codex, OpenCode, Gemini, and Hermes. | S2 |
+| 2 | EAA-005 | present | high | The same artifact contained product-specific paths that could collect endpoint-agent configuration or state alongside cloud, developer, browser, and package-registry credentials. | S2 |
+| 3 | EAA-003 | present | high | Microsoft recovered code that uses stolen GitHub credentials to inject Claude Code startup files into repository branches; the same routine also targets VS Code task configuration. | S1 |
+
+**Activation notes:** ChainDrop spread through malicious npm releases beginning with `keyv@6.0.0` on 2026-08-04. Package installation had to execute the malicious lifecycle code. The analyzed payload supported Linux, Windows, and macOS and expanded the predecessor campaign's hardcoded secret-location set from 189 to 469 entries. Public reporting confirms the agent-related routines in the malicious artifact, but does not identify a victim whose agent files were found or collected, or confirm the repository-injection routine completed and a later checkout activated the planted configuration. The startup-file path uses GitHub repository writes, not an assumed local workspace write. Those procedures therefore remain `present`.
+
+**Sources:**
+
+- `S1` — [Microsoft ChainDrop supply-chain compromise analysis](https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/)
+- `S2` — [GitGuardian ChainDrop deobfuscation](https://blog.gitguardian.com/keyv-mini-shai-hulud/)
+
+## EAA-C-024 — Trojanized registry skills targeting Paperclip and Browser Use
+
+**Type:** research
+
+**Date:** 2026-07-11 to 2026-08-02
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-009 | present | high | Zenity recovered trojanized skill revisions distributed through skills.sh, with setup instructions pointing to a remote credential-harvesting stage. | S1 |
+| 2 | EAA-004 | executed | medium | During controlled testing, the agent followed the installed skill’s instructions to open a secondary setup document and run its commands. | S1 |
+| 3 | EAA-015 | impact-confirmed | medium | Zenity reports credential collection and transmission to attacker-controlled infrastructure during controlled detonation. | S1 |
+
+**Activation notes:** A malicious skill had to be loaded and invoked for a matching setup task, with host-command and network access available. Paperclip and Browser Use were lures; the report does not identify the tested agent or version, or provide a complete transcript. Execution and impact therefore have medium confidence. Zenity dates the malicious skill family from July 11 to its removal on August 2, 2026. The reported 1.7 million-plus skills.sh installs are an aggregate registry counter, not unique or compromised endpoints. The controlled test documents activation, but not skill acquisition; EAA-009 remains present.
+
+**Sources:**
+
+- `S1` — [Zenity trojanized skill-supply-chain research](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain)
+
+## EAA-C-025 — Kiro MCP configuration rewrite through web content
+
+**Type:** research
+
+**Date:** published 2026-07-20
+
+| Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
+|---|---|---|---|---|---|---|
+| 1 | EAA-018 | executed | high | In controlled testing, hidden instructions in content retrieved by Kiro's web-fetch capability caused the agent to perform an unrelated local configuration write. | S1 | S2 |
+| 2 | EAA-006 | executed | high | Kiro wrote an attacker-selected MCP server entry to the user-level `~/.kiro/settings/mcp.json` file and automatically reloaded it without a separate approval. | S1 | S2 |
+| 3 | EAA-015 | impact-confirmed | high | The reloaded MCP command ran Node.js and delivered the test host's username, hostname, and platform to a localhost callback. | S1 | S2 |
+
+**Activation notes:** The user approved a web fetch containing hidden instructions; Kiro then wrote and reloaded user-level MCP configuration without separate effective approval. Intezer/Kodem tested Kiro 0.9.2 on macOS and 0.10.16 on Ubuntu, and verified the fix in 0.11.130. The research lists Auto model selection and a separate Qwen 3 Coder run with Autopilot enabled. AWS's June 2 advisory scopes CVE-2026-10591 to versions below 0.11 but describes an execution-sensitive file-write path using VS Code tasks; it supplies version evidence, not independent reproduction of the July 20 MCP demonstration. The callback was localhost, and no victim exploitation is established.
+
+**Sources:**
+
+- `S1` — [Intezer and Kodem Kiro web-to-MCP research](https://research.intezer.com/blog/2026/07/remote-code-execution-kiro/)
+- `S2` — [AWS Kiro IDE CVE-2026-10591 advisory](https://aws.amazon.com/security/security-bulletins/2026-037-aws/)
+
+## EAA-C-026 — GitSpawn repository-metadata command execution
+
+**Type:** research
+
+**Date:** published 2026-09-01
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-019 | executed | medium | Manifold reports host command execution through agent-initiated Git inspection across seven products. Five product paths have detailed demonstrations; Codex and Cursor are reported as affected and patched without equivalent public mechanism detail. | S1 |
+
+**Activation notes:** The target had to open a working tree whose `.git` metadata remained intact, and the affected agent had to perform its automatic Git context gathering. Normal clone, fetch, and pull operations do not transfer another repository's local `.git/config`; delivery paths such as an archive, shared or synchronized folder, removable media, or a locally modified repository can preserve it. As of the September 1 publication, Manifold reported these affected, fixed, or tested versions: Claude Code 2.1.193 fixed in 2.1.196 for the `core.fsmonitor` path, with a separate `ultrareview` path tested in 2.1.210 and still affected in 2.1.252; goose 1.41.0 fixed in 1.44.0; Hermes Agent 0.18.2 still affected in 0.21.0; Qwen Code 0.19.6 still affected in 0.22.3; Grok Build 0.2.93 still affected in 1.0.13; and OpenAI Codex and Cursor affected and patched without exact public version ranges. These are controlled findings, not a public victim incident.
+
+**Sources:**
+
+- `S1` — [Manifold Security GitSpawn research](https://www.manifold.security/blog/ai-coding-agents-git-hijack)
+
+## EAA-C-027 — Agent-consumed dangling-reference takeover
+
+**Type:** research
+
+**Date:** published 2026-08-26
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-020 | executed | medium | Researchers report that controlled coding-agent trials followed unchanged agent-facing documentation and installed packages registered at its previously unclaimed destinations. | S1 |
+| 2 | EAA-020 | present | medium | The separately observed `clerk-next-fix-auth-protection` npm package occupied a bare package name referenced by Clerk's agent-facing guidance and published install hooks that collected host metadata. | S1, S2 |
+
+**Activation notes:** The controlled trials establish the reported installation path. Separately reported third-party callbacks lack public logs attributing them to a particular endpoint agent; they are not counted as confirmed agent impact. The Clerk reference requires an additional condition: its bare executable name can resolve to the malicious standalone npm package when @clerk/eslint-plugin is absent locally. OSV identifies versions 7.7.7 and 8.8.8 as malicious, but neither source proves victim-side agent installation; that procedure remains present. The agent-documentation linkage is reported by the researcher; OSV independently corroborates the package behavior, not that linkage or agent execution.
+
+**Sources:**
+
+- `S1` — [Alon Hertz agent-consumed reference-takeover research](https://medium.com/@alonhertz1/data-became-code-we-ran-code-inside-fortune-500s-using-files-they-published-for-ai-agents-0cd67ffbbffc)
+- `S2` — [OSV MAL-2026-11069 record](https://osv.dev/vulnerability/MAL-2026-11069)
+
+## EAA-C-028 — GhostSplice split-channel MCP injection
+
+**Type:** research
+
+**Date:** published 2026-07-23
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-018 | impact-confirmed | high | Instruction-bearing MCP tool results supplied file-to-parameter mappings; controlled runs sent seeded secrets as arguments to the malicious server. | S1, S2 |
+| 2 | EAA-015 | impact-confirmed | high | In the controlled scenarios, OpenAI Codex CLI, Cursor, and Visual Studio Code with GitHub Copilot read synthetic secrets from local files and passed them to the malicious MCP server. | S1, S2 |
+
+**Activation notes:** A connected malicious MCP server and access to seeded project files were prerequisites. The main flow combined a tool schema with file inventory and transfer instructions returned by tools; the malicious directive in returned content is EAA-018. A separate VS Code/GitHub Copilot variant added sampling and required client support and sampling permission. The pinned repository contains per-client logs and synthetic fixtures, including Codex CLI runs with GPT-5.4 and GPT-5.5; client build versions are not pinned. Outcomes varied by model and harness, and graphical-editor aggregate results were not finalized. July 23 is the repository publication date, not the experiment date. These are controlled results, not victim compromise.
+
+**Sources:**
+
+- `S1` — [ASSET Group GhostSplice research](https://asset-group.github.io/disclosures/ghostsplice/)
+- `S2` — [GhostSplice proof-of-concept repository](https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75)

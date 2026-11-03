@@ -44,7 +44,12 @@ class CatalogValidationTests(unittest.TestCase):
 
     def test_version_range_does_not_promote_technique_maturity(self) -> None:
         catalog = copy.deepcopy(self.catalog)
-        technique = next(item for item in catalog["techniques"] if item["id"] == "EAA-009")
+        technique_index = next(
+            index
+            for index, item in enumerate(catalog["techniques"])
+            if item["id"] == "EAA-011"
+        )
+        technique = catalog["techniques"][technique_index]
         self.assertEqual("feasible", technique["maturity"])
         technique["evidence"].append(
             {
@@ -55,7 +60,7 @@ class CatalogValidationTests(unittest.TestCase):
         )
         self.assertFalse(
             any(
-                "techniques[8].maturity" in error
+                f"techniques[{technique_index}].maturity" in error
                 for error in self.semantic_errors(catalog)
             )
         )
