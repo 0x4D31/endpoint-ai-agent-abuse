@@ -670,3 +670,52 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 **Sources:**
 
 - `S1` — [Patrick Wardle not-a-mused proof of concept (commit 1e5615be)](https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514)
+
+## EAA-C-038 — Mandiant-reported takeover of an active coding-assistant session
+
+**Type:** incident
+
+**Date:** reported 2026-09-16
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-015 | executed | medium | Mandiant reports that an attacker hijacked a developer’s active coding-assistant session and used the trusted assistant to recommend an attacker-poisoned external package. | S1 |
+
+**Activation notes:** Mandiant describes an unnamed SaaS provider and a developer workstation. The product, version, hijack method, and session artifacts are undisclosed. September 16 is the public reporting date, not the intrusion date. After the poisoned-package recommendation was accepted, the attacker used the developer’s active session to install malware. The report does not isolate the assistant’s role in the later token theft, worm propagation, or exfiltration.
+
+**Sources:**
+
+- `S1` — [Mandiant AI risk and resilience report, September 2026](https://cloud.google.com/security/resources/ai-risk-and-resilience-2026)
+
+## EAA-C-039 — Mandiant internal-assistant repository exfiltration assessment
+
+**Type:** research
+
+**Date:** reported 2026-09-16
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-015 | impact-confirmed | medium | Mandiant’s assessment team induced an internal assistant to clone sensitive internal repositories and push them to a tester-controlled external GitHub repository using its native CLI. | S1 |
+
+**Activation notes:** The assistant managed CI/CD pipelines and repositories, with access to internal repositories, a native CLI, and GitHub egress. Testers supplied credentials for their external destination. Product, version, OS, exact prompts, and assessment date are undisclosed; September 16 is the public reporting date. The initiating prompt was direct role confusion, not indirect task-context injection.
+
+**Sources:**
+
+- `S1` — [Mandiant AI risk and resilience report, September 2026](https://cloud.google.com/security/resources/ai-risk-and-resilience-2026)
+
+## EAA-C-040 — gadgethumans-mcp wallet private-key transmission
+
+**Type:** research
+
+**Date:** published 2026-09-08
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-021 | present | high | The inspected MCP tool-call handler copies WALLET_PRIVATE_KEY into the X-402-Wallet header of an outbound request; the returned setup guidance describes automatic signing. | S1, S2 |
+
+**Activation notes:** The server must receive a recognized tool call with WALLET_PRIVATE_KEY set and outbound access available. The pinned code sends the key to https://api.gadgethumans.com/execute by default; MCP_ENDPOINT can change the base. Knostic reports an earlier endpoint and npm versions 1.0.3 and 1.0.9. The pinned code’s server-version string, 1.0.2, does not authenticate an npm release. Static inspection establishes the implementation, not author intent, victim execution, or wallet theft.
+
+**Sources:**
+
+- `S1` — [Knostic gadgethumans-mcp private-key transmission analysis](https://www.knostic.ai/blog/when-auto-signing-sends-your-wallet-private-key-to-a-remote-server-a-malicious-mcp-package-on-npm)
+- `S2` — [gadgethumans-mcp source at commit c33ebb84](https://github.com/gadgethumans-dev/gadgethumans-mcp/blob/c33ebb84e00d921310ab4dbf97a3fe8db19bb949/index.js)

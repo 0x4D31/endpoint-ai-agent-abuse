@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1
+
+- Added Mandiant’s reported coding-session takeover and controlled repository-exfiltration assessment as separate cases.
+- Added inspected gadgethumans-mcp private-key transmission under EAA-021, without inferring victim execution or wallet theft.
+- Recorded Binance’s internal AI-tool involvement and Mandiant’s unspecified CLI-hook incident as leads awaiting a precise mechanism.
+
 ## 0.5.0
 
 - Added EAA-021 for hidden behavior in an agent tool’s executable code, based on the Postmark MCP backdoor.

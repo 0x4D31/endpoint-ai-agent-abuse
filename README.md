@@ -69,7 +69,7 @@ The validator checks the JSON catalog, its Markdown tables, references, versions
 
 ## Versioning
 
-Current catalog version: **0.5.0**.
+Current catalog version: **0.5.1**.
 
 Bump minor versions for taxonomy, surface, evidence, or naming changes. Patch versions are enough for wording fixes, source updates, and new examples that do not change the model.
 

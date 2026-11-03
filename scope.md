@@ -39,3 +39,9 @@ Publication or discovery alone may support a `present` outcome only when the ins
 | Large-scale scan of public skills or instructions | Source or corpus lead | Prevalence evidence can inform research, but is not automatically a case. |
 
 When a case’s fit remains uncertain, record it in [`candidates.md`](candidates.md) rather than stretching an existing technique or outcome.
+
+## Incident leads awaiting a mechanism
+
+Binance’s [November 3 initial report](https://www.binance.com/en/blog/community/3229153443759566763) says attackers used a compromised employee computer and an internal AI tool to gain control of two wallet engineers’ systems on October 20, 2026. It does not identify the tool’s execution model, the attacker’s requests, or the permissions exercised. The disclosure does not yet support a technique mapping or attribute the theft to an agent procedure.
+
+[Mandiant’s September 2026 report](https://cloud.google.com/security/resources/ai-risk-and-resilience-2026) also describes an incident involving an internal AI repository and tampered assistant CLI hooks. It reports code execution but does not identify the hook type or invocation path. That description alone does not distinguish lifecycle-hook planting from modification of executable tool code; no separate mapping is assigned.
