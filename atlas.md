@@ -2,7 +2,7 @@
 
 MITRE ATLAS is useful for finding relevant research and comparing mechanisms. Its scope is broader than EAA: an ATLAS case can concern a hosted assistant, a model, an AI supply chain, or an attacker operating an agent. EAA requires an affected agent or agent component that belongs to or operates for the victim; see [`scope.md`](scope.md).
 
-This review uses the [ATLAS 2026.09 release](https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09), modified September 15, 2026, and its [versioned dataset at commit `3259f388`](https://github.com/mitre-atlas/atlas-data/blob/3259f388d19cbcca11bacf12a0ef97f4198f711b/dist/v6/ATLAS-2026.09.yaml). Reviewed October 3, 2026. The comparisons describe related mechanisms; they are not an official MITRE mapping. Follow the primary sources in each EAA case for outcomes, applicability, and confidence; ATLAS inclusion does not establish execution on a victim endpoint.
+The comparisons use the [ATLAS 2026.09 release](https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09), modified September 15, 2026, and its [versioned dataset at commit `3259f388`](https://github.com/mitre-atlas/atlas-data/blob/3259f388d19cbcca11bacf12a0ef97f4198f711b/dist/v6/ATLAS-2026.09.yaml). Reviewed October 3, 2026. The comparisons describe related mechanisms; they are not an official MITRE mapping. Case outcomes and applicability are documented in the linked EAA entries.
 
 ## Selected mechanism comparisons
 
@@ -19,14 +19,14 @@ These four comparisons identify specific overlaps useful to EAA. They are not a 
 
 These six ATLAS cases have corresponding EAA entries. Each EAA entry cites the primary research, artifacts, or vendor advisories that support its claims.
 
-| ATLAS case | EAA decision | Evidence boundary |
-|---|---|---|
-| [AML.CS0047: Amazon Q extension](https://atlas.mitre.org/studies/AML.CS0047) | Represented by [EAA-C-029](cases.md#eaa-c-029--amazon-q-vs-code-extension-destructive-agent-payload) | Malicious launcher and permissive flags were present. AWS says a syntax error prevented execution; no attempted or completed destructive action is inferred. |
-| [AML.CS0053: Postmark MCP](https://atlas.mitre.org/studies/AML.CS0053) | Represented by [EAA-C-030](cases.md#eaa-c-030--postmark-mcp-implementation-backdoor) and EAA-021 | Inspected code supports hidden BCC behavior. Public evidence cited here does not establish a particular victim's tool call or email delivery. |
-| [AML.CS0067: Claude Code GitHub Action](https://atlas.mitre.org/studies/AML.CS0067) | Represented by [EAA-C-031](cases.md#eaa-c-031--claude-code-github-action-process-environment-disclosure) | Controlled research supports process-environment disclosure through the Read tool. Do not present every proposed exfiltration channel as reproduced. |
-| [AML.CS0050: OpenClaw](https://atlas.mitre.org/studies/AML.CS0050) | Represented by [EAA-C-032](cases.md#eaa-c-032--openclaw-control-gateway-takeover) | The researcher reports using gateway authority for policy reconfiguration and host execution; the published request does not independently confirm the marker-file effect. This does not establish a container-runtime escape. Vendor and research affected ranges are recorded separately. |
-| [AML.CS0055: AI ClickFix](https://atlas.mitre.org/studies/AML.CS0055) | Represented by [EAA-C-033](cases.md#eaa-c-033--ai-clickfix-through-a-computer-use-interface) | Rendered page content induced a computer-use agent to operate clipboard and terminal in a controlled demonstration. No general product/version success claim is made. |
-| [AML.CS0054: remote poisoned MCP tool](https://atlas.mitre.org/studies/AML.CS0054) | Represented by EAA-C-009 | The existing Invariant case covers the same underlying research. |
+| ATLAS case | EAA case |
+|---|---|
+| [AML.CS0047: Amazon Q extension](https://atlas.mitre.org/studies/AML.CS0047) | [EAA-C-029](cases.md#eaa-c-029--amazon-q-vs-code-extension-destructive-agent-payload) |
+| [AML.CS0053: Postmark MCP](https://atlas.mitre.org/studies/AML.CS0053) | [EAA-C-030](cases.md#eaa-c-030--postmark-mcp-implementation-backdoor) and EAA-021 |
+| [AML.CS0067: Claude Code GitHub Action](https://atlas.mitre.org/studies/AML.CS0067) | [EAA-C-031](cases.md#eaa-c-031--claude-code-github-action-process-environment-disclosure) |
+| [AML.CS0050: OpenClaw](https://atlas.mitre.org/studies/AML.CS0050) | [EAA-C-032](cases.md#eaa-c-032--openclaw-control-gateway-takeover) |
+| [AML.CS0055: AI ClickFix](https://atlas.mitre.org/studies/AML.CS0055) | [EAA-C-033](cases.md#eaa-c-033--ai-clickfix-through-a-computer-use-interface) |
+| [AML.CS0054: remote poisoned MCP tool](https://atlas.mitre.org/studies/AML.CS0054) | [EAA-C-009](cases.md#eaa-c-009--mcp-injection-and-rug-pull-research) |
 
 Two groups of ATLAS cases fall outside EAA’s scope:
 
