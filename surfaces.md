@@ -9,7 +9,7 @@ Surfaces describe **where** an endpoint-agent technique acts. They are separate 
 | Control Plane | Instructions, memory, rules, hooks, plugins, skills, and other durable inputs that shape behavior across turns or sessions. | EAA-003, EAA-004, EAA-009, EAA-013, EAA-014 |
 | Task & Retrieved Context | Issues, pull requests, ordinary documents, logs, telemetry, tool results, agent-facing documentation, and other content delivered as task data or retrieved context rather than through a designated endpoint instruction, configuration, extension, or tool-definition surface. | EAA-018, EAA-020 |
 | State & Telemetry | Transcripts, tool history, logs, caches, session state, and observability output. | EAA-005, EAA-012, EAA-017 |
-| Tools & Integrations | MCP servers, tool definitions, plugin-provided capabilities, and the configuration that connects an agent to local or remote tools. | EAA-006, EAA-010, EAA-011 |
+| Tools & Integrations | MCP servers, tool definitions and executable implementations, plugin-provided capabilities, and the configuration that connects an agent to local or remote tools. | EAA-006, EAA-010, EAA-011, EAA-021 |
 | Identity & Authority | Filesystem, shell, browser, CLI, cloud, SaaS, and integration access inherited from the user or endpoint. | EAA-015 |
 
 ## Secondary surface assignments
