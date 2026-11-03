@@ -547,8 +547,7 @@ Examples:
 - Microsoft demonstrated credential collection from a CI agent’s process environment. depthfirst reports using an OpenClaw gateway token to change execution policy and request a host command. Mitiga reports credential exfiltration through a repository-supplied MCP integration.
 - Wardle’s Muse PoC includes account-token reuse to read chat history and request actions through the account’s agent gateway. The public code establishes the implementation; device permissions and approval requirements still apply.
 - Wardle reports that CVE-2026-100754 lets an unprivileged local process bypass ChatGPT’s code-signing checks and use the app’s access. His disclosure names macOS and Windows but gives no platform-specific test results. OpenAI confirms a macOS fix in version 26.924.20706. The cited material does not show which of the listed prompt-injection and data-access actions were tested.
-
-- Mandiant reports takeover of a developer’s active coding-assistant session. In a separate controlled assessment, its testers induced an internal assistant to copy internal repositories to an external GitHub repository. The case entries keep those contexts and outcomes separate.
+- Mandiant reports takeover of a developer’s active coding-assistant session. In a separate controlled assessment, its testers induced an internal assistant to copy internal repositories to an external GitHub repository.
 
 Hunt ideas:
 
@@ -794,8 +793,7 @@ Boundaries:
 Example:
 
 - The published Postmark MCP implementation appends an unrequested BCC recipient inside its `sendEmail` handler. The catalog records the artifact and its activation requirements, without inferring victim delivery from package popularity.
-
-- The inspected gadgethumans-mcp handler sends a configured wallet private key in an HTTP header during a tool call, despite setup guidance describing automatic signing. The case records implementation presence, not victim execution or financial loss.
+- The inspected gadgethumans-mcp handler sends a configured wallet private key in an HTTP header during a tool call, despite setup guidance describing automatic signing.
 
 Hunt ideas:
 

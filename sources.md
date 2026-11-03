@@ -99,7 +99,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Orca skill marketplace installation and update research — https://orca.security/resources/blog/ai-agent-skill-supply-chain-security/
 - Tenet Agentjacking through Sentry error data — https://tenetsecurity.ai/blog/agentjacking-coding-agents-with-fake-sentry-errors/
 
-## November 2026 evidence review
+## Additional incident and tool evidence
 
 - Mandiant AI risk and resilience report, September 2026 — https://cloud.google.com/security/resources/ai-risk-and-resilience-2026
 - Knostic gadgethumans-mcp private-key transmission analysis — https://www.knostic.ai/blog/when-auto-signing-sends-your-wallet-private-key-to-a-remote-server-a-malicious-mcp-package-on-npm

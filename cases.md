@@ -681,7 +681,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-015 | executed | medium | Mandiant reports that an attacker hijacked a developer’s active coding-assistant session and used the trusted assistant to recommend an attacker-poisoned external package. | S1 |
 
-**Activation notes:** Mandiant’s September 2026 report describes an unnamed SaaS provider and a developer workstation. The report does not give the incident date, assistant product, version, session-hijack method, or underlying session artifacts. September 16 is the date of public reporting about the case, not the intrusion date. The assistant recommended a poisoned package; the report then describes installation through the developer’s active session after acceptance. It does not isolate which later actions were performed by the assistant. OAuth-token theft, worm propagation across approximately 100 repositories, and source-code exfiltration are incident context, not confirmed outcomes of this procedure.
+**Activation notes:** Mandiant describes an unnamed SaaS provider and a developer workstation. The product, version, hijack method, and session artifacts are undisclosed. September 16 is the public reporting date, not the intrusion date. After the poisoned-package recommendation was accepted, the attacker used the developer’s active session to install malware. The report does not isolate the assistant’s role in the later token theft, worm propagation, or exfiltration.
 
 **Sources:**
 
@@ -697,7 +697,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-015 | impact-confirmed | medium | Mandiant’s assessment team induced an internal assistant to clone sensitive internal repositories and push them to a tester-controlled external GitHub repository using its native CLI. | S1 |
 
-**Activation notes:** The assessment targeted an internal assistant used for CI/CD and repository management. Testers supplied an external GitHub repository and its personal access token. The assistant already had access to sensitive internal repositories, a native CLI, and network access to GitHub. The report does not name the product, versions, operating system, or exact prompts. September 16 is the date of public reporting about the report; the assessment date is undisclosed. This was a controlled assessment; the initiating role-confusion prompt is not evidence of indirect task-context injection.
+**Activation notes:** The assistant managed CI/CD pipelines and repositories, with access to internal repositories, a native CLI, and GitHub egress. Testers supplied credentials for their external destination. Product, version, OS, exact prompts, and assessment date are undisclosed; September 16 is the public reporting date. The initiating prompt was direct role confusion, not indirect task-context injection.
 
 **Sources:**
 
@@ -713,7 +713,7 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 |---|---|---|---|---|---|
 | 1 | EAA-021 | present | high | The inspected MCP tool-call handler copies WALLET_PRIVATE_KEY into the X-402-Wallet header of an outbound request; the returned setup guidance describes automatic signing. | S1, S2 |
 
-**Activation notes:** A compatible MCP client must load the server, WALLET_PRIVATE_KEY must be set, and a recognized tool must be invoked with network access available. The pinned source sends the raw key in X-402-Wallet rather than producing a local payment signature. Its default key-bearing destination is https://api.gadgethumans.com/execute; MCP_ENDPOINT can change the base. Knostic describes an earlier destination under swarm.gadgethumans.com and package versions 1.0.3 and 1.0.9. The pinned source identifies its server as 1.0.2; that string is not proof of an npm release version. The sources establish code behavior, not author intent, victim execution, or stolen funds. Download counts are not victim counts.
+**Activation notes:** The server must receive a recognized tool call with WALLET_PRIVATE_KEY set and outbound access available. The pinned code sends the key to https://api.gadgethumans.com/execute by default; MCP_ENDPOINT can change the base. Knostic reports an earlier endpoint and npm versions 1.0.3 and 1.0.9. The pinned code’s server-version string, 1.0.2, does not authenticate an npm release. Static inspection establishes the implementation, not author intent, victim execution, or wallet theft.
 
 **Sources:**
 
