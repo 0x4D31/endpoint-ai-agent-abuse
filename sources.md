@@ -20,6 +20,10 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - Microsoft ChainDrop campaign analysis — https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/
 - GitGuardian keyv Mini Shai-Hulud analysis — https://blog.gitguardian.com/keyv-mini-shai-hulud/
 - Zenity Paperclip and Browser Use skill-supply-chain analysis — https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain
+- Elastic Security Threat Command threats, etc report, November 2026 — https://www.elastic.co/pdf/elastic-threats-etc-elastic-security-threat-command-nov-2026.pdf
+- Google Cloud GTIG AI Threat Tracker, November 2026 — https://cloud.google.com/blog/topics/threat-intelligence/agentic-threat-activity-crosses-a-significant-threshold
+- Bitdefender Labs analysis of malicious GitHub repositories targeting AI coding agents — https://www.bitdefender.com/en-us/blog/labs/how-ai-agents-become-new-targets-in-github-malware-campaign
+- Snyk Security Research analysis of agent skill marketplaces — https://research.snyk.io/blog/skill-analysis/
 
 ## Vendor documentation and advisories
 
@@ -43,10 +47,12 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - AWS Language Servers arbitrary-code-execution advisory, CVE-2026-12957 — https://github.com/aws/language-servers/security/advisories/GHSA-xhcr-j4j9-3gh7
 - AWS Kiro execution-sensitive file-write advisory, CVE-2026-10591 — https://aws.amazon.com/security/security-bulletins/2026-037-aws/
 - Claude Code persistent-configuration injection advisory, CVE-2026-25725 — https://github.com/anthropics/claude-code/security/advisories/GHSA-ff64-7w26-62rf
+- Claude Code plugin hash-pinning bypass advisory, CVE-2026-86063 — https://github.com/advisories/GHSA-pq7j-f95f-qfcv
 - OpenAI Codex advanced configuration — https://developers.openai.com/codex/config-advanced/
 - OpenAI Codex environment variables — https://developers.openai.com/codex/environment-variables/
 - OpenAI Codex configuration reference — https://developers.openai.com/codex/config-reference/
 - OpenAI Codex hooks — https://developers.openai.com/codex/hooks
+- OpenAI Codex release rust-v0.146.0 (PR #34644, Verify Git plugin SHA checkouts) — https://github.com/openai/codex/releases/tag/rust-v0.146.0
 - OpenAI skills documentation — https://learn.chatgpt.com/docs/build-skills
 - OpenAI ChatGPT Computer History documentation — https://learn.chatgpt.com/docs/customization/computer-history
 - OpenAI macOS security update for CVE-2026-100754 — https://learn.chatgpt.com/docs/changelog
@@ -80,6 +86,7 @@ Only sources directly used by the catalog are listed. Incident and artifact repo
 - ASSET GhostSplice proof-of-concept repository — https://github.com/asset-group/ghostsplice/tree/dfaee36c94f3cd23ed775ddd72012d00fa486a75
 - Patrick Wardle not-a-mused proof of concept (commit 1e5615be) — https://github.com/pwardle/not-a-mused/tree/1e5615be645c64791600c947d8d5988205fd1514
 - Patrick Wardle statement on CVE-2026-100754 — https://www.linkedin.com/posts/patrick-wardle-34580581_cve-2026-100754-chatgpts-code-signing-checks-activity-7511109843827580928-E9vF
+- Air Security Plugin4Shell SHA-pinning bypass research — https://www.air.security/blog-posts/plugin4shell
 
 ## Supplemental coverage
 

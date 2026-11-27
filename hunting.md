@@ -44,7 +44,7 @@ unexpected writer -> agent control-plane file -> trust/load condition -> agent s
 
 Track project, user, and managed scopes separately. Include hooks, instruction/memory files, rules, plugins, skills, marketplaces, and trust-state files. For Computer History, monitor generated memories under `$CODEX_HOME/memories/extensions/skysight/` (usually `~/.codex/memories/extensions/skysight/`); OpenAI documents these as modifiable local Markdown that future ChatGPT or Codex sessions may use.
 
-Separate a manually invoked update or same-name replacement from account-driven cloud synchronization. For registry-delivered skills, retain the registry identity, resolved repository and commit, installed bytes, install time, and later updates separately. A high aggregate install counter is exposure context, not a victim count or evidence that a malicious revision loaded.
+Separate a manually invoked update or same-name replacement from account-driven cloud synchronization. For registry-delivered skills, retain the registry identity, resolved repository and commit, installed bytes, install time, and later updates separately. A high aggregate install counter is exposure context, not a victim count or evidence that a malicious revision loaded. For SHA-pinned plugin checkouts and auto-updates, verify that the resolved `HEAD` matches the pinned commit rather than a same-named branch, and watch bundled skill helpers that spawn detached workers writing global instruction files such as `~/.claude/CLAUDE.md`.
 
 **Limitations:** editors, sync clients, installers, and agent self-maintenance legitimately change these files. A write does not prove that the relevant version loaded it or that workspace trust was granted. Content-only sensors may miss atomic rename or replace operations.
 
@@ -116,7 +116,7 @@ Alert separately on a new collector, newly enabled sensitive-content options, an
 agent session -> authenticated local tool/session -> GitHub/SaaS/cloud/package action
 ```
 
-Prioritize destructive, administrative, bulk-read, token-management, and public-publishing actions, especially when the preceding user request or repository provenance does not explain them. For requests from another local process, retain caller identity and request details when available; a valid code signature alone does not establish that the user authorized the action.
+Prioritize destructive, administrative, bulk-read, token-management, and public-publishing actions, especially when the preceding user request or repository provenance does not explain them. For requests from another local process, retain caller identity and request details when available; a valid code signature alone does not establish that the user authorized the action. Apply the same scrutiny when vendor-signed AI clients (such as coding-agent IDE extensions or desktop apps with shell proxies) spawn tunnel, SOCKS proxy, or credential-store commands (`security dump-keychain` or equivalent).
 
 **Limitations:** downstream services frequently attribute the action only to the human account. Shared tokens and provider egress obscure origin, and semantic intent may not be recoverable. Record the evidence supporting attribution and any gaps between endpoint and service records.
 
