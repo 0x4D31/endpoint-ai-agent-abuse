@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.2
+
+- Added five cases covering live coding-agent and ChatGPT desktop proxy intrusions (Elastic Threat Command), suspected MIDNIGHT NEPTUNE `.claude/settings.json` hook planting (GTIG), 22 poisoned GitHub repositories targeting 14 agent ecosystems (Bitdefender Labs), the Plugin4Shell commit SHA-pinning bypass (`CVE-2026-86063`, Air Security, Anthropic GHSA, OpenAI Codex `rust-v0.146.0`), and the `callicrate/skills/agents-md` persistent `CLAUDE.md` planter (Snyk).
+- Kept `EAA-002` at `demonstrated` because Elastic’s August 7 companion write-up describes the additional macOS permission-bypass cases as ambiguous dual-use activity rather than confirmed intrusions.
+- Added concise hunting notes for SHA-pinned plugin `HEAD` verification, detached skill-helper writers, and vendor-signed AI clients spawning proxy or keychain commands.
+
 ## 0.5.1
 
 - Added Mandiant’s reported coding-session takeover and controlled repository-exfiltration assessment as separate cases.

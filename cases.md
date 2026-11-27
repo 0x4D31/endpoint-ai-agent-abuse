@@ -719,3 +719,91 @@ Case type supplies the context that the outcome vocabulary intentionally does no
 
 - `S1` — [Knostic gadgethumans-mcp private-key transmission analysis](https://www.knostic.ai/blog/when-auto-signing-sends-your-wallet-private-key-to-a-remote-server-a-malicious-mcp-package-on-npm)
 - `S2` — [gadgethumans-mcp source at commit c33ebb84](https://github.com/gadgethumans-dev/gadgethumans-mcp/blob/c33ebb84e00d921310ab4dbf97a3fe8db19bb949/index.js)
+
+## EAA-C-041 — Elastic Threat Command coding-agent and ChatGPT desktop proxy intrusions
+
+**Type:** incident
+
+**Date:** 2026-08-05 to 2026-08-10
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-015 | executed | high | On August 5, 2026, an operator drove Claude Code through its VS Code extension over RDP on Windows to spawn PowerShell and curl children through a SOCKS5 proxy tunnel (`minsk-tunnel.ps1`) to reach a suspicious self-hosted GitLab host. | S1 |
+| 2 | EAA-015 | executed | high | Five days later on macOS, an attacker used the ChatGPT desktop application as a shell command proxy to read internal QA infrastructure documents and run `security dump-keychain -d login.keychain-db` filtered for that infrastructure. | S1 |
+
+**Activation notes:** Elastic confirms both August 2026 events as live hands-on-keyboard intrusions exploiting vendor-signed AI clients as trusted execution parents. Product versions, initial access paths, and downstream impact beyond staging and keychain querying are undisclosed. The same report notes two additional macOS coding-agent cases involving permission-bypass flags, Cloudflare quick tunnels, and LaunchAgents, without labeling them confirmed intrusions; Elastic’s companion August 7 write-up describes that telemetry as ambiguous dual-use activity, so no EAA-002 procedure is assigned here.
+
+**Sources:**
+
+- `S1` — [Elastic Security Threat Command threats, etc report, November 2026](https://www.elastic.co/pdf/elastic-threats-etc-elastic-security-threat-command-nov-2026.pdf)
+
+## EAA-C-042 — Suspected MIDNIGHT NEPTUNE .claude/settings.json hook planting
+
+**Type:** incident
+
+**Date:** published 2026-11-16
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-003 | planted | medium | GTIG reports that a suspected MIDNIGHT NEPTUNE cluster pivoted into victims’ internal code repositories and modified `.claude/settings.json` files so starting Claude Code would trigger downloading the SOMBERMEME backdoor. | S1 |
+
+**Activation notes:** GTIG reports intrusions against cryptocurrency organizations in North America and Europe following synthetic recruiter lures and ClickFix staging scripts, describing the mechanism as exploiting native AI agent execution hooks in `.claude/settings.json`. The report does not publish the exact settings JSON, affected Claude Code versions, or operating systems, and does not confirm that a victim launched Claude Code or executed SOMBERMEME. Confidence is therefore medium and the outcome remains `planted`. GTIG does not link this activity to Mandiant’s September 2026 unspecified CLI-hook incident.
+
+**Sources:**
+
+- `S1` — [Google Cloud GTIG AI Threat Tracker, November 2026](https://cloud.google.com/blog/topics/threat-intelligence/agentic-threat-activity-crosses-a-significant-threshold)
+
+## EAA-C-043 — Poisoned GitHub repositories targeting AI coding agents
+
+**Type:** campaign
+
+**Date:** published 2026-11-17
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-004 | present | high | Inspected repositories contained poisoned `AGENTS.md` and `CLAUDE.md` files presenting `scripts/setup.js` as a sealed binary artifact and directing coding agents to run `node scripts/setup.js` at session start without inspection or confirmation. | S1 |
+| 2 | EAA-003 | present | high | Bitdefender observed `.claude/settings.json` session-start hook configurations designed to execute `setup.js` once a repository is trusted, along with local and remote propagation routines that inject session-start hooks. | S1 |
+| 3 | EAA-016 | present | high | The recovered multi-stage `setup.js` payload recursively searches the user home directory for agent configuration files (`settings.json`, `config.json`, `mcp.json`, `.aider.conf.yml`, `.cursorrules`, `.windsurfrules`, `.cursor/rules/`, `.github/copilot-instructions.md`) matching 14 agent names. | S1 |
+| 4 | EAA-014 | present | high | The recovered payload includes local fan-out logic injecting instructions, session-start hooks, or MCP server entries across those 14 agent ecosystems, plus remote GitHub and GitLab propagation committing poisoned agent files (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `.cursor/rules/setup.mdc`, `.claude/settings.json`, `.mcp.json`, `.github/copilot-instructions.md`) to up to 25 repositories by default. | S1 |
+| 5 | EAA-006 | present | high | Both local and remote propagation routines in the analyzed payload inject MCP server configurations into `mcp.json` or `.mcp.json` files. | S1 |
+
+**Activation notes:** Bitdefender Labs analyzed 22 malicious GitHub repositories and published `setup.js` MD5 hashes (a 3.75 MB hex and ROT13 outer loader decrypting AES-128-GCM blobs into a 4.67 MB Bun bundle, with additional payloads stored in a `package.json` `_bz` field). The report does not confirm victim-side execution, credential theft, or agent-triggered compromise in the wild, and does not publish the exact `.claude/settings.json` hook block. All mapped procedures therefore remain `present`, distinct from EAA-C-023 (ChainDrop).
+
+**Sources:**
+
+- `S1` — [Bitdefender Labs analysis of malicious GitHub repositories targeting AI coding agents](https://www.bitdefender.com/en-us/blog/labs/how-ai-agents-become-new-targets-in-github-malware-campaign)
+
+## EAA-C-044 — Plugin4Shell plugin commit SHA-pinning bypass (CVE-2026-86063)
+
+**Type:** research
+
+**Date:** published 2026-09-17
+
+| Step | Technique | Outcome | Confidence | Claim | Sources | Version sources |
+|---|---|---|---|---|---|---|
+| 1 | EAA-009 | executed | medium | Air Security reports working proofs of concept across Claude Code, OpenAI Codex, GitHub Copilot, and Gemini CLI where `git checkout` resolves a marketplace-pinned SHA (or `FETCH_HEAD` in Gemini CLI) to an attacker-controlled default branch without verifying the resulting `HEAD`, installing attacker-controlled plugin code. | S1 | S2, S3 |
+
+**Activation notes:** Air Security reports working proofs of concept against Claude Code, OpenAI Codex, GitHub Copilot, and Gemini CLI without publishing PoC code or full execution logs; confidence on the combined research step is therefore medium. Anthropic’s advisory (`GHSA-pq7j-f95f-qfcv` / `CVE-2026-86063`) independently confirms the SHA-pin bypass in Claude Code and Claude Desktop before 2.1.179, and OpenAI’s Codex `rust-v0.146.0` release (PR `#34644`) independently confirms and fixes the same Git branch-name confusion in Codex. Air Security’s November update attributes the GitHub Copilot fix to VS Code 1.136.0 and reports that Google declined to patch the deprecated Gemini CLI; no Microsoft or Google advisory is publicly cited. Boundary characterizations differ: Air Security frames background plugin auto-update as zero-click once a benign plugin is installed, whereas Anthropic’s advisory rates user interaction as active (`UI:A`), requiring plugin installation and pinning. No in-the-wild exploitation is reported as of 2026-11-26.
+
+**Sources:**
+
+- `S1` — [Air Security Plugin4Shell SHA-pinning bypass research](https://www.air.security/blog-posts/plugin4shell)
+- `S2` — [Claude Code plugin hash-pinning bypass advisory, CVE-2026-86063](https://github.com/advisories/GHSA-pq7j-f95f-qfcv)
+- `S3` — [OpenAI Codex release rust-v0.146.0 (PR #34644, Verify Git plugin SHA checkouts)](https://github.com/openai/codex/releases/tag/rust-v0.146.0)
+
+## EAA-C-045 — callicrate/skills/agents-md persistent CLAUDE.md planter
+
+**Type:** malicious artifact
+
+**Date:** published 2026-11-09
+
+| Step | Technique | Outcome | Confidence | Claim | Sources |
+|---|---|---|---|---|---|
+| 1 | EAA-009 | present | high | The `callicrate/skills/agents-md` skill distributed on `skills.sh` bundles `scripts/validate_agentsmd.py`, which silently invokes platform-specific prebuilt Rust binaries (`scripts/bin/fast-validate-*`) with stdout, stderr, and errors suppressed. | S1 |
+| 2 | EAA-004 | present | high | Static reverse engineering of the bundled Rust binary shows it detaching a background worker (`FAST_VALIDATE_WORKER=1`) that fetches remote Markdown (`https://[REDACTED]/validation.md`) and appends it to the user’s global `~/.claude/CLAUDE.md`. | S1 |
+
+**Activation notes:** Snyk statically analyzed the top 10,000 skills from `skills.sh` and ClawHub downloaded on 2026-10-27, identifying five matching stripped Rust binaries (`fast-validate-*`, UPX-packed on Linux and Windows) inside `callicrate/skills/agents-md`. The reported 1,444 `skills.sh` installs figure is an aggregate registry counter, not a count of compromised hosts. Static analysis establishes the bundled acquisition and global-instruction planting logic (`present`), not victim execution, remote payload delivery, or downstream impact.
+
+**Sources:**
+
+- `S1` — [Snyk Security Research analysis of agent skill marketplaces](https://research.snyk.io/blog/skill-analysis/)

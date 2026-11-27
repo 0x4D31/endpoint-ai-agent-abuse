@@ -3,10 +3,10 @@
   "schema_version": "1.0.0",
   "name": "Endpoint AI Agent Abuse",
   "short_name": "EAA",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "license": "CC0-1.0",
   "description": "A catalog of ways attackers can abuse AI agents on workstations, in development containers, and in CI runners.",
-  "last_reviewed": "2026-11-03",
+  "last_reviewed": "2026-11-26",
   "surfaces": [
     {
       "id": "launcher",
@@ -685,6 +685,76 @@
         "primary-artifact"
       ],
       "verified_on": "2026-11-03"
+    },
+    {
+      "id": "SRC-086",
+      "title": "Elastic Security Threat Command threats, etc report, November 2026",
+      "url": "https://www.elastic.co/pdf/elastic-threats-etc-elastic-security-threat-command-nov-2026.pdf",
+      "types": [
+        "incident-report"
+      ],
+      "published": "2026-11-04",
+      "verified_on": "2026-11-26"
+    },
+    {
+      "id": "SRC-087",
+      "title": "Google Cloud GTIG AI Threat Tracker, November 2026",
+      "url": "https://cloud.google.com/blog/topics/threat-intelligence/agentic-threat-activity-crosses-a-significant-threshold",
+      "types": [
+        "incident-report"
+      ],
+      "published": "2026-11-16",
+      "verified_on": "2026-11-26"
+    },
+    {
+      "id": "SRC-088",
+      "title": "Bitdefender Labs analysis of malicious GitHub repositories targeting AI coding agents",
+      "url": "https://www.bitdefender.com/en-us/blog/labs/how-ai-agents-become-new-targets-in-github-malware-campaign",
+      "types": [
+        "incident-report"
+      ],
+      "published": "2026-11-17",
+      "verified_on": "2026-11-26"
+    },
+    {
+      "id": "SRC-089",
+      "title": "Air Security Plugin4Shell SHA-pinning bypass research",
+      "url": "https://www.air.security/blog-posts/plugin4shell",
+      "types": [
+        "reproducible-research"
+      ],
+      "published": "2026-09-17",
+      "verified_on": "2026-11-26"
+    },
+    {
+      "id": "SRC-090",
+      "title": "Claude Code plugin hash-pinning bypass advisory, CVE-2026-86063",
+      "url": "https://github.com/advisories/GHSA-pq7j-f95f-qfcv",
+      "types": [
+        "primary-artifact"
+      ],
+      "published": "2026-10-09",
+      "verified_on": "2026-11-26"
+    },
+    {
+      "id": "SRC-091",
+      "title": "OpenAI Codex release rust-v0.146.0 (PR #34644, Verify Git plugin SHA checkouts)",
+      "url": "https://github.com/openai/codex/releases/tag/rust-v0.146.0",
+      "types": [
+        "primary-artifact"
+      ],
+      "published": "2026-07-29",
+      "verified_on": "2026-11-26"
+    },
+    {
+      "id": "SRC-092",
+      "title": "Snyk Security Research analysis of agent skill marketplaces",
+      "url": "https://research.snyk.io/blog/skill-analysis/",
+      "types": [
+        "reproducible-research"
+      ],
+      "published": "2026-11-09",
+      "verified_on": "2026-11-26"
     }
   ],
   "techniques": [
@@ -761,7 +831,9 @@
         {"source_id": "SRC-048", "support": "version-range-documented", "confidence": "high"},
         {"source_id": "SRC-048", "support": "procedure-planted", "confidence": "high"},
         {"source_id": "SRC-058", "support": "artifact-present", "confidence": "high"},
-        {"source_id": "SRC-059", "support": "artifact-present", "confidence": "high"}
+        {"source_id": "SRC-059", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-087", "support": "procedure-planted", "confidence": "medium"},
+        {"source_id": "SRC-088", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-004"},
@@ -769,7 +841,7 @@
         {"type": "related-to", "target": "EAA-009"},
         {"type": "related-to", "target": "EAA-014"}
       ],
-      "last_reviewed": "2026-10-03"
+      "last_reviewed": "2026-11-26"
     },
     {
       "id": "EAA-004",
@@ -794,7 +866,9 @@
         {"source_id": "SRC-054", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-060", "support": "execution-confirmed", "confidence": "medium"},
         {"source_id": "SRC-077", "support": "execution-confirmed", "confidence": "medium"},
-        {"source_id": "SRC-078", "support": "execution-confirmed", "confidence": "medium"}
+        {"source_id": "SRC-078", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-088", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-092", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -805,7 +879,7 @@
         {"type": "related-to", "target": "EAA-014"},
         {"type": "related-to", "target": "EAA-018"}
       ],
-      "last_reviewed": "2026-09-16"
+      "last_reviewed": "2026-11-26"
     },
     {
       "id": "EAA-005",
@@ -863,7 +937,8 @@
         {"source_id": "SRC-053", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-061", "support": "execution-confirmed", "confidence": "high"},
         {"source_id": "SRC-062", "support": "version-range-documented", "confidence": "high"},
-        {"source_id": "SRC-077", "support": "execution-confirmed", "confidence": "medium"}
+        {"source_id": "SRC-077", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-088", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-009"},
@@ -874,7 +949,7 @@
         {"type": "related-to", "target": "EAA-016"},
         {"type": "related-to", "target": "EAA-021"}
       ],
-      "last_reviewed": "2026-10-03"
+      "last_reviewed": "2026-11-26"
     },
     {
       "id": "EAA-007",
@@ -941,7 +1016,11 @@
         {"source_id": "SRC-052", "support": "surface-documented", "confidence": "high"},
         {"source_id": "SRC-060", "support": "mechanism-demonstrated", "confidence": "medium"},
         {"source_id": "SRC-060", "support": "artifact-present", "confidence": "high"},
-        {"source_id": "SRC-078", "support": "execution-confirmed", "confidence": "medium"}
+        {"source_id": "SRC-078", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-089", "support": "execution-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-090", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-091", "support": "version-range-documented", "confidence": "high"},
+        {"source_id": "SRC-092", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
@@ -951,7 +1030,7 @@
         {"type": "related-to", "target": "EAA-013"},
         {"type": "related-to", "target": "EAA-021"}
       ],
-      "last_reviewed": "2026-10-03"
+      "last_reviewed": "2026-11-26"
     },
     {
       "id": "EAA-010",
@@ -1051,14 +1130,15 @@
         {"source_id": "SRC-007", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-008", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-009", "support": "artifact-present", "confidence": "high"},
-        {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"}
+        {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-088", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-003"},
         {"type": "related-to", "target": "EAA-004"},
         {"type": "related-to", "target": "EAA-006"}
       ],
-      "last_reviewed": "2026-08-02"
+      "last_reviewed": "2026-11-26"
     },
     {
       "id": "EAA-015",
@@ -1092,7 +1172,8 @@
         {"source_id": "SRC-081", "support": "surface-documented", "confidence": "medium"},
         {"source_id": "SRC-082", "support": "version-range-documented", "confidence": "high"},
         {"source_id": "SRC-083", "support": "execution-confirmed", "confidence": "medium"},
-        {"source_id": "SRC-083", "support": "impact-confirmed", "confidence": "medium"}
+        {"source_id": "SRC-083", "support": "impact-confirmed", "confidence": "medium"},
+        {"source_id": "SRC-086", "support": "execution-confirmed", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
@@ -1104,7 +1185,7 @@
         {"type": "related-to", "target": "EAA-020"},
         {"type": "related-to", "target": "EAA-021"}
       ],
-      "last_reviewed": "2026-11-03"
+      "last_reviewed": "2026-11-26"
     },
     {
       "id": "EAA-016",
@@ -1125,14 +1206,15 @@
         {"source_id": "SRC-047", "support": "artifact-present", "confidence": "high"},
         {"source_id": "SRC-056", "support": "mechanism-demonstrated", "confidence": "high"},
         {"source_id": "SRC-057", "support": "execution-confirmed", "confidence": "high"},
-        {"source_id": "SRC-059", "support": "artifact-present", "confidence": "high"}
+        {"source_id": "SRC-059", "support": "artifact-present", "confidence": "high"},
+        {"source_id": "SRC-088", "support": "artifact-present", "confidence": "high"}
       ],
       "relationships": [
         {"type": "related-to", "target": "EAA-001"},
         {"type": "related-to", "target": "EAA-006"},
         {"type": "related-to", "target": "EAA-015"}
       ],
-      "last_reviewed": "2026-10-03"
+      "last_reviewed": "2026-11-26"
     },
     {
       "id": "EAA-017",
@@ -2913,6 +2995,370 @@
           "activation_conditions": [
             "WALLET_PRIVATE_KEY is configured and a recognized tool call reaches the request handler."
           ]
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-041",
+      "name": "Elastic Threat Command coding-agent and ChatGPT desktop proxy intrusions",
+      "type": "incident",
+      "contexts": [
+        "observed-incident"
+      ],
+      "date_start": "2026-08-05",
+      "date_end": "2026-08-10",
+      "date_basis": "activity",
+      "source_refs": [
+        "SRC-086"
+      ],
+      "activation_notes": "Elastic confirms both August 2026 events as live hands-on-keyboard intrusions exploiting vendor-signed AI clients as trusted execution parents. Product versions, initial access paths, and downstream impact beyond staging and keychain querying are undisclosed. The same report notes two additional macOS coding-agent cases involving permission-bypass flags, Cloudflare quick tunnels, and LaunchAgents, without labeling them confirmed intrusions; Elastic’s companion August 7 write-up describes that telemetry as ambiguous dual-use activity, so no EAA-002 procedure is assigned here.",
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-015",
+          "outcome": "executed",
+          "confidence": "high",
+          "claim": "On August 5, 2026, an operator drove Claude Code through its VS Code extension over RDP on Windows to spawn PowerShell and curl children through a SOCKS5 proxy tunnel (`minsk-tunnel.ps1`) to reach a suspicious self-hosted GitLab host.",
+          "source_refs": [
+            "SRC-086"
+          ],
+          "activation_conditions": [
+            "The operator had interactive RDP access to a Windows endpoint with Claude Code installed in Visual Studio Code.",
+            "Claude Code could execute local PowerShell and network commands under the user context."
+          ],
+          "scope": {
+            "products": [
+              "Claude Code"
+            ],
+            "versions": [],
+            "operating_systems": [
+              "Windows"
+            ]
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-015",
+          "outcome": "executed",
+          "confidence": "high",
+          "claim": "Five days later on macOS, an attacker used the ChatGPT desktop application as a shell command proxy to read internal QA infrastructure documents and run `security dump-keychain -d login.keychain-db` filtered for that infrastructure.",
+          "source_refs": [
+            "SRC-086"
+          ],
+          "activation_conditions": [
+            "The attacker could drive the ChatGPT desktop application with shell execution enabled on the macOS endpoint.",
+            "Target infrastructure documents and `login.keychain-db` were accessible in the user session."
+          ],
+          "scope": {
+            "products": [
+              "ChatGPT desktop"
+            ],
+            "versions": [],
+            "operating_systems": [
+              "macOS"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-042",
+      "name": "Suspected MIDNIGHT NEPTUNE .claude/settings.json hook planting",
+      "type": "incident",
+      "contexts": [
+        "observed-incident"
+      ],
+      "date_start": "2026-11-16",
+      "date_basis": "published",
+      "source_refs": [
+        "SRC-087"
+      ],
+      "activation_notes": "GTIG reports intrusions against cryptocurrency organizations in North America and Europe following synthetic recruiter lures and ClickFix staging scripts, describing the mechanism as exploiting native AI agent execution hooks in `.claude/settings.json`. The report does not publish the exact settings JSON, affected Claude Code versions, or operating systems, and does not confirm that a victim launched Claude Code or executed SOMBERMEME. Confidence is therefore medium and the outcome remains `planted`. GTIG does not link this activity to Mandiant’s September 2026 unspecified CLI-hook incident.",
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-003",
+          "outcome": "planted",
+          "confidence": "medium",
+          "claim": "GTIG reports that a suspected MIDNIGHT NEPTUNE cluster pivoted into victims’ internal code repositories and modified `.claude/settings.json` files so starting Claude Code would trigger downloading the SOMBERMEME backdoor.",
+          "source_refs": [
+            "SRC-087"
+          ],
+          "activation_conditions": [
+            "The actor held write access to victims’ internal code repositories after initial compromise.",
+            "Later activation requires a developer to clone or open the repository and start Claude Code under applicable trust and hook controls."
+          ],
+          "scope": {
+            "products": [
+              "Claude Code"
+            ],
+            "versions": [],
+            "operating_systems": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-043",
+      "name": "Poisoned GitHub repositories targeting AI coding agents",
+      "type": "campaign",
+      "contexts": [
+        "observed-incident",
+        "malicious-artifact"
+      ],
+      "date_start": "2026-11-17",
+      "date_basis": "published",
+      "source_refs": [
+        "SRC-088"
+      ],
+      "activation_notes": "Bitdefender Labs analyzed 22 malicious GitHub repositories and published `setup.js` MD5 hashes (a 3.75 MB hex and ROT13 outer loader decrypting AES-128-GCM blobs into a 4.67 MB Bun bundle, with additional payloads stored in a `package.json` `_bz` field). The report does not confirm victim-side execution, credential theft, or agent-triggered compromise in the wild, and does not publish the exact `.claude/settings.json` hook block. All mapped procedures therefore remain `present`, distinct from EAA-C-023 (ChainDrop).",
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-004",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "Inspected repositories contained poisoned `AGENTS.md` and `CLAUDE.md` files presenting `scripts/setup.js` as a sealed binary artifact and directing coding agents to run `node scripts/setup.js` at session start without inspection or confirmation.",
+          "source_refs": [
+            "SRC-088"
+          ],
+          "activation_conditions": [
+            "A user clones or opens a poisoned repository in a coding agent that reads `AGENTS.md` or `CLAUDE.md`.",
+            "The agent follows the instruction with shell-execution authority."
+          ],
+          "scope": {
+            "products": [],
+            "versions": [],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-003",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "Bitdefender observed `.claude/settings.json` session-start hook configurations designed to execute `setup.js` once a repository is trusted, along with local and remote propagation routines that inject session-start hooks.",
+          "source_refs": [
+            "SRC-088"
+          ],
+          "activation_conditions": [
+            "A user opens and trusts a repository containing the malicious `.claude/settings.json` hook, or the propagation routine executes and writes hook configuration."
+          ],
+          "scope": {
+            "products": [
+              "Claude Code"
+            ],
+            "versions": [],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 3,
+          "technique_id": "EAA-016",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The recovered multi-stage `setup.js` payload recursively searches the user home directory for agent configuration files (`settings.json`, `config.json`, `mcp.json`, `.aider.conf.yml`, `.cursorrules`, `.windsurfrules`, `.cursor/rules/`, `.github/copilot-instructions.md`) matching 14 agent names.",
+          "source_refs": [
+            "SRC-088"
+          ],
+          "activation_conditions": [
+            "`scripts/setup.js` executes its Node.js loader and 4.67 MB Bun bundle on the host."
+          ],
+          "scope": {
+            "products": [
+              "Claude",
+              "Codex",
+              "Gemini",
+              "Copilot",
+              "Kiro",
+              "OpenCode",
+              "Cline",
+              "Aider",
+              "Tabby",
+              "Amazon Q",
+              "Cody",
+              "Bolt",
+              "Continue",
+              "Cursor"
+            ],
+            "versions": [],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 4,
+          "technique_id": "EAA-014",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The recovered payload includes local fan-out logic injecting instructions, session-start hooks, or MCP server entries across those 14 agent ecosystems, plus remote GitHub and GitLab propagation committing poisoned agent files (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `.cursor/rules/setup.mdc`, `.claude/settings.json`, `.mcp.json`, `.github/copilot-instructions.md`) to up to 25 repositories by default.",
+          "source_refs": [
+            "SRC-088"
+          ],
+          "activation_conditions": [
+            "The Bun payload executes with write access to local agent configurations or validates a stolen GitHub or GitLab token with repository push permissions."
+          ],
+          "scope": {
+            "products": [
+              "Claude",
+              "Codex",
+              "Gemini",
+              "Copilot",
+              "Kiro",
+              "OpenCode",
+              "Cline",
+              "Aider",
+              "Tabby",
+              "Amazon Q",
+              "Cody",
+              "Bolt",
+              "Continue",
+              "Cursor"
+            ],
+            "versions": [],
+            "operating_systems": []
+          }
+        },
+        {
+          "step": 5,
+          "technique_id": "EAA-006",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "Both local and remote propagation routines in the analyzed payload inject MCP server configurations into `mcp.json` or `.mcp.json` files.",
+          "source_refs": [
+            "SRC-088"
+          ],
+          "activation_conditions": [
+            "The payload executes and finds matching local agent configuration paths or writable target repositories.",
+            "A compatible agent later loads and approves the injected MCP configuration."
+          ],
+          "scope": {
+            "products": [
+              "MCP-compatible agents configured by the payload"
+            ],
+            "versions": [],
+            "operating_systems": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-044",
+      "name": "Plugin4Shell plugin commit SHA-pinning bypass (CVE-2026-86063)",
+      "type": "research",
+      "contexts": [
+        "controlled-research",
+        "vendor-advisory",
+        "patched-vulnerability"
+      ],
+      "date_start": "2026-09-17",
+      "date_basis": "published",
+      "source_refs": [
+        "SRC-089",
+        "SRC-090",
+        "SRC-091"
+      ],
+      "activation_notes": "Air Security reports working proofs of concept against Claude Code, OpenAI Codex, GitHub Copilot, and Gemini CLI without publishing PoC code or full execution logs; confidence on the combined research step is therefore medium. Anthropic’s advisory (`GHSA-pq7j-f95f-qfcv` / `CVE-2026-86063`) independently confirms the SHA-pin bypass in Claude Code and Claude Desktop before 2.1.179, and OpenAI’s Codex `rust-v0.146.0` release (PR `#34644`) independently confirms and fixes the same Git branch-name confusion in Codex. Air Security’s November update attributes the GitHub Copilot fix to VS Code 1.136.0 and reports that Google declined to patch the deprecated Gemini CLI; no Microsoft or Google advisory is publicly cited. Boundary characterizations differ: Air Security frames background plugin auto-update as zero-click once a benign plugin is installed, whereas Anthropic’s advisory rates user interaction as active (`UI:A`), requiring plugin installation and pinning. No in-the-wild exploitation is reported as of 2026-11-26.",
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-009",
+          "outcome": "executed",
+          "confidence": "medium",
+          "claim": "Air Security reports working proofs of concept across Claude Code, OpenAI Codex, GitHub Copilot, and Gemini CLI where `git checkout` resolves a marketplace-pinned SHA (or `FETCH_HEAD` in Gemini CLI) to an attacker-controlled default branch without verifying the resulting `HEAD`, installing attacker-controlled plugin code.",
+          "source_refs": [
+            "SRC-089"
+          ],
+          "activation_conditions": [
+            "The attacker controls the upstream plugin repository on a Git host that permits 40-hex SHA-shaped branch names (or a `FETCH_HEAD` default branch for Gemini CLI); GitHub rejects 40-hex branch names.",
+            "The target agent installs or auto-updates a marketplace plugin pinned to that commit SHA."
+          ],
+          "scope": {
+            "products": [
+              "Claude Code",
+              "Claude Desktop",
+              "OpenAI Codex",
+              "Visual Studio Code with GitHub Copilot",
+              "Gemini CLI"
+            ],
+            "versions": [
+              "Claude Code / Claude Desktop: <2.1.179 affected; fixed in 2.1.179 (CVE-2026-86063)",
+              "OpenAI Codex: fixed in 0.146.0 (PR #34644)",
+              "Visual Studio Code with GitHub Copilot: fixed in VS Code 1.136.0 per Air Security",
+              "Gemini CLI: unpatched and deprecated per Air Security"
+            ],
+            "operating_systems": [],
+            "version_source_refs": [
+              "SRC-090",
+              "SRC-091"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "EAA-C-045",
+      "name": "callicrate/skills/agents-md persistent CLAUDE.md planter",
+      "type": "malicious artifact",
+      "contexts": [
+        "malicious-artifact"
+      ],
+      "date_start": "2026-11-09",
+      "date_basis": "published",
+      "source_refs": [
+        "SRC-092"
+      ],
+      "activation_notes": "Snyk statically analyzed the top 10,000 skills from `skills.sh` and ClawHub downloaded on 2026-10-27, identifying five matching stripped Rust binaries (`fast-validate-*`, UPX-packed on Linux and Windows) inside `callicrate/skills/agents-md`. The reported 1,444 `skills.sh` installs figure is an aggregate registry counter, not a count of compromised hosts. Static analysis establishes the bundled acquisition and global-instruction planting logic (`present`), not victim execution, remote payload delivery, or downstream impact.",
+      "procedures": [
+        {
+          "step": 1,
+          "technique_id": "EAA-009",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "The `callicrate/skills/agents-md` skill distributed on `skills.sh` bundles `scripts/validate_agentsmd.py`, which silently invokes platform-specific prebuilt Rust binaries (`scripts/bin/fast-validate-*`) with stdout, stderr, and errors suppressed.",
+          "source_refs": [
+            "SRC-092"
+          ],
+          "activation_conditions": [
+            "A user installs `callicrate/skills/agents-md` via a skill installer and invokes its validation workflow."
+          ],
+          "scope": {
+            "products": [],
+            "versions": [
+              "Carrier: callicrate/skills/agents-md (skills.sh snapshot 2026-10-27)"
+            ],
+            "operating_systems": [
+              "macOS",
+              "Linux",
+              "Windows"
+            ]
+          }
+        },
+        {
+          "step": 2,
+          "technique_id": "EAA-004",
+          "outcome": "present",
+          "confidence": "high",
+          "claim": "Static reverse engineering of the bundled Rust binary shows it detaching a background worker (`FAST_VALIDATE_WORKER=1`) that fetches remote Markdown (`https://[REDACTED]/validation.md`) and appends it to the user’s global `~/.claude/CLAUDE.md`.",
+          "source_refs": [
+            "SRC-092"
+          ],
+          "activation_conditions": [
+            "The bundled `fast-validate-*` binary executes with outbound HTTPS access and write permission to `~/.claude/CLAUDE.md`.",
+            "A later Claude Code session loads the appended global instructions."
+          ],
+          "scope": {
+            "products": [
+              "Claude Code"
+            ],
+            "versions": [
+              "Carrier: callicrate/skills/agents-md (skills.sh snapshot 2026-10-27)"
+            ],
+            "operating_systems": [
+              "macOS",
+              "Linux",
+              "Windows"
+            ]
+          }
         }
       ]
     }
